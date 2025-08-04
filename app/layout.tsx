@@ -17,12 +17,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: 'SVG Code to PNG: Free & Instant Online SVG Converter',
+  title: 'SVG Code to PNG Converter (PNG, JPG, GIF) | Free Online Tool',
   description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file.Fast,easy,no signup.',
-  keywords: 'svg code to png, svg code to jpg, svg to image converter, svg viewer, svg to code',
-  authors: [{ name: 'SVGCodeToPNG Team' }],
-  creator: 'SVGCodeToPNG',
-  publisher: 'SVGCodeToPNG',
+  keywords: 'svg to png, svg converter, svg to image, code to png, online converter',
+  authors: [{ name: 'SVG Converter Team' }],
+  creator: 'SVG Converter',
+  publisher: 'SVG Converter',
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',
@@ -33,7 +33,6 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://svgcodetopng.com'),
   alternates: {
     canonical: '/',
     languages: {
@@ -42,9 +41,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'SVG Code to PNG Converter - Free Online Tool',
-    description: 'Convert SVG code to high-quality PNG images instantly. Free online converter with AI assistance.',
-    url: 'https://svgcodetopng.com',
-    siteName: 'SVGCodeToPNG',
+    description: 'Convert SVG code to high-quality PNG images instantly. Free online converter with live preview.',
     locale: 'en_US',
     type: 'website',
   },
@@ -52,7 +49,6 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'SVG Code to PNG Converter - Free Online Tool',
     description: 'Convert SVG code to high-quality PNG images instantly.',
-    creator: '@svgcodetopng',
   },
   robots: {
     index: true,

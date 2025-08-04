@@ -1,7 +1,31 @@
 {
   "name": "svgcodetopng",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Free online SVG code to PNG converter - Convert SVG code to high-quality PNG, JPG, or GIF images instantly at svgcodetopng.com",
+  "homepage": "https://svgcodetopng.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunhineyang/svgcodetopng.git"
+  },
+  "keywords": [
+    "svg",
+    "png",
+    "converter",
+    "svg to png",
+    "svg code to png",
+    "image converter",
+    "svgcodetopng.com",
+    "free converter",
+    "online tool",
+    "nextjs",
+    "typescript",
+    "tailwindcss"
+  ],
+  "author": {
+    "name": "svgcodetopng.com",
+    "url": "https://svgcodetopng.com"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

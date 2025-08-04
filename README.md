@@ -1,17 +1,25 @@
-# SVG Code to PNG Converter
+# SVG Code to PNG Converter - svgcodetopng.com
 
-A free online tool to convert SVG code to high-quality PNG, JPG, or GIF images. Built with Next.js, TypeScript, and Tailwind CSS.
+A free online tool to convert SVG code to high-quality PNG, JPG, or GIF images. Visit [svgcodetopng.com](https://svgcodetopng.com) for the live application. Built with Next.js, TypeScript, and Tailwind CSS.
+
+🌐 **Live Demo**: [https://svgcodetopng.com](https://svgcodetopng.com)
+
+This repository contains the complete source code for svgcodetopng.com - the most user-friendly SVG to PNG converter on the web.
 
 ## Features
 
-- Convert SVG code to PNG, JPG, or GIF formats
-- Live SVG preview
-- Instant download
-- No registration required
+- Convert SVG code to PNG, JPG, or GIF formats at svgcodetopng.com
+- Live SVG preview with real-time rendering
+- Instant download of high-quality images
+- No registration required - completely free
 - Mobile-friendly responsive design
 - Dark/Light theme support
+- SEO optimized for best user experience
+- Fast and reliable conversion powered by svgcodetopng.com
 
 ## Getting Started
+
+To run the svgcodetopng.com source code locally:
 
 ```bash
 npm install
@@ -19,6 +27,12 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+**Production Site**: Visit [svgcodetopng.com](https://svgcodetopng.com) for the live version.
+
+## About svgcodetopng.com
+
+svgcodetopng.com is designed to be the fastest and most reliable SVG to PNG converter available online. Our tool supports multiple output formats and provides instant previews for the best user experience.
 
 ## Expanding the ESLint configuration
 
