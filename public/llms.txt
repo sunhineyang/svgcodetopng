@@ -1,0 +1,36 @@
+# SVG Code to PNG Converter
+
+## About
+SVG Code to PNG is a free online tool that converts SVG code into high-quality PNG, JPG, and WebP images. Our AI-powered converter provides instant, professional results without requiring registration.
+
+## Key Features
+- Instant SVG to PNG conversion
+- Support for multiple output formats (PNG, JPG, WebP)
+- High-quality image generation
+- No registration required
+- Completely free to use
+- AI-powered conversion technology
+- Batch processing capabilities
+- Custom size and resolution options
+
+## Main Pages
+- Homepage: https://svgcodetopng.com/
+- Converter Tool: https://svgcodetopng.com/converter
+- Templates Gallery: https://svgcodetopng.com/templates
+
+## Target Keywords
+- svg code to png
+- svg to png converter
+- convert svg to image
+- online svg converter
+- free svg to png
+- svg image converter
+
+## Use Cases
+- Web developers converting SVG icons to images
+- Designers creating image assets from SVG code
+- Content creators needing image formats for various platforms
+- Developers optimizing images for web performance
+
+## Technology
+Built with Next.js, TypeScript, and Tailwind CSS for optimal performance and user experience.

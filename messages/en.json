@@ -1,0 +1,149 @@
+{
+  "navigation": {
+    "home": "Home",
+    "converter": "Converter",
+    "templates": "Templates",
+    "aiAssistant": "AI Assistant",
+    "howItWorks": "How It Works",
+    "pricing": "Pricing",
+    "about": "About"
+  },
+  "hero": {
+    "title": "Convert SVG Code to PNG Images Instantly",
+    "subtitle": "Transform Your SVG Code into Perfect PNG Images in Seconds",
+    "description": "Our powerful online converter transforms SVG code into high-quality PNG images instantly. Whether you're a developer, designer, or content creator, get professional results with our AI-powered tools and extensive template library. No downloads, no registration required for basic features.",
+    "primaryCta": "Start Converting Now",
+    "secondaryCta": "Browse Templates"
+  },
+  "howItWorks": {
+    "title": "Three Simple Steps to Perfect PNG Images",
+    "step1": {
+      "title": "Paste or Create Your SVG Code",
+      "description": "Simply paste your SVG code into our editor or choose from 1000+ professional templates."
+    },
+    "step2": {
+      "title": "Preview and Customize",
+      "description": "See your SVG rendered in real-time and adjust export settings for optimal quality."
+    },
+    "step3": {
+      "title": "Download Your PNG",
+      "description": "Export your image in multiple formats with custom dimensions and quality settings."
+    }
+  },
+  "features": {
+    "title": "Powerful Features for Professional Results",
+    "aiAssistant": {
+      "title": "AI-Powered Code Assistant",
+      "description": "Generate, optimize, and enhance your SVG code with our intelligent AI assistant that understands design patterns and best practices."
+    },
+    "templateLibrary": {
+      "title": "Extensive Template Library",
+      "description": "Access over 1000 professionally designed SVG templates across categories like icons, illustrations, logos, and animations."
+    },
+    "exportOptions": {
+      "title": "High-Quality Export Options",
+      "description": "Export in multiple formats (PNG, JPG, GIF) with custom dimensions, quality settings, and transparent backgrounds."
+    },
+    "codeEditor": {
+      "title": "Real-Time Code Editor",
+      "description": "Edit SVG code with syntax highlighting, error detection, and live preview to see changes instantly."
+    },
+    "animationPlanning": {
+      "title": "Animation Planning",
+      "description": "Plan and implement CSS/SVG animations with AI assistance for dynamic and engaging graphics."
+    },
+    "responsiveDesign": {
+      "title": "Mobile-Responsive Design",
+      "description": "Use our converter on any device with a fully responsive interface optimized for mobile, tablet, and desktop."
+    }
+  },
+  "gallery": {
+    "title": "See What You Can Create",
+    "description": "Discover the endless possibilities with our SVG to PNG converter. This showcase features real examples created by our users - from simple icons and logos to complex illustrations and animated graphics. Each example demonstrates the high-quality output and versatility of our conversion tool, inspiring you to create your own professional graphics."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "questions": {
+      "free": {
+        "question": "Is the SVG to PNG converter completely free?",
+        "answer": "Yes! Our basic converter is completely free with no registration required. You can convert SVG code to PNG images instantly. Premium features like AI assistance and advanced templates require a subscription."
+      },
+      "fileSize": {
+        "question": "What's the maximum file size I can convert?",
+        "answer": "Free users can convert SVG files up to 2MB. Premium subscribers enjoy unlimited file sizes and batch conversion capabilities for professional workflows."
+      },
+      "transparency": {
+        "question": "Do you support transparent backgrounds in PNG output?",
+        "answer": "Absolutely! Our converter preserves transparency from your SVG code, ensuring your PNG images maintain transparent backgrounds when needed."
+      },
+      "editing": {
+        "question": "Can I edit SVG code directly in the tool?",
+        "answer": "Yes! Our built-in code editor features syntax highlighting, error detection, and real-time preview so you can modify SVG code and see changes instantly."
+      },
+      "aiAssistant": {
+        "question": "How does the AI assistant help with SVG creation?",
+        "answer": "Our AI assistant can generate SVG code from text descriptions, optimize existing code for better performance, and suggest animations based on your design goals."
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Trusted by Professionals Worldwide",
+    "testimonial1": {
+      "text": "This tool saved me hours of work. The AI assistant generated perfect SVG code from my description, and the PNG output quality is exceptional.",
+      "author": "Sarah Chen, UI/UX Designer at TechCorp"
+    },
+    "testimonial2": {
+      "text": "The template library is incredible. I found exactly what I needed for my project and customized it in minutes.",
+      "author": "Marcus Rodriguez, Frontend Developer at StartupXYZ"
+    },
+    "testimonial3": {
+      "text": "Finally, a converter that handles complex SVGs perfectly. The real-time preview and export options are exactly what I needed.",
+      "author": "Emily Johnson, Graphic Designer at CreativeStudio"
+    }
+  },
+  "cta": {
+    "title": "Ready to Create Amazing PNG Images from SVG Code?",
+    "description": "Join thousands of developers and designers who trust SVGCodeToPNG for their conversion needs. Start with our free converter or unlock the full potential with AI-powered features.",
+    "primaryCta": "Start Converting for Free"
+  },
+  "footer": {
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "aboutUs": "About Us",
+    "contactSupport": "Contact Support",
+    "apiDocumentation": "API Documentation",
+    "blog": "Blog",
+    "helpCenter": "Help Center",
+    "featureRequests": "Feature Requests"
+  },
+  "converter": {
+    "title": "SVG to PNG Converter",
+    "codeEditor": "Code Editor",
+    "preview": "Preview",
+    "export": "Export",
+    "download": "Download",
+    "settings": "Settings",
+    "format": "Format",
+    "quality": "Quality",
+    "dimensions": "Dimensions",
+    "width": "Width",
+    "height": "Height",
+    "maintainAspectRatio": "Maintain Aspect Ratio",
+    "transparentBackground": "Transparent Background",
+    "placeholder": "Paste your SVG code here or select a template..."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "reset": "Reset"
+  }
+}

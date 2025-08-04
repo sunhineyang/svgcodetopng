@@ -1,0 +1,48 @@
+{
+  "name": "svgcodetopng",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "analyze": "ANALYZE=true next build"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@next/bundle-analyzer": "^15.4.5",
+    "clsx": "^2.1.1",
+    "gif.js": "^0.2.0",
+    "html2canvas": "^1.4.1",
+    "lucide-react": "^0.511.0",
+    "next": "^14.2.31",
+    "next-intl": "^4.3.4",
+    "next-themes": "^0.4.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "svg-parser": "^2.0.4",
+    "tailwind-merge": "^3.0.2",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@monaco-editor/react": "^4.7.0",
+    "@types/html2canvas": "^1.0.0",
+    "@types/node": "^22.15.30",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/svg-parser": "^2.0.6",
+    "autoprefixer": "^10.4.21",
+    "babel-plugin-react-dev-locator": "^1.0.0",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "monaco-editor": "^0.52.2",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1"
+  }
+}
