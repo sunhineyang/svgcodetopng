@@ -45,31 +45,14 @@ const Footer = () => {
 
   const footerLinks = {
     product: [
-      { name: 'Converter', href: '/converter' },
-      { name: 'Templates', href: '/templates' },
-      { name: 'AI Assistant', href: '/ai-assistant' },
-      { name: 'How It Works', href: '/how-it-works' }
+      { name: 'Home', href: '/' },
     ],
     relatedProducts: [
       { name: 'SVGtoPNG.app', href: 'https://svgtopng.app', external: true },
     ],
-    company: [
-      { name: 'About', href: '/about' },
-      { name: 'Pricing', href: '/pricing' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Careers', href: '/careers' }
-    ],
-    support: [
-      { name: 'Help Center', href: '/help' },
-      { name: 'Documentation', href: '/docs' },
-      { name: 'Community', href: '/community' },
-      { name: 'Contact', href: '/contact' }
-    ],
     legal: [
-      { name: 'Privacy', href: '/privacy' },
-      { name: 'Terms', href: '/terms' },
-      { name: 'Cookies', href: '/cookies' },
-      { name: 'Security', href: '/security' }
+      { name: 'Privacy Policy', href: '#', disabled: true },
+      { name: 'Terms of Service', href: '#', disabled: true },
     ]
   };
 
@@ -107,10 +90,10 @@ const Footer = () => {
               </div>
             </div>
             
-            {/* Product Links */}
+            {/* Navigation Links */}
             <div>
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-                Product
+                Navigation
               </h3>
               <ul className="space-y-3">
                 {footerLinks.product.map((link) => (
@@ -126,32 +109,30 @@ const Footer = () => {
               </ul>
             </div>
             
-            {/* Related Products */}
+            {/* Legal Links */}
             <div>
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-                Related Products
+                Legal
               </h3>
               <ul className="space-y-3">
+                {footerLinks.legal.map((link) => (
+                  <li key={link.name}>
+                    <span className="text-gray-500 cursor-not-allowed">
+                      {link.name}
+                    </span>
+                  </li>
+                ))}
                 {footerLinks.relatedProducts.map((link) => (
                   <li key={link.name}>
-                    {link.external ? (
-                      <button
-                        onClick={() => handleExternalLink(link.href)}
-                        className="text-gray-400 hover:text-white transition-colors flex items-center cursor-pointer"
-                      >
-                        {link.name}
-                        <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </button>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors"
-                      >
-                        {link.name}
-                      </Link>
-                    )}
+                    <button
+                      onClick={() => handleExternalLink(link.href)}
+                      className="text-gray-400 hover:text-white transition-colors flex items-center cursor-pointer"
+                    >
+                      {link.name}
+                      <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </button>
                   </li>
                 ))}
               </ul>
