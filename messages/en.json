@@ -6,28 +6,43 @@
     "aiAssistant": "AI Assistant",
     "howItWorks": "How It Works",
     "pricing": "Pricing",
-    "about": "About"
+    "about": "About",
+    "language": "Language",
+    "theme": {
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    }
   },
   "hero": {
-    "title": "Convert SVG Code to PNG Images Instantly",
+    "title": "SVG Code to PNG Online Converter",
     "subtitle": "Transform Your SVG Code into Perfect PNG Images in Seconds",
     "description": "Our powerful online converter transforms SVG code into high-quality PNG images instantly. Whether you're a developer, designer, or content creator, get professional results with our AI-powered tools and extensive template library. No downloads, no registration required for basic features.",
     "primaryCta": "Start Converting Now",
-    "secondaryCta": "Browse Templates"
+    "secondaryCta": "Browse Templates",
+    "features": {
+      "free": "Free",
+      "instant": "Instant",
+      "highQuality": "High Quality",
+      "noRegistration": "No Registration"
+    },
+    "welcome": "Welcome to the AI era of SVG conversion! Our intelligent converter not only transforms your code but also helps you create, optimize, and enhance SVG graphics with cutting-edge AI assistance."
   },
   "howItWorks": {
-    "title": "Three Simple Steps to Perfect PNG Images",
+    "title": "How to Use",
+    "description": "Convert your SVG code to PNG in three simple steps",
     "step1": {
-      "title": "Paste or Create Your SVG Code",
-      "description": "Simply paste your SVG code into our editor or choose from 1000+ professional templates."
+      "title": "Paste SVG Code",
+      "description": "Simply paste your SVG code into our editor or choose from professional templates."
     },
     "step2": {
-      "title": "Preview and Customize",
-      "description": "See your SVG rendered in real-time and adjust export settings for optimal quality."
+      "title": "Customize Settings",
+      "description": "Adjust export settings like format, quality, dimensions, and background options."
     },
     "step3": {
-      "title": "Download Your PNG",
-      "description": "Export your image in multiple formats with custom dimensions and quality settings."
+      "title": "Download Image",
+      "description": "Click convert and download your high-quality PNG image instantly."
     }
   },
   "features": {
@@ -58,8 +73,26 @@
     }
   },
   "gallery": {
-    "title": "See What You Can Create",
-    "description": "Discover the endless possibilities with our SVG to PNG converter. This showcase features real examples created by our users - from simple icons and logos to complex illustrations and animated graphics. Each example demonstrates the high-quality output and versatility of our conversion tool, inspiring you to create your own professional graphics."
+    "title": "Conversion Gallery",
+    "description": "Explore examples of SVG to PNG conversions across different categories",
+    "items": {
+      "icons": {
+        "type": "Icons",
+        "description": "Clean, scalable icons perfect for web and mobile applications"
+      },
+      "logos": {
+        "type": "Logos",
+        "description": "Professional brand logos with crisp edges and perfect clarity"
+      },
+      "graphics": {
+        "type": "Graphics",
+        "description": "Complex graphics and illustrations with rich detail preservation"
+      },
+      "illustrations": {
+        "type": "Illustrations",
+        "description": "Artistic illustrations with vibrant colors and smooth gradients"
+      }
+    }
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -87,50 +120,75 @@
     }
   },
   "testimonials": {
-    "title": "Trusted by Professionals Worldwide",
+    "title": "What Our Users Say",
+    "subtitle": "Trusted by developers and designers worldwide",
     "testimonial1": {
-      "text": "This tool saved me hours of work. The AI assistant generated perfect SVG code from my description, and the PNG output quality is exceptional.",
-      "author": "Sarah Chen, UI/UX Designer at TechCorp"
+      "text": "This tool saved me hours of work. The conversion quality is exceptional and the interface is so intuitive.",
+      "author": "Sarah Chen",
+      "role": "UI/UX Designer"
     },
     "testimonial2": {
-      "text": "The template library is incredible. I found exactly what I needed for my project and customized it in minutes.",
-      "author": "Marcus Rodriguez, Frontend Developer at StartupXYZ"
+      "text": "Perfect for my workflow. I can quickly convert SVG graphics to PNG without losing any quality.",
+      "author": "Marcus Rodriguez",
+      "role": "Frontend Developer"
     },
     "testimonial3": {
-      "text": "Finally, a converter that handles complex SVGs perfectly. The real-time preview and export options are exactly what I needed.",
-      "author": "Emily Johnson, Graphic Designer at CreativeStudio"
+      "text": "The best SVG to PNG converter I've used. Fast, reliable, and produces high-quality results every time.",
+      "author": "Emily Johnson",
+      "role": "Graphic Designer"
     }
   },
   "cta": {
-    "title": "Ready to Create Amazing PNG Images from SVG Code?",
-    "description": "Join thousands of developers and designers who trust SVGCodeToPNG for their conversion needs. Start with our free converter or unlock the full potential with AI-powered features.",
-    "primaryCta": "Start Converting for Free"
+    "title": "Ready to Convert Your SVG Code?",
+    "description": "Join thousands of designers and developers who trust our free SVG to PNG converter. Start converting your AI-generated SVG graphics today!",
+    "startButton": "Start Converting Now",
+    "learnButton": "Learn How It Works"
   },
   "footer": {
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service",
-    "aboutUs": "About Us",
-    "contactSupport": "Contact Support",
-    "apiDocumentation": "API Documentation",
-    "blog": "Blog",
-    "helpCenter": "Help Center",
-    "featureRequests": "Feature Requests"
+    "description": "Convert SVG code to high-quality PNG images with our free online tool. Fast, reliable, and easy to use.",
+    "contactUs": "Contact Us",
+    "navigation": {
+      "title": "Navigation",
+      "home": "Home"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "copyright": "© 2025 SVGCodeToPNG. All rights reserved.",
+    "madeWith": "Made with",
+    "forDevelopers": "for developers",
+    "availableWorldwide": "Available worldwide",
+    "systemsOperational": "All systems operational",
+    "linkError": "Link temporarily unavailable, please try again later",
+    "emailCopied": "Email address copied to clipboard",
+    "emailCopyManual": "Please manually copy email address"
   },
   "converter": {
     "title": "SVG to PNG Converter",
-    "codeEditor": "Code Editor",
-    "preview": "Preview",
-    "export": "Export",
-    "download": "Download",
+    "codeEditor": "SVG Code Editor",
+    "editorDescription": "Paste your SVG code here or select from our quick start templates",
+    "quickStartTemplates": "Quick Start Templates",
+    "preview": "Live Preview",
+    "previewPlaceholder": "SVG preview will appear here",
+    "export": "Export Settings",
+    "download": "Download PNG",
     "settings": "Settings",
     "format": "Format",
     "quality": "Quality",
+    "scale": "Scale",
     "dimensions": "Dimensions",
-    "width": "Width",
-    "height": "Height",
+    "width": "Width (px)",
+    "height": "Height (px)",
+    "backgroundColor": "Background Color",
+    "transparent": "Transparent",
     "maintainAspectRatio": "Maintain Aspect Ratio",
     "transparentBackground": "Transparent Background",
-    "placeholder": "Paste your SVG code here or select a template..."
+    "placeholder": "Paste your SVG code here or select a template...",
+    "convertButton": "Convert to PNG",
+    "converting": "Converting...",
+    "conversionComplete": "Conversion Complete!"
   },
   "common": {
     "loading": "Loading...",

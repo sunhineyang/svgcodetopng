@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { 
   Heart,
   Globe,
@@ -9,6 +10,7 @@ import {
 } from 'lucide-react';
 
 const Footer = () => {
+  const t = useTranslations();
   // 安全的外部链接处理函数
   const handleExternalLink = (url: string) => {
     try {
@@ -19,7 +21,7 @@ const Footer = () => {
     } catch (error) {
       console.warn('Invalid URL:', url);
       // 可以显示用户友好的错误消息
-      alert('链接暂时无法访问，请稍后再试');
+      alert(t('footer.linkError'));
     }
   };
 
@@ -33,26 +35,26 @@ const Footer = () => {
       // 复制邮箱地址到剪贴板作为备选方案
       if (navigator.clipboard) {
         navigator.clipboard.writeText(email).then(() => {
-          alert('邮箱地址已复制到剪贴板');
+          alert(t('footer.emailCopied'));
         }).catch(() => {
-          alert('请手动复制邮箱地址: ' + email);
+          alert(t('footer.emailCopyManual') + ': ' + email);
         });
       } else {
-        alert('请手动复制邮箱地址: ' + email);
+        alert(t('footer.emailCopyManual') + ': ' + email);
       }
     }
   };
 
   const footerLinks = {
     product: [
-      { name: 'Home', href: '/' },
+      { name: t('footer.navigation.home'), href: '/' },
     ],
     relatedProducts: [
       { name: 'SVGtoPNG.app', href: 'https://svgtopng.app', external: true },
     ],
     legal: [
-      { name: 'Privacy Policy', href: '#', disabled: true },
-      { name: 'Terms of Service', href: '#', disabled: true },
+      { name: t('footer.legal.privacy'), href: '#', disabled: true },
+      { name: t('footer.legal.terms'), href: '#', disabled: true },
     ]
   };
 
@@ -75,7 +77,7 @@ const Footer = () => {
                 <span className="text-xl font-bold">SVGCodeToPNG</span>
               </div>
               <p className="text-gray-400 mb-6 max-w-sm">
-                Convert SVG code to high-quality PNG images with our free online tool. Fast, reliable, and easy to use.
+                {t('footer.description')}
               </p>
               
               {/* Contact Us */}
@@ -85,7 +87,7 @@ const Footer = () => {
                   className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white font-medium"
                 >
                   <Mail className="w-5 h-5" />
-                  <span>Contact Us</span>
+                  <span>{t('footer.contactUs')}</span>
                 </button>
               </div>
             </div>
@@ -93,7 +95,7 @@ const Footer = () => {
             {/* Navigation Links */}
             <div>
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-                Navigation
+                {t('footer.navigation.title')}
               </h3>
               <ul className="space-y-3">
                 {footerLinks.product.map((link) => (
@@ -112,7 +114,7 @@ const Footer = () => {
             {/* Legal Links */}
             <div>
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-                Legal
+                {t('footer.legal.title')}
               </h3>
               <ul className="space-y-3">
                 {footerLinks.legal.map((link) => (
@@ -144,24 +146,24 @@ const Footer = () => {
         <div className="border-t border-gray-800 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-4 text-sm text-gray-400">
-              <span>© 2025 SVGCodeToPNG. All rights reserved.</span>
+              <span>{t('footer.copyright')}</span>
               <span className="hidden md:inline">•</span>
               <div className="flex items-center space-x-1">
-                <span>Made with</span>
+                <span>{t('footer.madeWith')}</span>
                 <Heart className="w-4 h-4 text-red-500 fill-current" />
-                <span>for developers</span>
+                <span>{t('footer.forDevelopers')}</span>
               </div>
             </div>
             
             <div className="flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-2 text-gray-400">
                 <Globe className="w-4 h-4" />
-                <span>Available worldwide</span>
+                <span>{t('footer.availableWorldwide')}</span>
               </div>
               
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-gray-400">All systems operational</span>
+                <span className="text-gray-400">{t('footer.systemsOperational')}</span>
               </div>
             </div>
           </div>

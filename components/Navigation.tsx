@@ -4,22 +4,22 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
+import { useTranslations } from 'next-intl';
 import { 
   Menu, 
   X, 
   Sun, 
   Moon,
   Monitor,
-  ChevronDown,
-  Globe
+  ChevronDown
 } from 'lucide-react';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Navigation = () => {
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
   const [showThemeMenu, setShowThemeMenu] = useState(false);
-  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('en');
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
@@ -29,15 +29,12 @@ const Navigation = () => {
     setMounted(true);
   }, []);
   
-  // Language options
-  const languageOptions = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-  ];
+
 
   const themeOptions = [
-    { name: 'Light', value: 'light', icon: Sun },
-    { name: 'Dark', value: 'dark', icon: Moon },
-    { name: 'System', value: 'system', icon: Monitor },
+    { name: t('navigation.theme.light'), value: 'light', icon: Sun },
+    { name: t('navigation.theme.dark'), value: 'dark', icon: Moon },
+    { name: t('navigation.theme.system'), value: 'system', icon: Monitor },
   ];
 
   const getCurrentThemeIcon = () => {
@@ -76,36 +73,7 @@ const Navigation = () => {
           {/* Language and Theme Switchers */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Language Switcher */}
-            <div className="relative">
-              <button
-                onClick={() => setShowLanguageMenu(!showLanguageMenu)}
-                className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors flex items-center"
-              >
-                <Globe className="w-5 h-5" />
-                <ChevronDown className="w-3 h-3 ml-1" />
-              </button>
-              {showLanguageMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
-                  {languageOptions.map((option) => (
-                    <button
-                      key={option.code}
-                      onClick={() => {
-                        setCurrentLanguage(option.code);
-                        setShowLanguageMenu(false);
-                      }}
-                      className={`flex items-center w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                        currentLanguage === option.code
-                          ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                          : 'text-gray-700 dark:text-gray-300'
-                      }`}
-                    >
-                      <span className="mr-3">{option.flag}</span>
-                      {option.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <LanguageSwitcher />
             
             {/* Theme Switcher */}
             {mounted && (
@@ -166,25 +134,9 @@ const Navigation = () => {
             {/* Mobile Language Controls */}
             <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
               <div className="px-3 py-2">
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Language</span>
-                <div className="mt-2 space-y-1">
-                  {languageOptions.map((option) => (
-                    <button
-                      key={option.code}
-                      onClick={() => {
-                        setCurrentLanguage(option.code);
-                        setIsOpen(false);
-                      }}
-                      className={`flex items-center w-full px-2 py-1 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 rounded ${
-                        currentLanguage === option.code
-                          ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                          : 'text-gray-700 dark:text-gray-300'
-                      }`}
-                    >
-                      <span className="mr-2">{option.flag}</span>
-                      {option.name}
-                    </button>
-                  ))}
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('navigation.language')}</span>
+                <div className="mt-2">
+                  <LanguageSwitcher />
                 </div>
               </div>
             </div>
@@ -193,7 +145,7 @@ const Navigation = () => {
             {mounted && (
               <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                 <div className="px-3 py-2">
-                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Theme</span>
+                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('navigation.theme.title')}</span>
                   <div className="mt-2 space-y-1">
                     {themeOptions.map((option) => {
                       const IconComponent = option.icon;
