@@ -17,13 +17,61 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
-  const messages = await getMessages({ locale });
+// Dynamic metadata will be handled by generateMetadata function
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const locale = params.locale || 'en';
   
+  if (locale === 'ko') {
+    return {
+      title: 'SVG 코드를 PNG 변환기 (PNG, JPG, GIF) | 무료 온라인 도구',
+      description: 'SVG 코드를 고품질 PNG, JPG, GIF 이미지로 무료 변환하세요. 코드를 붙여넣고, SVG를 실시간 미리보기하고, 즉시 파일을 다운로드하세요. 빠르고, 쉽고, 가입 불필요.',
+      keywords: 'svg to png, svg 변환기, svg to image, 코드 to png, 온라인 변환기',
+      authors: [{ name: 'SVG 변환기 팀' }],
+      creator: 'SVG 변환기',
+      publisher: 'SVG 변환기',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/ko',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+        },
+      },
+      openGraph: {
+        title: 'SVG 코드를 PNG 변환기 - 무료 온라인 도구',
+        description: 'SVG 코드를 고품질 PNG 이미지로 즉시 변환하세요. 실시간 미리보기가 있는 무료 온라인 변환기.',
+        locale: 'ko_KR',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'SVG 코드를 PNG 변환기 - 무료 온라인 도구',
+        description: 'SVG 코드를 고품질 PNG 이미지로 즉시 변환하세요.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  // Default English metadata
   return {
     title: 'SVG Code to PNG Converter (PNG, JPG, GIF) | Free Online Tool',
     description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file.Fast,easy,no signup.',
@@ -42,16 +90,16 @@ export async function generateMetadata({
       telephone: false,
     },
     alternates: {
-      canonical: `/${locale}`,
+      canonical: '/',
       languages: {
-        'en': '/en',
+        'en-US': '/',
         'ko': '/ko',
       },
     },
     openGraph: {
       title: 'SVG Code to PNG Converter - Free Online Tool',
       description: 'Convert SVG code to high-quality PNG images instantly. Free online converter with live preview.',
-      locale: locale === 'ko' ? 'ko_KR' : 'en_US',
+      locale: 'en_US',
       type: 'website',
     },
     twitter: {
@@ -75,12 +123,14 @@ export async function generateMetadata({
 
 export default async function LocaleLayout({
   children,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  const locale = params.locale || 'en';
   const messages = await getMessages({ locale });
+  
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
@@ -99,7 +149,7 @@ export default async function LocaleLayout({
         </Script>
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

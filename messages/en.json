@@ -30,23 +30,27 @@
     "welcome": "Welcome to the AI era of SVG conversion! Our intelligent converter not only transforms your code but also helps you create, optimize, and enhance SVG graphics with cutting-edge AI assistance."
   },
   "howItWorks": {
-    "title": "How to Use",
-    "description": "Convert your SVG code to PNG in three simple steps",
-    "step1": {
-      "title": "Paste SVG Code",
-      "description": "Simply paste your SVG code into our editor or choose from professional templates."
-    },
-    "step2": {
-      "title": "Customize Settings",
-      "description": "Adjust export settings like format, quality, dimensions, and background options."
-    },
-    "step3": {
-      "title": "Download Image",
-      "description": "Click convert and download your high-quality PNG image instantly."
+    "title": "How to Use Our SVG to PNG Converter",
+    "description": "Convert your SVG code to high-quality PNG images in just three simple steps",
+    "steps": {
+      "step1": {
+        "title": "Paste SVG Code",
+        "description": "Copy and paste your SVG code into the editor or use one of our quick templates to get started"
+      },
+      "step2": {
+        "title": "Customize Settings",
+        "description": "Adjust export settings like format, quality, size, and background color to match your needs"
+      },
+      "step3": {
+        "title": "Download Result",
+        "description": "Click convert and download your high-quality PNG, JPG, or GIF image instantly"
+      }
     }
   },
   "features": {
-    "title": "Powerful Features for Professional Results",
+    "title": "Why Choose Our SVG Code to PNG Converter?",
+    "subtitle": "Experience the fastest and most reliable svg code to png conversion with advanced features and professional quality output",
+    "description": "Experience the fastest and most reliable svg code to png conversion with advanced features and professional quality output",
     "aiAssistant": {
       "title": "AI-Powered Code Assistant",
       "description": "Generate, optimize, and enhance your SVG code with our intelligent AI assistant that understands design patterns and best practices."
@@ -72,9 +76,42 @@
       "description": "Use our converter on any device with a fully responsive interface optimized for mobile, tablet, and desktop."
     }
   },
+  "howTo": {
+    "title": "How to Use Our SVG to PNG Converter",
+    "subtitle": "Convert your SVG code to high-quality PNG images in just three simple steps",
+    "step1": {
+      "title": "Paste SVG Code",
+      "description": "Copy and paste your SVG code into the editor or use one of our quick templates to get started"
+    },
+    "step2": {
+      "title": "Customize Settings",
+      "description": "Adjust export settings like format, quality, size, and background color to match your needs"
+    },
+    "step3": {
+      "title": "Download Result",
+      "description": "Click convert and download your high-quality PNG, JPG, or GIF image instantly"
+    }
+  },
   "gallery": {
-    "title": "Conversion Gallery",
-    "description": "Explore examples of SVG to PNG conversions across different categories",
+    "title": "Gallery of Converted Images",
+    "subtitle": "See examples of SVG to PNG conversions across different categories",
+    "description": "See examples of SVG to PNG conversions across different categories",
+    "icons": {
+      "title": "Icons",
+      "description": "Clean, scalable icons perfect for web and mobile applications"
+    },
+    "logos": {
+      "title": "Logos",
+      "description": "Professional brand logos with crisp edges and perfect clarity"
+    },
+    "graphics": {
+      "title": "Graphics",
+      "description": "Complex graphics and illustrations with rich detail preservation"
+    },
+    "illustrations": {
+      "title": "Illustrations",
+      "description": "Artistic illustrations with vibrant colors and smooth gradients"
+    },
     "items": {
       "icons": {
         "type": "Icons",
@@ -96,6 +133,28 @@
   },
   "faq": {
     "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our SVG to PNG converter",
+    "description": "Everything you need to know about our SVG to PNG converter",
+    "question1": {
+      "question": "Is the SVG to PNG converter completely free?",
+      "answer": "Yes! Our basic converter is completely free with no registration required. You can convert SVG code to PNG images instantly. Premium features like AI assistance and advanced templates require a subscription."
+    },
+    "question2": {
+      "question": "What's the maximum file size I can convert?",
+      "answer": "Free users can convert SVG files up to 2MB. Premium subscribers enjoy unlimited file sizes and batch conversion capabilities for professional workflows."
+    },
+    "question3": {
+      "question": "Do you support transparent backgrounds in PNG output?",
+      "answer": "Absolutely! Our converter preserves transparency from your SVG code, ensuring your PNG images maintain transparent backgrounds when needed."
+    },
+    "question4": {
+      "question": "Can I edit SVG code directly in the tool?",
+      "answer": "Yes! Our built-in code editor features syntax highlighting, error detection, and real-time preview so you can modify SVG code and see changes instantly."
+    },
+    "question5": {
+      "question": "How does the AI assistant help with SVG creation?",
+      "answer": "Our AI assistant can generate SVG code from text descriptions, optimize existing code for better performance, and suggest animations based on your design goals."
+    },
     "questions": {
       "free": {
         "question": "Is the SVG to PNG converter completely free?",
@@ -121,7 +180,8 @@
   },
   "testimonials": {
     "title": "What Our Users Say",
-    "subtitle": "Trusted by developers and designers worldwide",
+    "subtitle": "Join thousands of satisfied users who trust our SVG to PNG converter",
+    "description": "Join thousands of satisfied users who trust our SVG to PNG converter",
     "testimonial1": {
       "text": "This tool saved me hours of work. The conversion quality is exceptional and the interface is so intuitive.",
       "author": "Sarah Chen",
@@ -140,9 +200,10 @@
   },
   "cta": {
     "title": "Ready to Convert Your SVG Code?",
-    "description": "Join thousands of designers and developers who trust our free SVG to PNG converter. Start converting your AI-generated SVG graphics today!",
-    "startButton": "Start Converting Now",
-    "learnButton": "Learn How It Works"
+    "subtitle": "Join thousands of users who trust our free, fast, and secure SVG to PNG converter. No registration required!",
+    "description": "Join thousands of users who trust our free, fast, and secure SVG to PNG converter. No registration required!",
+    "primaryButton": "Start Converting Now",
+    "secondaryButton": "Learn How It Works"
   },
   "footer": {
     "description": "Convert SVG code to high-quality PNG images with our free online tool. Fast, reliable, and easy to use.",

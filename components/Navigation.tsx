@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+// import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { useTranslations } from 'next-intl';
+
 import { 
   Menu, 
   X, 
@@ -16,13 +16,12 @@ import {
 import LanguageSwitcher from './LanguageSwitcher';
 
 const Navigation = () => {
-  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-  const pathname = usePathname();
-  const router = useRouter();
+  // const pathname = usePathname();
+  // const router = useRouter();
 
   // Prevent hydration mismatch by only rendering theme-dependent content after mount
   useEffect(() => {
@@ -32,9 +31,9 @@ const Navigation = () => {
 
 
   const themeOptions = [
-    { name: t('navigation.theme.light'), value: 'light', icon: Sun },
-    { name: t('navigation.theme.dark'), value: 'dark', icon: Moon },
-    { name: t('navigation.theme.system'), value: 'system', icon: Monitor },
+    { name: 'Light', value: 'light', icon: Sun },
+    { name: 'Dark', value: 'dark', icon: Moon },
+    { name: 'System', value: 'system', icon: Monitor },
   ];
 
   const getCurrentThemeIcon = () => {
@@ -60,6 +59,9 @@ const Navigation = () => {
                   src="/logo.svg" 
                   alt="SVGCodeToPNG Logo" 
                   className="w-8 h-8"
+                  onError={(e) => {
+                    console.error('Logo failed to load:', e);
+                  }}
                 />
               </div>
               <span className="text-xl font-bold text-gray-900 dark:text-white">
@@ -134,7 +136,7 @@ const Navigation = () => {
             {/* Mobile Language Controls */}
             <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
               <div className="px-3 py-2">
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('navigation.language')}</span>
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Language</span>
                 <div className="mt-2">
                   <LanguageSwitcher />
                 </div>
@@ -145,7 +147,7 @@ const Navigation = () => {
             {mounted && (
               <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                 <div className="px-3 py-2">
-                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('navigation.theme.title')}</span>
+                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Theme</span>
                   <div className="mt-2 space-y-1">
                     {themeOptions.map((option) => {
                       const IconComponent = option.icon;
