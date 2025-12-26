@@ -48,7 +48,9 @@ const Footer = () => {
       { name: 'Home', href: '/' },
     ],
     relatedProducts: [
-      { name: 'SVGtoPNG.app', href: 'https://svgtopng.app', external: true },
+      { name: 'SVG to PNG', href: 'https://svgtopng.app', external: true },
+      { name: 'OC Maker', href: 'https://ocmaker.pro', external: true },
+      { name: 'RedNote Video Downloader', href: 'https://rednotevideodownloader.pro/', external: true },
     ],
     legal: [
       { name: 'Privacy Policy', href: '#', disabled: true },

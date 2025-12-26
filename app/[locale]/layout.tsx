@@ -44,6 +44,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         languages: {
           'en-US': '/',
           'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
         },
       },
       openGraph: {
@@ -56,6 +58,110 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         card: 'summary_large_image',
         title: 'SVG 코드를 PNG 변환기 - 무료 온라인 도구',
         description: 'SVG 코드를 고품질 PNG 이미지로 즉시 변환하세요.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  if (locale === 'ja') {
+    return {
+      title: 'SVG PNG 変換 - 無料オンライン変換ツール | 高品質・即時',
+      description: 'SVGコードをPNG画像に無料でオンライン変換。透明背景対応、高品質出力、即時変換。登録不要で簡単にSVG PNG 変換が可能。',
+      keywords: 'SVG PNG 変換, SVGコード PNG変換, オンライン変換ツール, 無料, 高品質, 即時, 透明背景',
+      authors: [{ name: 'SVG変換ツールチーム' }],
+      creator: 'SVG変換ツール',
+      publisher: 'SVG変換ツール',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/ja',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+        },
+      },
+      openGraph: {
+        title: 'SVG PNG 変換 - 無料オンライン変換ツール',
+        description: 'SVGコードをPNG画像に即時変換。透明背景対応の無料オンライン変換ツール。',
+        locale: 'ja_JP',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'SVG PNG 変換 - 無料オンライン変換ツール',
+        description: 'SVGコードをPNG画像に即時変換。',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  if (locale === 'ru') {
+    return {
+      title: 'SVG PNG конвертер - Бесплатный онлайн инструмент | Высокое качество',
+      description: 'Конвертируйте SVG код в PNG изображения бесплатно онлайн. Поддержка прозрачного фона, высокое качество, мгновенная конвертация. SVG PNG конвертер без регистрации.',
+      keywords: 'SVG PNG конвертер, SVG код PNG конвертер, онлайн конвертер, бесплатно, высокое качество, мгновенно, прозрачный фон',
+      authors: [{ name: 'SVG конвертер команда' }],
+      creator: 'SVG конвертер',
+      publisher: 'SVG конвертер',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/ru',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+        },
+      },
+      openGraph: {
+        title: 'SVG PNG конвертер - Бесплатный онлайн инструмент',
+        description: 'Мгновенная конвертация SVG кода в PNG изображения. Бесплатный онлайн SVG PNG конвертер с поддержкой прозрачного фона.',
+        locale: 'ru_RU',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'SVG PNG конвертер - Бесплатный онлайн инструмент',
+        description: 'Мгновенная конвертация SVG кода в PNG изображения.',
       },
       robots: {
         index: true,
@@ -94,6 +200,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       languages: {
         'en-US': '/',
         'ko': '/ko',
+        'ja': '/ja',
+        'ru': '/ru',
       },
     },
     openGraph: {

@@ -1,43 +1,44 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Globe } from 'lucide-react';
+import { Globe, ChevronDown } from 'lucide-react';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'ko', name: '한국어', flag: '🇰🇷' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
 ];
 
 export default function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
-  // 获取当前语言
   const getCurrentLanguage = () => {
     const path = pathname;
     if (path.startsWith('/ko')) {
       return 'ko';
+    } else if (path.startsWith('/ja')) {
+      return 'ja';
+    } else if (path.startsWith('/ru')) {
+      return 'ru';
     } else if (path.startsWith('/en')) {
       return 'en';
     }
-    return 'en'; // 默认英语
+    return 'en';
   };
-  
-  const currentLocale = getCurrentLanguage();
-  // Show the target language (the one user can switch to)
-  const targetLanguage = languages.find(lang => lang.code !== currentLocale) || languages[0];
 
-  // 切换语言
+  const currentLanguage = getCurrentLanguage();
+
   const switchLanguage = (newLang: string) => {
+    setIsOpen(false);
     try {
-      // 现在所有语言都使用前缀
       const targetUrl = `/${newLang}`;
-      
-      // 使用 window.location.href 强制页面刷新
       window.location.href = targetUrl;
     } catch (error) {
       console.error('Language switch failed:', error);
-      // Fallback: 使用 router.push
       router.push(`/${newLang}`);
     }
   };
@@ -45,16 +46,37 @@ export default function LanguageSwitcher() {
   return (
     <div className="relative">
       <button
-        onClick={() => switchLanguage(targetLanguage.code)}
+        onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
         aria-label="Switch language"
       >
         <Globe className="w-4 h-4" />
-        <span className="hidden sm:inline">{targetLanguage.flag}</span>
-        <span className="hidden md:inline">{targetLanguage.name}</span>
+        <span className="hidden sm:inline">{languages.find(lang => lang.code === currentLanguage)?.flag}</span>
+        <span className="hidden md:inline">{languages.find(lang => lang.code === currentLanguage)?.name}</span>
+        <ChevronDown className="w-4 h-4" />
       </button>
 
-
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => switchLanguage(lang.code)}
+              className={`flex items-center w-full px-4 py-2 text-sm transition-colors ${
+                lang.code === currentLanguage
+                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+              }`}
+            >
+              <span className="mr-2 text-lg">{lang.flag}</span>
+              <span className="flex-1 text-left">{lang.name}</span>
+              {lang.code === currentLanguage && (
+                <span className="ml-auto text-blue-600 dark:text-blue-400">✓</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

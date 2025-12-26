@@ -715,19 +715,19 @@ export default function KoreanHomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                name: t('testimonials.testimonial1.name'),
+                name: t('testimonials.testimonial1.author'),
                 role: t('testimonials.testimonial1.role'),
-                content: t('testimonials.testimonial1.content')
+                content: t('testimonials.testimonial1.text')
               },
               {
-                name: t('testimonials.testimonial2.name'),
+                name: t('testimonials.testimonial2.author'),
                 role: t('testimonials.testimonial2.role'),
-                content: t('testimonials.testimonial2.content')
+                content: t('testimonials.testimonial2.text')
               },
               {
-                name: t('testimonials.testimonial3.name'),
+                name: t('testimonials.testimonial3.author'),
                 role: t('testimonials.testimonial3.role'),
-                content: t('testimonials.testimonial3.content')
+                content: t('testimonials.testimonial3.text')
               }
             ].map((testimonial, index) => (
               <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
