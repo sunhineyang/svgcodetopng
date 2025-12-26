@@ -46,6 +46,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
         },
       },
       openGraph: {
@@ -98,6 +102,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
         },
       },
       openGraph: {
@@ -150,6 +158,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
         },
       },
       openGraph: {
@@ -162,6 +174,230 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         card: 'summary_large_image',
         title: 'SVG PNG конвертер - Бесплатный онлайн инструмент',
         description: 'Мгновенная конвертация SVG кода в PNG изображения.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  if (locale === 'es') {
+    return {
+      title: 'Convertidor SVG PNG - Herramienta Online Gratuita | Alta Calidad',
+      description: 'Convierte código SVG a imágenes PNG gratis online. Soporte de fondo transparente, alta calidad, conversión instantánea. Convertidor SVG PNG sin registro.',
+      keywords: 'convertidor SVG PNG, código SVG PNG convertidor, convertidor online, gratis, alta calidad, instantáneo, fondo transparente',
+      authors: [{ name: 'Equipo Convertidor SVG' }],
+      creator: 'Convertidor SVG',
+      publisher: 'Convertidor SVG',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/es',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
+        },
+      },
+      openGraph: {
+        title: 'Convertidor SVG PNG - Herramienta Online Gratuita',
+        description: 'Conversión instantánea de código SVG a imágenes PNG. Convertidor SVG PNG online gratuito con soporte de fondo transparente.',
+        locale: 'es_ES',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Convertidor SVG PNG - Herramienta Online Gratuita',
+        description: 'Conversión instantánea de código SVG a imágenes PNG.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  if (locale === 'fr') {
+    return {
+      title: 'Convertisseur SVG PNG - Outil en Ligne Gratuit | Haute Qualité',
+      description: 'Convertissez le code SVG en images PNG gratuitement en ligne. Support de fond transparent, haute qualité, conversion instantanée. Convertisseur SVG PNG sans inscription.',
+      keywords: 'convertisseur SVG PNG, code SVG PNG convertisseur, convertisseur en ligne, gratuit, haute qualité, instantané, fond transparent',
+      authors: [{ name: 'Équipe Convertisseur SVG' }],
+      creator: 'Convertisseur SVG',
+      publisher: 'Convertisseur SVG',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/fr',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
+        },
+      },
+      openGraph: {
+        title: 'Convertisseur SVG PNG - Outil en Ligne Gratuit',
+        description: 'Conversion instantanée de code SVG en images PNG. Convertisseur SVG PNG en ligne gratuit avec support de fond transparent.',
+        locale: 'fr_FR',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Convertisseur SVG PNG - Outil en Ligne Gratuit',
+        description: 'Conversion instantanée de code SVG en images PNG.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  if (locale === 'de') {
+    return {
+      title: 'SVG PNG Konverter - Kostenloses Online-Tool | Hohe Qualität',
+      description: 'Konvertieren Sie SVG-Code kostenlos online in PNG-Bilder. Unterstützung für transparenten Hintergrund, hohe Qualität, sofortige Konvertierung. SVG PNG Konverter ohne Registrierung.',
+      keywords: 'SVG PNG Konverter, SVG-Code PNG Konverter, Online-Konverter, kostenlos, hohe Qualität, sofortig, transparenter Hintergrund',
+      authors: [{ name: 'SVG Konverter Team' }],
+      creator: 'SVG Konverter',
+      publisher: 'SVG Konverter',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/de',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
+        },
+      },
+      openGraph: {
+        title: 'SVG PNG Konverter - Kostenloses Online-Tool',
+        description: 'Sofortige Konvertierung von SVG-Code in PNG-Bilder. Kostenloser Online-SVG PNG Konverter mit Unterstützung für transparenten Hintergrund.',
+        locale: 'de_DE',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'SVG PNG Konverter - Kostenloses Online-Tool',
+        description: 'Sofortige Konvertierung von SVG-Code in PNG-Bilder.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  if (locale === 'zh') {
+    return {
+      title: 'SVG PNG 转换器 - 免费在线工具 | 高质量',
+      description: '免费在线将SVG代码转换为PNG图像。支持透明背景,高质量,即时转换。无需注册的SVG PNG 转换器。',
+      keywords: 'SVG PNG 转换器, SVG代码PNG转换器, 在线转换器, 免费, 高质量, 即时, 透明背景',
+      authors: [{ name: 'SVG 转换器团队' }],
+      creator: 'SVG 转换器',
+      publisher: 'SVG 转换器',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/zh',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
+        },
+      },
+      openGraph: {
+        title: 'SVG PNG 转换器 - 免费在线工具',
+        description: '即时将SVG代码转换为PNG图像。支持透明背景的免费在线SVG PNG 转换器。',
+        locale: 'zh_CN',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'SVG PNG 转换器 - 免费在线工具',
+        description: '即时将SVG代码转换为PNG图像。',
       },
       robots: {
         index: true,
@@ -202,6 +438,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         'ko': '/ko',
         'ja': '/ja',
         'ru': '/ru',
+        'es': '/es',
+        'fr': '/fr',
+        'de': '/de',
+        'zh': '/zh',
       },
     },
     openGraph: {
@@ -248,12 +488,14 @@ export default async function LocaleLayout({
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
-          {`
+          {
+            `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-5RPN0F4G3Y');
-          `}
+            `
+          }
         </Script>
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>

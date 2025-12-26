@@ -1,0 +1,268 @@
+{
+  "navigation": {
+    "home": "首页",
+    "converter": "转换器",
+    "templates": "模板",
+    "aiAssistant": "AI助手",
+    "howItWorks": "使用方法",
+    "pricing": "价格",
+    "about": "关于",
+    "language": "语言",
+    "theme": {
+      "title": "主题",
+      "light": "浅色",
+      "dark": "深色",
+      "system": "系统"
+    }
+  },
+  "hero": {
+    "title": "SVG PNG 转换器在线工具",
+    "subtitle": "在几秒钟内将您的SVG代码转换为完美的PNG图像",
+    "description": "我们强大的SVG PNG 转换器在线工具可即时将SVG代码转换为高质量PNG图像。无论您是开发者、设计师还是内容创作者,都可以通过我们的AI驱动工具和丰富的模板库获得专业结果。无需下载,基本功能无需注册。",
+    "primaryCta": "立即开始转换",
+    "secondaryCta": "浏览模板",
+    "features": {
+      "free": "免费",
+      "instant": "即时",
+      "highQuality": "高质量",
+      "noRegistration": "无需注册"
+    },
+    "welcome": "欢迎来到SVG转换的AI时代!我们的智能SVG PNG 转换器不仅转换您的代码,还通过尖端AI助手帮助您创建、优化和增强SVG图形。"
+  },
+  "howItWorks": {
+    "title": "如何使用我们的SVG PNG 转换器",
+    "description": "只需三个简单步骤即可将您的SVG代码转换为高质量PNG图像",
+    "steps": {
+      "step1": {
+        "title": "粘贴SVG代码",
+        "description": "将您的SVG代码复制并粘贴到编辑器中,或使用我们的快速入门模板之一开始"
+      },
+      "step2": {
+        "title": "自定义设置",
+        "description": "根据您的需要调整导出设置,如格式、质量、大小和背景颜色"
+      },
+      "step3": {
+        "title": "下载结果",
+        "description": "点击转换并即时下载您的高质量PNG、JPG或GIF图像"
+      }
+    }
+  },
+  "features": {
+    "title": "为什么选择我们的SVG PNG 转换器?",
+    "subtitle": "体验最快、最可靠的SVG代码到PNG转换,具有高级功能和专业质量输出",
+    "description": "体验最快、最可靠的SVG代码到PNG转换,具有高级功能和专业质量输出",
+    "aiAssistant": {
+      "title": "AI驱动的代码助手",
+      "description": "使用我们的智能助手生成、优化和增强您的SVG代码,它理解设计模式和最佳实践。"
+    },
+    "templateLibrary": {
+      "title": "丰富的模板库",
+      "description": "访问超过1000个专业设计的SVG模板,涵盖图标、插图、徽标和动画等类别。"
+    },
+    "exportOptions": {
+      "title": "高质量导出选项",
+      "description": "以多种格式(PNG、JPG、GIF)导出,支持自定义尺寸、质量设置和透明背景。"
+    },
+    "codeEditor": {
+      "title": "实时代码编辑器",
+      "description": "使用语法高亮、错误检测和实时预览编辑SVG代码,即时查看更改。"
+    },
+    "animationPlanning": {
+      "title": "动画规划",
+      "description": "通过AI助手规划和实现CSS/SVG动画,创建动态和吸引人的图形。"
+    },
+    "responsiveDesign": {
+      "title": "移动响应式设计",
+      "description": "在任何设备上使用我们的SVG PNG 转换器,拥有针对移动、平板和桌面优化的完全响应式界面。"
+    }
+  },
+  "howTo": {
+    "title": "如何使用我们的SVG PNG 转换器",
+    "subtitle": "只需三个简单步骤即可将您的SVG代码转换为高质量PNG图像",
+    "step1": {
+      "title": "粘贴SVG代码",
+      "description": "将您的SVG代码复制并粘贴到编辑器中,或使用我们的快速入门模板之一开始"
+    },
+    "step2": {
+      "title": "自定义设置",
+      "description": "根据您的需要调整导出设置,如格式、质量、大小和背景颜色"
+    },
+    "step3": {
+      "title": "下载结果",
+      "description": "点击转换并即时下载您的高质量PNG、JPG或GIF图像"
+    }
+  },
+  "gallery": {
+    "title": "转换图像画廊",
+    "subtitle": "查看不同类别的SVG到PNG转换示例",
+    "description": "查看不同类别的SVG到PNG转换示例",
+    "icons": {
+      "title": "图标",
+      "description": "干净、可缩放的图标,完美适用于Web和移动应用程序"
+    },
+    "logos": {
+      "title": "徽标",
+      "description": "专业品牌徽标,边缘清晰,完美清晰度"
+    },
+    "graphics": {
+      "title": "图形",
+      "description": "复杂的图形和插图,保留丰富细节"
+    },
+    "illustrations": {
+      "title": "插图",
+      "description": "艺术插图,色彩鲜艳,渐变平滑"
+    },
+    "items": {
+      "icons": {
+        "type": "图标",
+        "description": "干净、可缩放的图标,完美适用于Web和移动应用程序"
+      },
+      "logos": {
+        "type": "徽标",
+        "description": "专业品牌徽标,边缘清晰,完美清晰度"
+      },
+      "graphics": {
+        "type": "图形",
+        "description": "复杂的图形和插图,保留丰富细节"
+      },
+      "illustrations": {
+        "type": "插图",
+        "description": "艺术插图,色彩鲜艳,渐变平滑"
+      }
+    }
+  },
+  "faq": {
+    "title": "常见问题",
+    "subtitle": "关于我们的SVG PNG 转换器,您需要了解的一切",
+    "description": "关于我们的SVG PNG 转换器,您需要了解的一切",
+    "question1": {
+      "question": "SVG PNG 转换器完全免费吗?",
+      "answer": "是的!我们的基础转换器完全免费,无需注册。您可以即时将SVG代码转换为PNG图像。AI助手和高级模板等高级功能需要订阅。"
+    },
+    "question2": {
+      "question": "我可以转换的最大文件大小是多少?",
+      "answer": "免费用户可以转换高达2MB的SVG文件。高级订阅者享受无限文件大小和批量转换功能,适用于专业工作流程。"
+    },
+    "question3": {
+      "question": "你们支持PNG输出中的透明背景吗?",
+      "answer": "绝对支持!我们的SVG PNG 转换器保留SVG代码中的透明度,确保您的PNG图像在需要时保持透明背景。"
+    },
+    "question4": {
+      "question": "我可以直接在工具中编辑SVG代码吗?",
+      "answer": "可以!我们的内置代码编辑器具有语法高亮、错误检测和实时预览功能,您可以修改SVG代码并即时查看更改。"
+    },
+    "question5": {
+      "question": "AI助手如何帮助SVG创建?",
+      "answer": "我们的AI助手可以从文本描述生成SVG代码,优化现有代码以获得更好的性能,并根据您的设计目标建议动画。"
+    },
+    "questions": {
+      "free": {
+        "question": "SVG PNG 转换器完全免费吗?",
+        "answer": "是的!我们的基础转换器完全免费,无需注册。您可以即时将SVG代码转换为PNG图像。AI助手和高级模板等高级功能需要订阅。"
+      },
+      "fileSize": {
+        "question": "我可以转换的最大文件大小是多少?",
+        "answer": "免费用户可以转换高达2MB的SVG文件。高级订阅者享受无限文件大小和批量转换功能,适用于专业工作流程。"
+      },
+      "transparency": {
+        "question": "你们支持PNG输出中的透明背景吗?",
+        "answer": "绝对支持!我们的SVG PNG 转换器保留SVG代码中的透明度,确保您的PNG图像在需要时保持透明背景。"
+      },
+      "editing": {
+        "question": "我可以直接在工具中编辑SVG代码吗?",
+        "answer": "可以!我们的内置代码编辑器具有语法高亮、错误检测和实时预览功能,您可以修改SVG代码并即时查看更改。"
+      },
+      "aiAssistant": {
+        "question": "AI助手如何帮助SVG创建?",
+        "answer": "我们的AI助手可以从文本描述生成SVG代码,优化现有代码以获得更好的性能,并根据您的设计目标建议动画。"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "用户评价",
+    "subtitle": "加入成千上万信任我们SVG PNG 转换器的满意用户",
+    "description": "加入成千上万信任我们SVG PNG 转换器的满意用户",
+    "testimonial1": {
+      "text": "这个工具为我节省了数小时的工作时间。转换质量非常出色,界面非常直观。",
+      "author": "张伟",
+      "role": "UI/UX设计师"
+    },
+    "testimonial2": {
+      "text": "非常适合我的工作流程。我可以快速将SVG图形转换为PNG,而不会损失任何质量。",
+      "author": "李明",
+      "role": "前端开发工程师"
+    },
+    "testimonial3": {
+      "text": "我用过的最好的SVG PNG 转换器。快速、可靠,每次都能产生高质量的结果。",
+      "author": "王芳",
+      "role": "平面设计师"
+    }
+  },
+  "cta": {
+    "title": "准备好转换您的SVG代码了吗?",
+    "subtitle": "加入成千上万信任我们免费、快速、安全的SVG PNG 转换器的用户。无需注册!",
+    "description": "加入成千上万信任我们免费、快速、安全的SVG PNG 转换器的用户。无需注册!",
+    "primaryButton": "立即开始转换",
+    "secondaryButton": "了解使用方法"
+  },
+  "footer": {
+    "description": "使用我们的免费在线工具将SVG代码转换为高质量PNG图像。快速、可靠、易于使用。",
+    "contactUs": "联系我们",
+    "navigation": {
+      "title": "导航",
+      "home": "首页"
+    },
+    "legal": {
+      "title": "法律",
+      "privacy": "隐私政策",
+      "terms": "服务条款"
+    },
+    "copyright": "© 2025 SVGCodeToPNG。保留所有权利。",
+    "madeWith": "使用",
+    "forDevelopers": "为开发者打造",
+    "availableWorldwide": "全球可用",
+    "systemsOperational": "所有系统正常运行",
+    "linkError": "链接暂时不可用,请稍后重试",
+    "emailCopied": "电子邮件地址已复制到剪贴板",
+    "emailCopyManual": "请手动复制电子邮件地址"
+  },
+  "converter": {
+    "title": "SVG PNG 转换器",
+    "codeEditor": "SVG代码编辑器",
+    "editorDescription": "在此粘贴您的SVG代码或从我们的快速入门模板中选择",
+    "quickStartTemplates": "快速入门模板",
+    "preview": "实时预览",
+    "previewPlaceholder": "SVG预览将在此处显示",
+    "export": "导出设置",
+    "download": "下载PNG",
+    "settings": "设置",
+    "format": "格式",
+    "quality": "质量",
+    "scale": "缩放",
+    "dimensions": "尺寸",
+    "width": "宽度 (px)",
+    "height": "高度 (px)",
+    "backgroundColor": "背景颜色",
+    "transparent": "透明",
+    "maintainAspectRatio": "保持纵横比",
+    "transparentBackground": "透明背景",
+    "placeholder": "在此粘贴您的SVG代码或选择模板...",
+    "convertButton": "转换为PNG",
+    "converting": "转换中...",
+    "conversionComplete": "转换完成!"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "cancel": "取消",
+    "save": "保存",
+    "close": "关闭",
+    "next": "下一步",
+    "previous": "上一步",
+    "search": "搜索",
+    "filter": "筛选",
+    "clear": "清除",
+    "reset": "重置"
+  }
+}

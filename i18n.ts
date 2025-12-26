@@ -1,7 +1,7 @@
 import { getRequestConfig } from 'next-intl/server';
 
 // Can be imported from a shared config
-const locales = ['en', 'ko', 'ja', 'ru'];
+const locales = ['en', 'ko', 'ja', 'ru', 'es', 'fr', 'de', 'zh'];
 
 export default getRequestConfig(async ({ requestLocale }) => {
   // This typically corresponds to the `[locale]` segment

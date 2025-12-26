@@ -1,0 +1,268 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "converter": "Convertidor",
+    "templates": "Plantillas",
+    "aiAssistant": "Asistente IA",
+    "howItWorks": "Cómo Funciona",
+    "pricing": "Precios",
+    "about": "Acerca de",
+    "language": "Idioma",
+    "theme": {
+      "title": "Tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    }
+  },
+  "hero": {
+    "title": "Convertidor SVG PNG en Línea",
+    "subtitle": "Transforma Tu Código SVG en Imágenes PNG Perfectas en Segundos",
+    "description": "Nuestro poderoso convertidor SVG PNG en línea transforma código SVG en imágenes PNG de alta calidad al instante. Ya seas desarrollador, diseñador o creador de contenido, obtén resultados profesionales con nuestras herramientas impulsadas por IA y extensa biblioteca de plantillas. Sin descargas, sin registro para funciones básicas.",
+    "primaryCta": "Comenzar a Convertir Ahora",
+    "secondaryCta": "Explorar Plantillas",
+    "features": {
+      "free": "Gratis",
+      "instant": "Instantáneo",
+      "highQuality": "Alta Calidad",
+      "noRegistration": "Sin Registro"
+    },
+    "welcome": "¡Bienvenido a la era de IA de conversión SVG! Nuestro convertidor SVG PNG inteligente no solo transforma tu código sino que también te ayuda a crear, optimizar y mejorar gráficos SVG con asistencia de IA de vanguardia."
+  },
+  "howItWorks": {
+    "title": "Cómo Usar Nuestro Convertidor SVG PNG",
+    "description": "Convierte tu código SVG a imágenes PNG de alta calidad en solo tres simples pasos",
+    "steps": {
+      "step1": {
+        "title": "Pegar Código SVG",
+        "description": "Copia y pega tu código SVG en el editor o usa una de nuestras plantillas de inicio rápido para comenzar"
+      },
+      "step2": {
+        "title": "Personalizar Configuración",
+        "description": "Ajusta la configuración de exportación como formato, calidad, tamaño y color de fondo según tus necesidades"
+      },
+      "step3": {
+        "title": "Descargar Resultado",
+        "description": "Haz clic en convertir y descarga tu imagen PNG, JPG o GIF de alta calidad al instante"
+      }
+    }
+  },
+  "features": {
+    "title": "¿Por Qué Elegir Nuestro Convertidor SVG PNG?",
+    "subtitle": "Experimenta la conversión más rápida y confiable de código SVG a PNG con características avanzadas y salida de calidad profesional",
+    "description": "Experimenta la conversión más rápida y confiable de código SVG a PNG con características avanzadas y salida de calidad profesional",
+    "aiAssistant": {
+      "title": "Asistente de Código Impulsado por IA",
+      "description": "Genera, optimiza y mejora tu código SVG con nuestro asistente inteligente que entiende patrones de diseño y mejores prácticas."
+    },
+    "templateLibrary": {
+      "title": "Biblioteca Extensa de Plantillas",
+      "description": "Accede a más de 1000 plantillas SVG diseñadas profesionalmente en categorías como iconos, ilustraciones, logotipos y animaciones."
+    },
+    "exportOptions": {
+      "title": "Opciones de Exportación de Alta Calidad",
+      "description": "Exporta en múltiples formatos (PNG, JPG, GIF) con dimensiones personalizadas, configuraciones de calidad y fondos transparentes."
+    },
+    "codeEditor": {
+      "title": "Editor de Código en Tiempo Real",
+      "description": "Edita código SVG con resaltado de sintaxis, detección de errores y vista previa en vivo para ver cambios al instante."
+    },
+    "animationPlanning": {
+      "title": "Planificación de Animaciones",
+      "description": "Planifica e implementa animaciones CSS/SVG con asistencia de IA para gráficos dinámicos y atractivos."
+    },
+    "responsiveDesign": {
+      "title": "Diseño Responsivo Móvil",
+      "description": "Usa nuestro convertidor SVG PNG en cualquier dispositivo con una interfaz completamente responsiva optimizada para móviles, tabletas y escritorio."
+    }
+  },
+  "howTo": {
+    "title": "Cómo Usar Nuestro Convertidor SVG PNG",
+    "subtitle": "Convierte tu código SVG a imágenes PNG de alta calidad en solo tres simples pasos",
+    "step1": {
+      "title": "Pegar Código SVG",
+      "description": "Copia y pega tu código SVG en el editor o usa una de nuestras plantillas de inicio rápido para comenzar"
+    },
+    "step2": {
+      "title": "Personalizar Configuración",
+      "description": "Ajusta la configuración de exportación como formato, calidad, tamaño y color de fondo según tus necesidades"
+    },
+    "step3": {
+      "title": "Descargar Resultado",
+      "description": "Haz clic en convertir y descarga tu imagen PNG, JPG o GIF de alta calidad al instante"
+    }
+  },
+  "gallery": {
+    "title": "Galería de Imágenes Convertidas",
+    "subtitle": "Mira ejemplos de conversiones de SVG a PNG en diferentes categorías",
+    "description": "Mira ejemplos de conversiones de SVG a PNG en diferentes categorías",
+    "icons": {
+      "title": "Iconos",
+      "description": "Iconos limpios y escalables perfectos para aplicaciones web y móviles"
+    },
+    "logos": {
+      "title": "Logotipos",
+      "description": "Logotipos de marca profesionales con bordes nítidos y claridad perfecta"
+    },
+    "graphics": {
+      "title": "Gráficos",
+      "description": "Gráficos complejos e ilustraciones con preservación de detalles ricos"
+    },
+    "illustrations": {
+      "title": "Ilustraciones",
+      "description": "Ilustraciones artísticas con colores vibrantes y gradientes suaves"
+    },
+    "items": {
+      "icons": {
+        "type": "Iconos",
+        "description": "Iconos limpios y escalables perfectos para aplicaciones web y móviles"
+      },
+      "logos": {
+        "type": "Logotipos",
+        "description": "Logotipos de marca profesionales con bordes nítidos y claridad perfecta"
+      },
+      "graphics": {
+        "type": "Gráficos",
+        "description": "Gráficos complejos e ilustraciones con preservación de detalles ricos"
+      },
+      "illustrations": {
+        "type": "Ilustraciones",
+        "description": "Ilustraciones artísticas con colores vibrantes y gradientes suaves"
+      }
+    }
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Todo lo que necesitas saber sobre nuestro convertidor SVG PNG",
+    "description": "Todo lo que necesitas saber sobre nuestro convertidor SVG PNG",
+    "question1": {
+      "question": "¿Es el convertidor SVG PNG completamente gratis?",
+      "answer": "¡Sí! Nuestro convertidor básico es completamente gratis sin registro requerido. Puedes convertir código SVG a imágenes PNG al instante. Las funciones premium como asistencia de IA y plantillas avanzadas requieren suscripción."
+    },
+    "question2": {
+      "question": "¿Cuál es el tamaño máximo de archivo que puedo convertir?",
+      "answer": "Los usuarios gratuitos pueden convertir archivos SVG hasta 2MB. Los suscriptores premium disfrutan de tamaños de archivo ilimitados y capacidades de conversión por lotes para flujos de trabajo profesionales."
+    },
+    "question3": {
+      "question": "¿Soportan fondos transparentes en la salida PNG?",
+      "answer": "¡Absolutamente! Nuestro convertidor SVG PNG preserva la transparencia de tu código SVG, asegurando que tus imágenes PNG mantengan fondos transparentes cuando sea necesario."
+    },
+    "question4": {
+      "question": "¿Puedo editar código SVG directamente en la herramienta?",
+      "answer": "¡Sí! Nuestro editor de código integrado cuenta con resaltado de sintaxis, detección de errores y vista previa en tiempo real para que puedas modificar código SVG y ver cambios al instante."
+    },
+    "question5": {
+      "question": "¿Cómo ayuda el asistente de IA con la creación de SVG?",
+      "answer": "Nuestro asistente de IA puede generar código SVG desde descripciones de texto, optimizar código existente para mejor rendimiento y sugerir animaciones basadas en tus objetivos de diseño."
+    },
+    "questions": {
+      "free": {
+        "question": "¿Es el convertidor SVG PNG completamente gratis?",
+        "answer": "¡Sí! Nuestro convertidor básico es completamente gratis sin registro requerido. Puedes convertir código SVG a imágenes PNG al instante. Las funciones premium como asistencia de IA y plantillas avanzadas requieren suscripción."
+      },
+      "fileSize": {
+        "question": "¿Cuál es el tamaño máximo de archivo que puedo convertir?",
+        "answer": "Los usuarios gratuitos pueden convertir archivos SVG hasta 2MB. Los suscriptores premium disfrutan de tamaños de archivo ilimitados y capacidades de conversión por lotes para flujos de trabajo profesionales."
+      },
+      "transparency": {
+        "question": "¿Soportan fondos transparentes en la salida PNG?",
+        "answer": "¡Absolutamente! Nuestro convertidor SVG PNG preserva la transparencia de tu código SVG, asegurando que tus imágenes PNG mantengan fondos transparentes cuando sea necesario."
+      },
+      "editing": {
+        "question": "¿Puedo editar código SVG directamente en la herramienta?",
+        "answer": "¡Sí! Nuestro editor de código integrado cuenta con resaltado de sintaxis, detección de errores y vista previa en tiempo real para que puedas modificar código SVG y ver cambios al instante."
+      },
+      "aiAssistant": {
+        "question": "¿Cómo ayuda el asistente de IA con la creación de SVG?",
+        "answer": "Nuestro asistente de IA puede generar código SVG desde descripciones de texto, optimizar código existente para mejor rendimiento y sugerir animaciones basadas en tus objetivos de diseño."
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Lo Que Dicen Nuestros Usuarios",
+    "subtitle": "Únete a miles de usuarios satisfechos que confían en nuestro convertidor SVG PNG",
+    "description": "Únete a miles de usuarios satisfechos que confían en nuestro convertidor SVG PNG",
+    "testimonial1": {
+      "text": "Esta herramienta me ahorró horas de trabajo. La calidad de conversión es excepcional y la interfaz es muy intuitiva.",
+      "author": "María García",
+      "role": "Diseñadora UI/UX"
+    },
+    "testimonial2": {
+      "text": "Perfecto para mi flujo de trabajo. Puedo convertir rápidamente gráficos SVG a PNG sin perder ninguna calidad.",
+      "author": "Carlos Rodríguez",
+      "role": "Desarrollador Frontend"
+    },
+    "testimonial3": {
+      "text": "El mejor convertidor SVG PNG que he usado. Rápido, confiable y produce resultados de alta calidad cada vez.",
+      "author": "Ana Martínez",
+      "role": "Diseñadora Gráfica"
+    }
+  },
+  "cta": {
+    "title": "¿Listo para Convertir Tu Código SVG?",
+    "subtitle": "Únete a miles de usuarios que confían en nuestro convertidor SVG PNG gratuito, rápido y seguro. ¡Sin registro requerido!",
+    "description": "Únete a miles de usuarios que confían en nuestro convertidor SVG PNG gratuito, rápido y seguro. ¡Sin registro requerido!",
+    "primaryButton": "Comenzar a Convertir Ahora",
+    "secondaryButton": "Aprende Cómo Funciona"
+  },
+  "footer": {
+    "description": "Convierte código SVG a imágenes PNG de alta calidad con nuestra herramienta gratuita en línea. Rápido, confiable y fácil de usar.",
+    "contactUs": "Contáctanos",
+    "navigation": {
+      "title": "Navegación",
+      "home": "Inicio"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Servicio"
+    },
+    "copyright": "© 2025 SVGCodeToPNG. Todos los derechos reservados.",
+    "madeWith": "Hecho con",
+    "forDevelopers": "para desarrolladores",
+    "availableWorldwide": "Disponible en todo el mundo",
+    "systemsOperational": "Todos los sistemas operativos",
+    "linkError": "Enlace temporalmente no disponible, por favor intenta más tarde",
+    "emailCopied": "Dirección de correo copiada al portapapeles",
+    "emailCopyManual": "Por favor copia manualmente la dirección de correo"
+  },
+  "converter": {
+    "title": "Convertidor SVG PNG",
+    "codeEditor": "Editor de Código SVG",
+    "editorDescription": "Pega tu código SVG aquí o selecciona de nuestras plantillas de inicio rápido",
+    "quickStartTemplates": "Plantillas de Inicio Rápido",
+    "preview": "Vista Previa en Vivo",
+    "previewPlaceholder": "La vista previa de SVG aparecerá aquí",
+    "export": "Configuración de Exportación",
+    "download": "Descargar PNG",
+    "settings": "Configuración",
+    "format": "Formato",
+    "quality": "Calidad",
+    "scale": "Escala",
+    "dimensions": "Dimensiones",
+    "width": "Ancho (px)",
+    "height": "Alto (px)",
+    "backgroundColor": "Color de Fondo",
+    "transparent": "Transparente",
+    "maintainAspectRatio": "Mantener Relación de Aspecto",
+    "transparentBackground": "Fondo Transparente",
+    "placeholder": "Pega tu código SVG aquí o selecciona una plantilla...",
+    "convertButton": "Convertir a PNG",
+    "converting": "Convirtiendo...",
+    "conversionComplete": "¡Conversión Completada!"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "clear": "Limpiar",
+    "reset": "Restablecer"
+  }
+}

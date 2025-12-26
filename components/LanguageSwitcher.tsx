@@ -9,6 +9,10 @@ const languages = [
   { code: 'ko', name: '한국어', flag: '🇰🇷' },
   { code: 'ja', name: '日本語', flag: '🇯🇵' },
   { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
 ];
 
 export default function LanguageSwitcher() {
@@ -24,6 +28,14 @@ export default function LanguageSwitcher() {
       return 'ja';
     } else if (path.startsWith('/ru')) {
       return 'ru';
+    } else if (path.startsWith('/es')) {
+      return 'es';
+    } else if (path.startsWith('/fr')) {
+      return 'fr';
+    } else if (path.startsWith('/de')) {
+      return 'de';
+    } else if (path.startsWith('/zh')) {
+      return 'zh';
     } else if (path.startsWith('/en')) {
       return 'en';
     }

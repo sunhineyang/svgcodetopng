@@ -42,85 +42,72 @@ export default function KoreanHomePage() {
   const t = useTranslations();
   const { theme } = useTheme();
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-  const [svgCode, setSvgCode] = useState(`<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  const [svgCode, setSvgCode] = useState(`<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1">
-        <animate attributeName="stop-color" values="#f8fafc;#e0f2fe;#f8fafc" dur="4s" repeatCount="indefinite"/>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f7"/>
+      <stop offset="100%" stop-color="#e8e8ed"/>
+    </linearGradient>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007AFF">
+        <animate attributeName="stop-color" values="#007AFF;#5856D6;#007AFF" dur="4s" repeatCount="indefinite"/>
       </stop>
-      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1">
-        <animate attributeName="stop-color" values="#e2e8f0;#bae6fd;#e2e8f0" dur="4s" repeatCount="indefinite"/>
+      <stop offset="100%" stop-color="#5856D6">
+        <animate attributeName="stop-color" values="#5856D6;#007AFF;#5856D6" dur="4s" repeatCount="indefinite"/>
       </stop>
     </linearGradient>
-    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1">
-        <animate attributeName="stop-color" values="#3b82f6;#8b5cf6;#06b6d4;#3b82f6" dur="3s" repeatCount="indefinite"/>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007AFF"/>
+      <stop offset="100%" stop-color="#5AC8FA"/>
+    </linearGradient>
+    <linearGradient id="convertGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007AFF">
+        <animate attributeName="stop-color" values="#007AFF;#34C759;#007AFF" dur="3s" repeatCount="indefinite"/>
       </stop>
-      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1">
-        <animate attributeName="stop-color" values="#8b5cf6;#06b6d4;#3b82f6;#8b5cf6" dur="3s" repeatCount="indefinite"/>
+      <stop offset="50%" stop-color="#5856D6">
+        <animate attributeName="stop-color" values="#5856D6;#30D158;#5856D6" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#34C759">
+        <animate attributeName="stop-color" values="#34C759;#007AFF;#34C759" dur="3s" repeatCount="indefinite"/>
       </stop>
     </linearGradient>
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#475569;stop-opacity:1"/>
-    </linearGradient>
-    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.1">
-        <animate attributeName="stdDeviation" values="4;8;4" dur="2s" repeatCount="indefinite"/>
-      </feDropShadow>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.08"/>
     </filter>
-    <filter id="glowShadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#3b82f6" flood-opacity="0.3">
-        <animate attributeName="flood-opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite"/>
+    <filter id="glowEffect" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#007AFF" flood-opacity="0.4">
+        <animate attributeName="flood-color" values="#007AFF;#34C759;#007AFF" dur="3s" repeatCount="indefinite"/>
       </feDropShadow>
     </filter>
   </defs>
   
-  <!-- Background -->
-  <rect width="200" height="200" fill="url(#bgGrad)" rx="16"/>
+  <rect width="200" height="200" fill="url(#cardGradient)" rx="24"/>
   
-  <!-- Main Title: SVG -->
-  <text x="100" y="60" text-anchor="middle" font-family="'Inter', 'SF Pro Display', system-ui, sans-serif" font-size="28" font-weight="700" fill="url(#primaryGrad)" filter="url(#glowShadow)">
-    <animateTransform attributeName="transform" type="translate" values="0,-2;0,2;0,-2" dur="3s" repeatCount="indefinite"/>
-    SVG
-  </text>
+  <g filter="url(#softShadow)">
+    <rect x="20" y="25" width="160" height="60" rx="12" fill="white"/>
+    <text x="100" y="62" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif" font-size="18" font-weight="600" fill="#1d1d1f">
+      SVG Code
+    </text>
+  </g>
   
-  <!-- Subtitle: Code -->
-  <text x="100" y="90" text-anchor="middle" font-family="'Inter', 'SF Pro Display', system-ui, sans-serif" font-size="16" font-weight="500" fill="url(#accentGrad)" opacity="0.8">
-    <animateTransform attributeName="transform" type="translate" values="0,1;0,-1;0,1" dur="2.5s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
-    Code
-  </text>
-  
-  <!-- Arrow/Connector -->
-  <g>
-    <animateTransform attributeName="transform" type="translate" values="-5,0;5,0;-5,0" dur="2s" repeatCount="indefinite"/>
-    <path d="M85 105 L115 105 M110 100 L115 105 L110 110" stroke="url(#accentGrad)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.6">
-      <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite"/>
+  <g transform="translate(100, 110)" filter="url(#glowEffect)">
+    <circle cx="0" cy="0" r="22" fill="url(#convertGradient)">
+      <animate attributeName="r" values="22;24;22" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M-7 -3 L0 5 L7 -3" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <animateTransform attributeName="transform" type="translate" values="0,-3;0,3;0,-3" dur="2s" repeatCount="indefinite"/>
     </path>
   </g>
   
-  <!-- Target: PNG -->
-  <text x="100" y="140" text-anchor="middle" font-family="'Inter', 'SF Pro Display', system-ui, sans-serif" font-size="28" font-weight="700" fill="url(#primaryGrad)" filter="url(#glowShadow)">
-    <animateTransform attributeName="transform" type="translate" values="0,2;0,-2;0,2" dur="3.2s" repeatCount="indefinite"/>
-    PNG
-  </text>
+  <g filter="url(#softShadow)">
+    <rect x="20" y="135" width="160" height="45" rx="12" fill="white"/>
+    <text x="100" y="164" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif" font-size="18" font-weight="600" fill="#1d1d1f">
+      PNG Image
+    </text>
+  </g>
   
-  <!-- Bottom accent -->
-  <rect x="60" y="165" width="80" height="2" fill="url(#primaryGrad)" rx="1" opacity="0.3">
-    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
-    <animateTransform attributeName="transform" type="scale" values="1,1;1.1,1;1,1" dur="3s" repeatCount="indefinite"/>
-  </rect>
-  
-  <!-- Floating particles -->
-  <circle cx="50" cy="50" r="2" fill="url(#primaryGrad)" opacity="0.4">
-    <animateTransform attributeName="transform" type="translate" values="0,0;10,-10;0,0" dur="4s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="150" cy="170" r="1.5" fill="url(#primaryGrad)" opacity="0.3">
-    <animateTransform attributeName="transform" type="translate" values="0,0;-8,8;0,0" dur="3.5s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2.5s" repeatCount="indefinite"/>
-  </circle>
+  <circle cx="45" cy="55" r="4" fill="url(#iconGradient)" opacity="0.9"/>
+  <circle cx="45" cy="157" r="4" fill="#34C759" opacity="0.9"/>
 </svg>`);
   const [isConverting, setIsConverting] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -259,9 +246,72 @@ export default function KoreanHomePage() {
   };
 
   const resetCode = () => {
-    setSvgCode(`<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="100" cy="100" r="80" fill="#3b82f6" />
-  <text x="100" y="110" text-anchor="middle" fill="white" font-size="20" font-family="Arial">SVG</text>
+    setSvgCode(`<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f7"/>
+      <stop offset="100%" stop-color="#e8e8ed"/>
+    </linearGradient>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007AFF">
+        <animate attributeName="stop-color" values="#007AFF;#5856D6;#007AFF" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#5856D6">
+        <animate attributeName="stop-color" values="#5856D6;#007AFF;#5856D6" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007AFF"/>
+      <stop offset="100%" stop-color="#5AC8FA"/>
+    </linearGradient>
+    <linearGradient id="convertGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007AFF">
+        <animate attributeName="stop-color" values="#007AFF;#34C759;#007AFF" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#5856D6">
+        <animate attributeName="stop-color" values="#5856D6;#30D158;#5856D6" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#34C759">
+        <animate attributeName="stop-color" values="#34C759;#007AFF;#34C759" dur="3s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+    <filter id="glowEffect" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#007AFF" flood-opacity="0.4">
+        <animate attributeName="flood-color" values="#007AFF;#34C759;#007AFF" dur="3s" repeatCount="indefinite"/>
+      </feDropShadow>
+    </filter>
+  </defs>
+  
+  <rect width="200" height="200" fill="url(#cardGradient)" rx="24"/>
+  
+  <g filter="url(#softShadow)">
+    <rect x="20" y="25" width="160" height="60" rx="12" fill="white"/>
+    <text x="100" y="62" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif" font-size="18" font-weight="600" fill="#1d1d1f">
+      SVG Code
+    </text>
+  </g>
+  
+  <g transform="translate(100, 110)" filter="url(#glowEffect)">
+    <circle cx="0" cy="0" r="22" fill="url(#convertGradient)">
+      <animate attributeName="r" values="22;24;22" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M-7 -3 L0 5 L7 -3" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <animateTransform attributeName="transform" type="translate" values="0,-3;0,3;0,-3" dur="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <g filter="url(#softShadow)">
+    <rect x="20" y="135" width="160" height="45" rx="12" fill="white"/>
+    <text x="100" y="164" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif" font-size="18" font-weight="600" fill="#1d1d1f">
+      PNG Image
+    </text>
+  </g>
+  
+  <circle cx="45" cy="55" r="4" fill="url(#iconGradient)" opacity="0.9"/>
+  <circle cx="45" cy="157" r="4" fill="#34C759" opacity="0.9"/>
 </svg>`);
     setPreviewUrl(null);
   };
