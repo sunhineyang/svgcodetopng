@@ -1,0 +1,1 @@
+在 Footer 组件的 `relatedProducts` 数组中添加 "AI Face Rate" 产品推荐（aifacerate.com），使其与其他相关产品链接一起显示在 "Legal & Related" 部分。

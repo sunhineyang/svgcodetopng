@@ -1,0 +1,268 @@
+{
+  "navigation": {
+    "home": "Beranda",
+    "converter": "Konverter",
+    "templates": "Templat",
+    "aiAssistant": "Asisten AI",
+    "howItWorks": "Cara Kerja",
+    "pricing": "Harga",
+    "about": "Tentang",
+    "language": "Bahasa",
+    "theme": {
+      "title": "Tema",
+      "light": "Terang",
+      "dark": "Gelap",
+      "system": "Sistem"
+    }
+  },
+  "hero": {
+    "title": "Konverter SVG PNG Online",
+    "subtitle": "Ubah Kode SVG Anda Menjadi Gambar PNG Sempurna dalam Detik",
+    "description": "Konverter SVG PNG online kami yang kuat mengubah kode SVG menjadi gambar PNG berkualitas tinggi secara instan. Baik Anda pengembang, desainer, atau pembuat konten, dapatkan hasil profesional dengan alat bertenaga AI kami dan perpustakaan templat yang luas. Tanpa unduhan, tanpa pendaftaran untuk fitur dasar.",
+    "primaryCta": "Mulai Mengonversi Sekarang",
+    "secondaryCta": "Jelajahi Templat",
+    "features": {
+      "free": "Gratis",
+      "instant": "Instan",
+      "highQuality": "Kualitas Tinggi",
+      "noRegistration": "Tanpa Pendaftaran"
+    },
+    "welcome": "Selamat datang di era AI konversi SVG! Konverter SVG PNG cerdas kami tidak hanya mengubah kode Anda, tetapi juga membantu Anda membuat, mengoptimalkan, dan meningkatkan grafik SVG dengan bantuan AI canggih."
+  },
+  "howItWorks": {
+    "title": "Cara Menggunakan Konverter SVG PNG Kami",
+    "description": "Ubah kode SVG Anda menjadi gambar PNG berkualitas tinggi hanya dalam tiga langkah sederhana",
+    "steps": {
+      "step1": {
+        "title": "Tempel Kode SVG",
+        "description": "Salin dan tempel kode SVG Anda ke editor atau gunakan salah satu templat mulai cepat kami untuk memulai"
+      },
+      "step2": {
+        "title": "Sesuaikan Pengaturan",
+        "description": "Sesuaikan pengaturan ekspor seperti format, kualitas, ukuran, dan warna latar belakang sesuai kebutuhan Anda"
+      },
+      "step3": {
+        "title": "Unduh Hasil",
+        "description": "Klik konversi dan unduh gambar PNG, JPG, atau GIF berkualitas tinggi Anda secara instan"
+      }
+    }
+  },
+  "features": {
+    "title": "Mengapa Memilih Konverter SVG PNG Kami?",
+    "subtitle": "Rasakan konversi kode SVG ke PNG tercepat dan paling andal dengan fitur canggih dan output kualitas profesional",
+    "description": "Rasakan konversi kode SVG ke PNG tercepat dan paling andal dengan fitur canggih dan output kualitas profesional",
+    "aiAssistant": {
+      "title": "Asisten Kode Bertenaga AI",
+      "description": "Hasilkan, optimalkan, dan tingkatkan kode SVG Anda dengan asisten cerdas kami yang memahami pola desain dan praktik terbaik."
+    },
+    "templateLibrary": {
+      "title": "Perpustakaan Templat Luas",
+      "description": "Akses lebih dari 1000 templat SVG yang didesain secara profesional di kategori seperti ikon, ilustrasi, logo, dan animasi."
+    },
+    "exportOptions": {
+      "title": "Opsi Ekspor Kualitas Tinggi",
+      "description": "Ekspor dalam beberapa format (PNG, JPG, GIF) dengan dimensi kustom, pengaturan kualitas, dan latar belakang transparan."
+    },
+    "codeEditor": {
+      "title": "Editor Kode Real-Time",
+      "description": "Edit kode SVG dengan penyorotan sintaks, deteksi kesalahan, dan pratinjau langsung untuk melihat perubahan secara instan."
+    },
+    "animationPlanning": {
+      "title": "Perencanaan Animasi",
+      "description": "Rencanakan dan implementasikan animasi CSS/SVG dengan bantuan AI untuk grafik yang dinamis dan menarik."
+    },
+    "responsiveDesign": {
+      "title": "Desain Responsif Seluler",
+      "description": "Gunakan konverter SVG PNG kami di perangkat apa saja dengan antarmuka sepenuhnya responsif yang dioptimalkan untuk seluler, tablet, dan desktop."
+    }
+  },
+  "howTo": {
+    "title": "Cara Menggunakan Konverter SVG PNG Kami",
+    "subtitle": "Ubah kode SVG Anda menjadi gambar PNG berkualitas tinggi hanya dalam tiga langkah sederhana",
+    "step1": {
+      "title": "Tempel Kode SVG",
+      "description": "Salin dan tempel kode SVG Anda ke editor atau gunakan salah satu templat mulai cepat kami untuk memulai"
+    },
+    "step2": {
+      "title": "Sesuaikan Pengaturan",
+      "description": "Sesuaikan pengaturan ekspor seperti format, kualitas, ukuran, dan warna latar belakang sesuai kebutuhan Anda"
+    },
+    "step3": {
+      "title": "Unduh Hasil",
+      "description": "Klik konversi dan unduh gambar PNG, JPG, atau GIF berkualitas tinggi Anda secara instan"
+    }
+  },
+  "gallery": {
+    "title": "Galeri Gambar Terkonversi",
+    "subtitle": "Lihat contoh konversi SVG ke PNG di berbagai kategori",
+    "description": "Lihat contoh konversi SVG ke PNG di berbagai kategori",
+    "icons": {
+      "title": "Ikon",
+      "description": "Ikon bersih dan skalabel yang sempurna untuk aplikasi web dan seluler"
+    },
+    "logos": {
+      "title": "Logo",
+      "description": "Logo merek profesional dengan pinggiran tajam dan kejernihan sempurna"
+    },
+    "graphics": {
+      "title": "Grafik",
+      "description": "Grafik kompleks dan ilustrasi dengan pelestarian detail kaya"
+    },
+    "illustrations": {
+      "title": "Ilustrasi",
+      "description": "Ilustrasi artistik dengan warna vibrasi dan gradien halus"
+    },
+    "items": {
+      "icons": {
+        "type": "Ikon",
+        "description": "Ikon bersih dan skalabel yang sempurna untuk aplikasi web dan seluler"
+      },
+      "logos": {
+        "type": "Logo",
+        "description": "Logo merek profesional dengan pinggiran tajam dan kejernihan sempurna"
+      },
+      "graphics": {
+        "type": "Grafik",
+        "description": "Grafik kompleks dan ilustrasi dengan pelestarian detail kaya"
+      },
+      "illustrations": {
+        "type": "Ilustrasi",
+        "description": "Ilustrasi artistik dengan warna vibrasi dan gradien halus"
+      }
+    }
+  },
+  "faq": {
+    "title": "Pertanyaan yang Sering Diajukan",
+    "subtitle": "Semua yang perlu Anda ketahui tentang konverter SVG PNG kami",
+    "description": "Semua yang perlu Anda ketahui tentang konverter SVG PNG kami",
+    "question1": {
+      "question": "Apakah konverter SVG PNG sepenuhnya gratis?",
+      "answer": "Ya! Konverter dasar kami sepenuhnya gratis tanpa pendaftaran diperlukan. Anda dapat mengonversi kode SVG menjadi gambar PNG secara instan. Fitur premium seperti bantuan AI dan templat canggih memerlukan berlangganan."
+    },
+    "question2": {
+      "question": "Apa ukuran file maksimum yang dapat saya konversi?",
+      "answer": "Pengguna gratis dapat mengonversi file SVG hingga 2MB. Pelanggan premium menikmati ukuran file tanpa batas dan kemampuan konversi batch untuk alur kerja profesional."
+    },
+    "question3": {
+      "question": "Apakah Anda mendukung latar belakang transparan pada output PNG?",
+      "answer": "Tentu saja! Konverter SVG PNG kami mempertahankan transparansi dari kode SVG Anda, memastikan gambar PNG Anda mempertahankan latar belakang transparan saat diperlukan."
+    },
+    "question4": {
+      "question": "Bisakah saya mengedit kode SVG langsung di alat?",
+      "answer": "Ya! Editor kode terintegrasi kami memiliki penyorotan sintaks, deteksi kesalahan, dan pratinjau langsung sehingga Anda dapat memodifikasi kode SVG dan melihat perubahan secara instan."
+    },
+    "question5": {
+      "question": "Bagaimana asisten AI membantu dengan pembuatan SVG?",
+      "answer": "Asisten AI kami dapat menghasilkan kode SVG dari deskripsi teks, mengoptimalkan kode yang ada untuk kinerja yang lebih baik, dan menyarankan animasi berdasarkan tujuan desain Anda."
+    },
+    "questions": {
+      "free": {
+        "question": "Apakah konverter SVG PNG sepenuhnya gratis?",
+        "answer": "Ya! Konverter dasar kami sepenuhnya gratis tanpa pendaftaran diperlukan. Anda dapat mengonversi kode SVG menjadi gambar PNG secara instan. Fitur premium seperti bantuan AI dan templat canggih memerlukan berlangganan."
+      },
+      "fileSize": {
+        "question": "Apa ukuran file maksimum yang dapat saya konversi?",
+        "answer": "Pengguna gratis dapat mengonversi file SVG hingga 2MB. Pelanggan premium menikmati ukuran file tanpa batas dan kemampuan konversi batch untuk alur kerja profesional."
+      },
+      "transparency": {
+        "question": "Apakah Anda mendukung latar belakang transparan pada output PNG?",
+        "answer": "Tentu saja! Konverter SVG PNG kami mempertahankan transparansi dari kode SVG Anda, memastikan gambar PNG Anda mempertahankan latar belakang transparan saat diperlukan."
+      },
+      "editing": {
+        "question": "Bisakah saya mengedit kode SVG langsung di alat?",
+        "answer": "Ya! Editor kode terintegrasi kami memiliki penyorotan sintaks, deteksi kesalahan, dan pratinjau langsung sehingga Anda dapat memodifikasi kode SVG dan melihat perubahan secara instan."
+      },
+      "aiAssistant": {
+        "question": "Bagaimana asisten AI membantu dengan pembuatan SVG?",
+        "answer": "Asisten AI kami dapat menghasilkan kode SVG dari deskripsi teks, mengoptimalkan kode yang ada untuk kinerja yang lebih baik, dan menyarankan animasi berdasarkan tujuan desain Anda."
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Apa Kata Pengguna Kami",
+    "subtitle": "Bergabunglah dengan ribuan pengguna puas yang mempercayai konverter SVG PNG kami",
+    "description": "Bergabunglah dengan ribuan pengguna puas yang mempercayai konverter SVG PNG kami",
+    "testimonial1": {
+      "text": "Alat ini menghemat jam kerja saya. Kualitas konversi luar biasa dan antarmukanya sangat intuitif.",
+      "author": "Siti Wijaya",
+      "role": "Desainer UI/UX"
+    },
+    "testimonial2": {
+      "text": "Sempurna untuk alur kerja saya. Saya dapat dengan cepat mengonversi grafik SVG ke PNG tanpa kehilangan kualitas apa pun.",
+      "author": "Budi Santoso",
+      "role": "Pengembang Frontend"
+    },
+    "testimonial3": {
+      "text": "Konverter SVG PNG terbaik yang pernah saya gunakan. Cepat, andal, dan menghasilkan output berkualitas tinggi setiap saat.",
+      "author": "Dewi Lestari",
+      "role": "Desainer Grafik"
+    }
+  },
+  "cta": {
+    "title": "Siap Mengonversi Kode SVG Anda?",
+    "subtitle": "Bergabunglah dengan ribuan pengguna yang mempercayai konverter SVG PNG kami yang gratis, cepat, dan aman. Tanpa pendaftaran diperlukan!",
+    "description": "Bergabunglah dengan ribuan pengguna yang mempercayai konverter SVG PNG kami yang gratis, cepat, dan aman. Tanpa pendaftaran diperlukan!",
+    "primaryButton": "Mulai Mengonversi Sekarang",
+    "secondaryButton": "Pelajari Cara Kerja"
+  },
+  "footer": {
+    "description": "Konversi kode SVG menjadi gambar PNG berkualitas tinggi dengan alat online gratis kami. Cepat, andal, dan mudah digunakan.",
+    "contactUs": "Hubungi Kami",
+    "navigation": {
+      "title": "Navigasi",
+      "home": "Beranda"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Kebijakan Privasi",
+      "terms": "Syarat & Ketentuan"
+    },
+    "copyright": "© 2025 SVGCodeToPNG. Hak Cipta Dilindungi.",
+    "madeWith": "Dibuat dengan",
+    "forDevelopers": "untuk pengembang",
+    "availableWorldwide": "Tersedia di seluruh dunia",
+    "systemsOperational": "Semua sistem operasional",
+    "linkError": "Tautan sementara tidak tersedia, silakan coba lagi nanti",
+    "emailCopied": "Alamat email disalin ke papan klip",
+    "emailCopyManual": "Silakan salin alamat email secara manual"
+  },
+  "converter": {
+    "title": "Konverter SVG PNG",
+    "codeEditor": "Editor Kode SVG",
+    "editorDescription": "Tempel kode SVG Anda di sini atau pilih dari templat mulai cepat kami",
+    "quickStartTemplates": "Templat Mulai Cepat",
+    "preview": "Pratinjau Langsung",
+    "previewPlaceholder": "Pratinjau SVG akan muncul di sini",
+    "export": "Pengaturan Ekspor",
+    "download": "Unduh PNG",
+    "settings": "Pengaturan",
+    "format": "Format",
+    "quality": "Kualitas",
+    "scale": "Skala",
+    "dimensions": "Dimensi",
+    "width": "Lebar (px)",
+    "height": "Tinggi (px)",
+    "backgroundColor": "Warna Latar Belakang",
+    "transparent": "Transparan",
+    "maintainAspectRatio": "Pertahankan Rasio Aspek",
+    "transparentBackground": "Latar Belakang Transparan",
+    "placeholder": "Tempel kode SVG Anda di sini atau pilih templat...",
+    "convertButton": "Konversi ke PNG",
+    "converting": "Mengonversi...",
+    "conversionComplete": "Konversi Selesai!"
+  },
+  "common": {
+    "loading": "Memuat...",
+    "error": "Kesalahan",
+    "success": "Berhasil",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "close": "Tutup",
+    "next": "Selanjutnya",
+    "previous": "Sebelumnya",
+    "search": "Cari",
+    "filter": "Filter",
+    "clear": "Hapus",
+    "reset": "Reset"
+  }
+}

@@ -3,6 +3,7 @@ import { getMessages } from 'next-intl/server';
 import { ThemeProvider } from 'next-themes';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
+import { languages } from '../../i18n';
 import '../globals.css';
 
 const inter = Inter({
@@ -50,6 +51,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           'fr': '/fr',
           'de': '/de',
           'zh': '/zh',
+          'pt': '/pt',
+          'it': '/it',
+          'id': '/id',
         },
       },
       openGraph: {
@@ -106,6 +110,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           'fr': '/fr',
           'de': '/de',
           'zh': '/zh',
+          'pt': '/pt',
+          'it': '/it',
         },
       },
       openGraph: {
@@ -162,6 +168,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           'fr': '/fr',
           'de': '/de',
           'zh': '/zh',
+          'pt': '/pt',
+          'it': '/it',
         },
       },
       openGraph: {
@@ -218,6 +226,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           'fr': '/fr',
           'de': '/de',
           'zh': '/zh',
+          'pt': '/pt',
+          'it': '/it',
         },
       },
       openGraph: {
@@ -230,6 +240,122 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         card: 'summary_large_image',
         title: 'Convertidor SVG PNG - Herramienta Online Gratuita',
         description: 'Conversión instantánea de código SVG a imágenes PNG.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  if (locale === 'pt') {
+    return {
+      title: 'Conversor SVG PNG - Ferramenta Online Gratuita | Alta Qualidade',
+      description: 'Converta código SVG em imagens PNG grátis online. Suporte de fundo transparente, alta qualidade, conversão instantânea. Conversor SVG PNG sem registro.',
+      keywords: 'conversor SVG PNG, código SVG PNG conversor, conversor online, grátis, alta qualidade, instantâneo, fundo transparente',
+      authors: [{ name: 'Equipa Conversor SVG' }],
+      creator: 'Conversor SVG',
+      publisher: 'Conversor SVG',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/pt',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
+          'pt': '/pt',
+          'it': '/it',
+        },
+      },
+      openGraph: {
+        title: 'Conversor SVG PNG - Ferramenta Online Gratuita',
+        description: 'Conversão instantânea de código SVG em imagens PNG. Conversor SVG PNG online gratuito com suporte de fundo transparente.',
+        locale: 'pt_PT',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Conversor SVG PNG - Ferramenta Online Gratuita',
+        description: 'Conversão instantânea de código SVG em imagens PNG.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
+  if (locale === 'it') {
+    return {
+      title: 'Convertitore SVG PNG - Strumento Online Gratuito | Alta Qualità',
+      description: 'Converti codice SVG in immagini PNG gratis online. Supporto sfondo trasparente, alta qualità, conversione istantanea. Convertitore SVG PNG senza registrazione.',
+      keywords: 'convertitore SVG PNG, codice SVG PNG convertitore, convertitore online, gratis, alta qualità, istantaneo, sfondo trasparente',
+      authors: [{ name: 'Team Convertitore SVG' }],
+      creator: 'Convertitore SVG',
+      publisher: 'Convertitore SVG',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/it',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
+          'pt': '/pt',
+          'it': '/it',
+        },
+      },
+      openGraph: {
+        title: 'Convertitore SVG PNG - Strumento Online Gratuito',
+        description: 'Conversione istantanea di codice SVG in immagini PNG. Convertitore SVG PNG online gratuito con supporto sfondo trasparente.',
+        locale: 'it_IT',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Convertitore SVG PNG - Strumento Online Gratuito',
+        description: 'Conversione istantanea di codice SVG in immagini PNG.',
       },
       robots: {
         index: true,
@@ -274,6 +400,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           'fr': '/fr',
           'de': '/de',
           'zh': '/zh',
+          'pt': '/pt',
+          'it': '/it',
         },
       },
       openGraph: {
@@ -413,6 +541,66 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     };
   }
   
+  if (locale === 'ar') {
+    return {
+      title: 'محول كود SVG إلى PNG عبر الإنترنت | أداة مجانية',
+      description: 'حوّل كود SVG إلى صور PNG عالية الجودة مجانًا عبر الإنترنت. أداتنا المجانية سهلة الاستخدام مع خلفية شفافة وجودة عالية.',
+      keywords: 'محول SVG إلى PNG، تحويل SVG، محول الصور، أداة عبر الإنترنت، مجاني',
+      authors: [{ name: 'فريق محول SVG' }],
+      creator: 'محول SVG',
+      publisher: 'محول SVG',
+      icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+      },
+      formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+      },
+      alternates: {
+        canonical: '/ar',
+        languages: {
+          'en-US': '/',
+          'ko': '/ko',
+          'ja': '/ja',
+          'ru': '/ru',
+          'es': '/es',
+          'fr': '/fr',
+          'de': '/de',
+          'zh': '/zh',
+          'pt': '/pt',
+          'it': '/it',
+          'id': '/id',
+          'ar': '/ar',
+        },
+      },
+      openGraph: {
+        title: 'محول كود SVG إلى PNG عبر الإنترنت',
+        description: 'حوّل كود SVG إلى صور PNG عالية الجودة مجانًا عبر الإنترنت.',
+        locale: 'ar_SA',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'محول كود SVG إلى PNG عبر الإنترنت',
+        description: 'حوّل كود SVG إلى صور PNG عالية الجودة مجانًا.',
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  }
+  
   // Default English metadata
   return {
     title: 'SVG Code to PNG Converter (PNG, JPG, GIF) | Free Online Tool',
@@ -442,6 +630,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         'fr': '/fr',
         'de': '/de',
         'zh': '/zh',
+        'pt': '/pt',
+        'it': '/it',
+        'id': '/id',
+        'ar': '/ar',
       },
     },
     openGraph: {
@@ -478,9 +670,11 @@ export default async function LocaleLayout({
 }) {
   const locale = params.locale || 'en';
   const messages = await getMessages({ locale });
+  const languageConfig = languages[locale] || languages['en'];
+  const direction = languageConfig.dir || 'ltr';
   
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} dir={direction} suppressHydrationWarning>
       <head>
         {/* Google Analytics */}
         <Script

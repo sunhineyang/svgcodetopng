@@ -13,6 +13,10 @@ const languages = [
   { code: 'fr', name: 'Français', flag: '🇫🇷' },
   { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
   { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'pt', name: 'Português', flag: '🇵🇹' },
+  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
+  { code: 'id', name: 'Bahasa Indonesia', flag: '🇮🇩' },
+  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
 ];
 
 export default function LanguageSwitcher() {
@@ -21,25 +25,9 @@ export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
 
   const getCurrentLanguage = () => {
-    const path = pathname;
-    if (path.startsWith('/ko')) {
-      return 'ko';
-    } else if (path.startsWith('/ja')) {
-      return 'ja';
-    } else if (path.startsWith('/ru')) {
-      return 'ru';
-    } else if (path.startsWith('/es')) {
-      return 'es';
-    } else if (path.startsWith('/fr')) {
-      return 'fr';
-    } else if (path.startsWith('/de')) {
-      return 'de';
-    } else if (path.startsWith('/zh')) {
-      return 'zh';
-    } else if (path.startsWith('/en')) {
-      return 'en';
-    }
-    return 'en';
+    const langCode = pathname.split('/')[1];
+    const validLanguages = ['en', 'ko', 'ja', 'ru', 'es', 'fr', 'de', 'zh', 'pt', 'it', 'id', 'ar'];
+    return validLanguages.includes(langCode) ? langCode : 'en';
   };
 
   const currentLanguage = getCurrentLanguage();
