@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { siteConfig } from './config/site';
+import { siteConfig } from '../config/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const locales = ['en', 'ko', 'ja', 'ru', 'es', 'fr', 'de', 'zh', 'pt', 'it', 'id', 'ar'];
