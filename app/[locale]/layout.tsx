@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
 import { languages } from '../../i18n';
+import { metadataBase } from '../../config/site';
 import '../globals.css';
 
 const inter = Inter({
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   if (locale === 'ko') {
     return {
+      metadataBase: new URL('https://svgcodetopng.com'),
       title: 'SVG 코드를 PNG 변환기 (PNG, JPG, GIF) | 무료 온라인 도구',
       description: 'SVG 코드를 고품질 PNG, JPG, GIF 이미지로 무료 변환하세요. 코드를 붙여넣고, SVG를 실시간 미리보기하고, 즉시 파일을 다운로드하세요. 빠르고, 쉽고, 가입 불필요.',
       keywords: 'svg to png, svg 변환기, svg to image, 코드 to png, 온라인 변환기',
@@ -83,6 +85,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   if (locale === 'ja') {
     return {
+      metadataBase,
       title: 'SVG PNG 変換 - 無料オンライン変換ツール | 高品質・即時',
       description: 'SVGコードをPNG画像に無料でオンライン変換。透明背景対応、高品質出力、即時変換。登録不要で簡単にSVG PNG 変換が可能。',
       keywords: 'SVG PNG 変換, SVGコード PNG変換, オンライン変換ツール, 無料, 高品質, 即時, 透明背景',
@@ -141,6 +144,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   if (locale === 'ru') {
     return {
+      metadataBase: new URL('https://svgcodetopng.com'),
       title: 'SVG PNG конвертер - Бесплатный онлайн инструмент | Высокое качество',
       description: 'Конвертируйте SVG код в PNG изображения бесплатно онлайн. Поддержка прозрачного фона, высокое качество, мгновенная конвертация. SVG PNG конвертер без регистрации.',
       keywords: 'SVG PNG конвертер, SVG код PNG конвертер, онлайн конвертер, бесплатно, высокое качество, мгновенно, прозрачный фон',
@@ -199,6 +203,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   if (locale === 'es') {
     return {
+      metadataBase: new URL('https://svgcodetopng.com'),
       title: 'Convertidor SVG PNG - Herramienta Online Gratuita | Alta Calidad',
       description: 'Convierte código SVG a imágenes PNG gratis online. Soporte de fondo transparente, alta calidad, conversión instantánea. Convertidor SVG PNG sin registro.',
       keywords: 'convertidor SVG PNG, código SVG PNG convertidor, convertidor online, gratis, alta calidad, instantáneo, fondo transparente',
@@ -315,6 +320,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   if (locale === 'it') {
     return {
+      metadataBase,
       title: 'Convertitore SVG PNG - Strumento Online Gratuito | Alta Qualità',
       description: 'Converti codice SVG in immagini PNG gratis online. Supporto sfondo trasparente, alta qualità, conversione istantanea. Convertitore SVG PNG senza registrazione.',
       keywords: 'convertitore SVG PNG, codice SVG PNG convertitore, convertitore online, gratis, alta qualità, istantaneo, sfondo trasparente',
@@ -373,6 +379,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   if (locale === 'fr') {
     return {
+      metadataBase: new URL('https://svgcodetopng.com'),
       title: 'Convertisseur SVG PNG - Outil en Ligne Gratuit | Haute Qualité',
       description: 'Convertissez le code SVG en images PNG gratuitement en ligne. Support de fond transparent, haute qualité, conversion instantanée. Convertisseur SVG PNG sans inscription.',
       keywords: 'convertisseur SVG PNG, code SVG PNG convertisseur, convertisseur en ligne, gratuit, haute qualité, instantané, fond transparent',
@@ -431,6 +438,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   if (locale === 'de') {
     return {
+      metadataBase,
       title: 'SVG PNG Konverter - Kostenloses Online-Tool | Hohe Qualität',
       description: 'Konvertieren Sie SVG-Code kostenlos online in PNG-Bilder. Unterstützung für transparenten Hintergrund, hohe Qualität, sofortige Konvertierung. SVG PNG Konverter ohne Registrierung.',
       keywords: 'SVG PNG Konverter, SVG-Code PNG Konverter, Online-Konverter, kostenlos, hohe Qualität, sofortig, transparenter Hintergrund',
@@ -487,6 +495,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   if (locale === 'zh') {
     return {
+      metadataBase: new URL('https://svgcodetopng.com'),
       title: 'SVG PNG 转换器 - 免费在线工具 | 高质量',
       description: '免费在线将SVG代码转换为PNG图像。支持透明背景,高质量,即时转换。无需注册的SVG PNG 转换器。',
       keywords: 'SVG PNG 转换器, SVG代码PNG转换器, 在线转换器, 免费, 高质量, 即时, 透明背景',
@@ -603,6 +612,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   
   // Default English metadata
   return {
+    metadataBase: new URL('https://svgcodetopng.com'),
     title: 'SVG Code to PNG Converter (PNG, JPG, GIF) | Free Online Tool',
     description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file.Fast,easy,no signup.',
     keywords: 'svg to png, svg converter, svg to image, code to png, online converter',

@@ -9,7 +9,7 @@ export default createMiddleware({
 
   // Always show locale prefix to avoid confusion
   // Root path / redirects to /en, /ko shows Korean
-  localePrefix: 'always'
+  localePrefix: 'as-needed'
 });
 
 export const config = {

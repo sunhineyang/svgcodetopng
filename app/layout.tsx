@@ -1,6 +1,7 @@
 import { ThemeProvider } from 'next-themes';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
+import { metadataBase } from '../config/site';
 import './globals.css';
 
 const inter = Inter({
@@ -17,6 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 // 强制英语metadata，确保根目录始终显示英语
 export const metadata = {
+  metadataBase,
   title: 'SVG Code to PNG Converter (PNG, JPG, GIF) | Free Online Tool',
   description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file.Fast,easy,no signup.',
   keywords: 'svg to png, svg converter, svg to image, code to png, online converter',
