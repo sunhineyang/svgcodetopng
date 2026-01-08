@@ -1,7 +1,7 @@
 import { ThemeProvider } from 'next-themes';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
-import { metadataBase } from '../config/site';
+import { metadataBase, siteConfig } from '../config/site';
 import './globals.css';
 
 const inter = Inter({
@@ -36,10 +36,20 @@ export const metadata = {
     telephone: false,
   },
   alternates: {
-    canonical: '/',
+    canonical: `${siteConfig.url}/`,
     languages: {
       'en-US': '/',
       'ko': '/ko',
+      'ja': '/ja',
+      'ru': '/ru',
+      'es': '/es',
+      'fr': '/fr',
+      'de': '/de',
+      'zh': '/zh',
+      'pt': '/pt',
+      'it': '/it',
+      'id': '/id',
+      'ar': '/ar',
     },
   },
   openGraph: {

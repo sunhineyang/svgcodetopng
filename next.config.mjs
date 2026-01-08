@@ -4,6 +4,7 @@ import withNextIntl from 'next-intl/plugin';
 const withNextIntlConfig = withNextIntl('./i18n.ts');
 
 const nextConfig = {
+  trailingSlash: true,
   images: {
     domains: ['localhost'],
     remotePatterns: [
