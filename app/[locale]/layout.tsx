@@ -764,49 +764,17 @@ export default async function LocaleLayout({
   const locale = params.locale || 'en';
   const messages = await getMessages({ locale });
   const languageConfig = languages[locale] || languages['en'];
-  const direction = languageConfig.dir || 'ltr';
   
   return (
-    <html lang={locale} dir={direction} suppressHydrationWarning>
-      <head>
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-5RPN0F4G3Y"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {
-            `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-5RPN0F4G3Y');
-            `
-          }
-        </Script>
-        {/* Adsterra Popunder */}
-        <Script
-          src="https://pl28593994.effectivegatecpm.com/80/29/dd/8029dd06a3e4c3c6ae68f72715059ae7.js"
-          strategy="afterInteractive"
-        />
-      </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            {/* Adsterra Social Bar */}
-            <Script
-              src="https://pl28593999.effectivegatecpm.com/30/de/85/30de85869b1f125809c7c4f10d85b458.js"
-              strategy="lazyOnload"
-            />
-          </ThemeProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
+    </NextIntlClientProvider>
   );
 }
