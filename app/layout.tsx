@@ -97,6 +97,11 @@ export default function RootLayout({
             gtag('config', 'G-5RPN0F4G3Y');
           `}
         </Script>
+        {/* Adsterra Popunder */}
+        <Script
+          src="https://pl28593994.effectivegatecpm.com/80/29/dd/8029dd06a3e4c3c6ae68f72715059ae7.js"
+          strategy="afterInteractive"
+        />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <ThemeProvider
@@ -106,6 +111,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          {/* Adsterra Social Bar */}
+          <Script
+            src="https://pl28593999.effectivegatecpm.com/30/de/85/30de85869b1f125809c7c4f10d85b458.js"
+            strategy="lazyOnload"
+          />
         </ThemeProvider>
       </body>
     </html>

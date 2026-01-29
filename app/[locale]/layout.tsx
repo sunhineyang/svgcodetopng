@@ -784,6 +784,11 @@ export default async function LocaleLayout({
             `
           }
         </Script>
+        {/* Adsterra Popunder */}
+        <Script
+          src="https://pl28593994.effectivegatecpm.com/80/29/dd/8029dd06a3e4c3c6ae68f72715059ae7.js"
+          strategy="afterInteractive"
+        />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
@@ -794,6 +799,11 @@ export default async function LocaleLayout({
             disableTransitionOnChange
           >
             {children}
+            {/* Adsterra Social Bar */}
+            <Script
+              src="https://pl28593999.effectivegatecpm.com/30/de/85/30de85869b1f125809c7c4f10d85b458.js"
+              strategy="lazyOnload"
+            />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
