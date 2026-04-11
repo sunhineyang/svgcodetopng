@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { trackEvent } from '../utils/analytics';
 
 const ThemeToggle = () => {
   const [mounted, setMounted] = useState(false);
@@ -19,7 +20,9 @@ const ThemeToggle = () => {
   }
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    trackEvent('switch_theme', { theme: newTheme });
   };
 
   return (

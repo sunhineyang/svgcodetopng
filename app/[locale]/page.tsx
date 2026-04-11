@@ -28,6 +28,7 @@ import { Editor } from '@monaco-editor/react';
 import { useTheme } from 'next-themes';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
+import { trackEvent } from '../../utils/analytics';
 
 interface ExportSettings {
   format: 'png' | 'jpg' | 'gif';
@@ -198,6 +199,12 @@ export default function KoreanHomePage() {
               setPreviewUrl(url);
             }
             setIsConverting(false);
+            trackEvent('convert_image', {
+              format: exportSettings.format,
+              scale: exportSettings.scale,
+              quality: exportSettings.quality,
+              has_bg: exportSettings.backgroundColor !== 'transparent'
+            });
           }, 'image/png', exportSettings.quality / 100);
         } else {
           const mimeType = exportSettings.format === 'jpg' ? 'image/jpeg' : 'image/png';
@@ -207,6 +214,12 @@ export default function KoreanHomePage() {
               setPreviewUrl(url);
             }
             setIsConverting(false);
+            trackEvent('convert_image', {
+              format: exportSettings.format,
+              scale: exportSettings.scale,
+              quality: exportSettings.quality,
+              has_bg: exportSettings.backgroundColor !== 'transparent'
+            });
           }, mimeType, exportSettings.quality / 100);
         }
         
@@ -228,6 +241,8 @@ export default function KoreanHomePage() {
   const downloadImage = () => {
     if (!previewUrl) return;
     
+    trackEvent('download_image', { format: exportSettings.format });
+    
     const link = document.createElement('a');
     link.href = previewUrl;
     link.download = `converted-image.${exportSettings.format}`;
@@ -238,11 +253,13 @@ export default function KoreanHomePage() {
 
   const copyCode = () => {
     navigator.clipboard.writeText(svgCode);
+    trackEvent('copy_svg_code');
   };
 
   const clearCode = () => {
     setSvgCode('');
     setPreviewUrl(null);
+    trackEvent('editor_action', { action: 'clear' });
   };
 
   const resetCode = () => {
@@ -314,10 +331,13 @@ export default function KoreanHomePage() {
   <circle cx="45" cy="157" r="4" fill="#34C759" opacity="0.9"/>
 </svg>`);
     setPreviewUrl(null);
+    trackEvent('editor_action', { action: 'reset' });
   };
 
   const downloadGIF = async () => {
     if (!previewUrl) return;
+    
+    trackEvent('download_image', { format: 'gif' });
     
     try {
       const gif = new GIF({

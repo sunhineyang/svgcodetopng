@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { Globe, ChevronDown } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -34,6 +35,7 @@ export default function LanguageSwitcher() {
 
   const switchLanguage = (newLang: string) => {
     setIsOpen(false);
+    trackEvent('switch_language', { to_lang: newLang });
     try {
       const targetUrl = `/${newLang}`;
       window.location.href = targetUrl;
