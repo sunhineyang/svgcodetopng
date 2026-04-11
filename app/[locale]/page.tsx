@@ -190,6 +190,14 @@ export default function KoreanHomePage() {
         
         ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
         
+        const trackConversion = () =>
+          trackEvent('convert_image', {
+            format: exportSettings.format,
+            scale: exportSettings.scale,
+            quality: exportSettings.quality,
+            has_bg: exportSettings.backgroundColor !== 'transparent'
+          });
+
         if (exportSettings.format === 'gif') {
           // For GIF, we'll create a simple static image
           // In a real implementation, you'd handle animation frames
@@ -199,12 +207,7 @@ export default function KoreanHomePage() {
               setPreviewUrl(url);
             }
             setIsConverting(false);
-            trackEvent('convert_image', {
-              format: exportSettings.format,
-              scale: exportSettings.scale,
-              quality: exportSettings.quality,
-              has_bg: exportSettings.backgroundColor !== 'transparent'
-            });
+            trackConversion();
           }, 'image/png', exportSettings.quality / 100);
         } else {
           const mimeType = exportSettings.format === 'jpg' ? 'image/jpeg' : 'image/png';
@@ -214,12 +217,7 @@ export default function KoreanHomePage() {
               setPreviewUrl(url);
             }
             setIsConverting(false);
-            trackEvent('convert_image', {
-              format: exportSettings.format,
-              scale: exportSettings.scale,
-              quality: exportSettings.quality,
-              has_bg: exportSettings.backgroundColor !== 'transparent'
-            });
+            trackConversion();
           }, mimeType, exportSettings.quality / 100);
         }
         
