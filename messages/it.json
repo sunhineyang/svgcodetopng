@@ -269,7 +269,9 @@
     "hero": {
       "title": "Convertitore di Codice in PNG",
       "subtitle": "Converti Codice SVG, HTML e CSS in Immagini PNG Istantaneamente",
-      "description": "Strumento online gratuito per trasformare il codice in immagini. Incolla SVG, HTML o CSS e scarica come PNG o JPG. Senza filigrana, senza registrazione."
+      "description": "Strumento online gratuito per trasformare il codice in immagini. Incolla SVG, HTML o CSS e scarica come PNG o JPG. Senza filigrana, senza registrazione.",
+      "cta1": "Inizia a Convertire",
+      "cta2": "Come Funziona"
     },
     "tabs": {
       "svgCode": "Codice SVG",
@@ -305,11 +307,54 @@
     "faq": {
       "title": "Domande Frequenti",
       "q1": "Posso convertire HTML/CSS in un'immagine?",
-      "a1": "Sì! Passa alla scheda HTML/CSS, incolla il tuo codice e scarica come PNG o JPG.",
-      "q2": "È davvero gratuito?",
-      "a2": "Completamente gratuito — nessuna registrazione, nessuna filigrana, nessun limite.",
-      "q3": "Quali formati sono supportati?",
-      "a3": "PNG (con trasparenza) e JPG. Hai bisogno di GIF? Prova il nostro convertitore SVG principale."
+      "a1": "Sì! Passa alla scheda HTML/CSS, incolla il tuo codice e scarica come PNG o JPG. Il nostro strumento esegue il rendering di qualsiasi markup HTML con CSS in un'immagine nitida.",
+      "q2": "È davvero gratuito? Ci sarà una filigrana?",
+      "a2": "Completamente gratuito — nessuna registrazione, nessuna filigrana, nessun limite. Usalo quante volte vuoi.",
+      "q3": "In quali formati posso esportare?",
+      "a3": "PNG (con trasparenza) e JPG. Hai bisogno di GIF? Prova il nostro convertitore SVG principale.",
+      "q4": "Come converto il mio codice in PNG?",
+      "a4": "Basta incollare il codice SVG, HTML o CSS nell'editor, scegliere PNG o JPG, regolare le impostazioni e cliccare su Converti. L'immagine viene scaricata immediatamente.",
+      "q5": "Il mio codice viene caricato su un server?",
+      "a5": "No. Tutta la conversione avviene completamente nel tuo browser utilizzando JavaScript. Il tuo codice non lascia mai il tuo dispositivo."
+    },
+    "howTo": {
+      "title": "Come Convertire il Codice in PNG in 3 Semplici Passi",
+      "step1": {
+        "title": "1. Incolla il tuo Codice SVG, HTML o CSS",
+        "desc": "Basta copiare e incollare qualsiasi markup SVG, frammento HTML o codice CSS nell'editor. Il nostro strumento esegue il rendering dell'anteprima dal vivo all'istante."
+      },
+      "step2": {
+        "title": "2. Scegli Formato e Impostazioni",
+        "desc": "Seleziona PNG o JPG, regola qualità e dimensioni. Aggiungi uno sfondo bianco, nero o trasparente secondo le tue esigenze."
+      },
+      "step3": {
+        "title": "3. Scarica la tua Immagine di Alta Qualità",
+        "desc": "Clicca su converti e scarica immediatamente la tua immagine renderizzata. Senza filigrana, senza registrazione."
+      }
+    },
+    "features": {
+      "title": "Perché Usare il Nostro Convertitore da Codice a PNG",
+      "f1": {
+        "title": "Converte Codice SVG, HTML e CSS",
+        "desc": "A differenza dei convertitori SVG di base, il nostro strumento esegue il rendering del markup HTML/CSS in immagini reali utilizzando il rendering nativo del browser."
+      },
+      "f2": {
+        "title": "Gratuito e Senza Filigrana",
+        "desc": "Completamente gratuito. Nessuna registrazione, nessuna filigrana, nessun limite di dimensione. Basta incollare e scaricare."
+      },
+      "f3": {
+        "title": "Rendering Istantaneo nel Browser",
+        "desc": "Tutta la conversione avviene nel tuo browser — il tuo codice non lascia mai il tuo dispositivo. Veloce, sicuro e privato."
+      },
+      "f4": {
+        "title": "Esportazione PNG e JPG di Alta Qualità",
+        "desc": "Esporta con dimensioni e impostazioni di qualità personalizzate. Supporta sfondi trasparenti nel formato PNG."
+      }
+    },
+    "cta": {
+      "title": "Pronto a Convertire il Tuo Codice in PNG?",
+      "desc": "Gratuito, istantaneo, senza registrazione. Inizia ora.",
+      "button": "Converti Gratis"
     }
   }
 }

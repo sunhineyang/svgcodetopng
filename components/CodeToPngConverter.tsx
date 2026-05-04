@@ -236,7 +236,9 @@ export default function CodeToPngConverter() {
   };
 
   const faqItems = [
+    { q: t('faq.q4'), a: t('faq.a4') },
     { q: t('faq.q1'), a: t('faq.a1') },
+    { q: t('faq.q5'), a: t('faq.a5') },
     { q: t('faq.q2'), a: t('faq.a2') },
     { q: t('faq.q3'), a: t('faq.a3') },
   ];
@@ -250,16 +252,32 @@ export default function CodeToPngConverter() {
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
             {t('hero.title')}
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300 mb-2">
+          <h2 className="text-xl text-slate-600 dark:text-slate-300 mb-2 font-semibold">
             {t('hero.subtitle')}
-          </p>
+          </h2>
           <p className="text-base text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             {t('hero.description')}
           </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+            <button
+              onClick={() => document.getElementById('converter')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2 justify-center"
+            >
+              <Code className="w-4 h-4" />
+              {t('hero.cta1')}
+            </button>
+            <button
+              onClick={() => document.getElementById('how-to')?.scrollIntoView({ behavior: 'smooth' })}
+              className="border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2 justify-center"
+            >
+              <ArrowDown className="w-4 h-4" />
+              {t('hero.cta2')}
+            </button>
+          </div>
         </div>
       </section>
 
-      <section className="py-8 px-4">
+      <section id="converter" className="py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 lg:p-8">
 
@@ -291,10 +309,10 @@ export default function CodeToPngConverter() {
             <div className="grid lg:grid-cols-2 gap-8">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                     <Code className="w-4 h-4" />
                     {t('editor.label')}
-                  </h3>
+                  </h2>
                   <div className="flex gap-1">
                     <button onClick={copyCode} className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" title={t('actions.copy')}>
                       <Copy className="w-4 h-4" />
@@ -330,10 +348,10 @@ export default function CodeToPngConverter() {
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                     <ImageIcon className="w-4 h-4" />
                     {t('preview.title')}
-                  </h3>
+                  </h2>
                   <button
                     onClick={() => setShowSettings(!showSettings)}
                     className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"
@@ -488,21 +506,79 @@ export default function CodeToPngConverter() {
         </div>
       </section>
 
+      <section id="how-to" className="py-16 px-4 bg-white dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white text-center mb-4">
+            {t('howTo.title')}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+            {[
+              { step: t('howTo.step1.title'), desc: t('howTo.step1.desc'), num: '1', color: 'blue' },
+              { step: t('howTo.step2.title'), desc: t('howTo.step2.desc'), num: '2', color: 'purple' },
+              { step: t('howTo.step3.title'), desc: t('howTo.step3.desc'), num: '3', color: 'green' },
+            ].map((item, idx) => (
+              <div key={idx} className="text-center">
+                <div className={`inline-flex items-center justify-center w-14 h-14 bg-${item.color}-100 dark:bg-${item.color}-900 text-${item.color}-600 dark:text-${item.color}-400 rounded-full mb-5`}>
+                  <span className="text-2xl font-bold">{item.num}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
+                  {item.step}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white text-center mb-4">
+            {t('features.title')}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+            {[
+              { title: t('features.f1.title'), desc: t('features.f1.desc'), icon: Code, bg: 'from-blue-600 to-cyan-500' },
+              { title: t('features.f2.title'), desc: t('features.f2.desc'), icon: CheckCircle, bg: 'from-emerald-600 to-green-500' },
+              { title: t('features.f3.title'), desc: t('features.f3.desc'), icon: ImageIcon, bg: 'from-violet-600 to-purple-500' },
+              { title: t('features.f4.title'), desc: t('features.f4.desc'), icon: Download, bg: 'from-orange-600 to-amber-500' },
+            ].map((feat, idx) => {
+              const FeatIcon = feat.icon;
+              return (
+                <div key={idx} className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+                  <div className={`inline-flex items-center justify-center w-11 h-11 bg-gradient-to-r ${feat.bg} rounded-lg mb-4`}>
+                    <FeatIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+                    {feat.title}
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                    {feat.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 px-4 bg-white dark:bg-gray-800">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white text-center mb-8">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white text-center mb-8">
             {t('faq.title')}
           </h2>
           <div className="space-y-3">
             {faqItems.map((item, index) => (
-              <div key={index} className="bg-white dark:bg-slate-800 rounded-lg shadow-sm">
+              <div key={index} className="bg-gray-50 dark:bg-slate-700/50 rounded-lg">
                 <button
                   onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
-                  className="w-full px-5 py-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors rounded-lg"
+                  className="w-full px-5 py-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors rounded-lg"
                 >
-                  <span className="font-medium text-slate-900 dark:text-white text-sm">
+                  <h3 className="font-medium text-slate-900 dark:text-white text-sm pr-4">
                     {item.q}
-                  </span>
+                  </h3>
                   {expandedFAQ === index ? (
                     <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
                   ) : (
@@ -519,6 +595,24 @@ export default function CodeToPngConverter() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            {t('cta.title')}
+          </h2>
+          <p className="text-lg text-blue-100 mb-8">
+            {t('cta.desc')}
+          </p>
+          <button
+            onClick={() => document.getElementById('converter')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200"
+          >
+            <ArrowDown className="w-5 h-5 mr-2" />
+            {t('cta.button')}
+          </button>
         </div>
       </section>
 

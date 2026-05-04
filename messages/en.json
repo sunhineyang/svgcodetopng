@@ -269,7 +269,9 @@
     "hero": {
       "title": "Code to PNG Image Converter",
       "subtitle": "Convert SVG, HTML & CSS Code to PNG Images Instantly",
-      "description": "Free online tool to turn your code into high-quality images. Paste SVG, HTML or CSS and download as PNG or JPG. No watermark, no signup."
+      "description": "Free online tool to turn your code into high-quality images. Paste SVG, HTML or CSS and download as PNG or JPG. No watermark, no signup.",
+      "cta1": "Start Converting Now",
+      "cta2": "How It Works"
     },
     "tabs": {
       "svgCode": "SVG Code",
@@ -302,14 +304,57 @@
       "clear": "Clear",
       "reset": "Reset to example"
     },
+    "howTo": {
+      "title": "How to Convert Code to PNG in 3 Simple Steps",
+      "step1": {
+        "title": "1. Paste Your SVG, HTML or CSS Code",
+        "desc": "Just copy and paste any SVG markup, HTML snippet, or CSS-styled code into the editor. Our tool instantly renders a live preview."
+      },
+      "step2": {
+        "title": "2. Choose Your Format and Settings",
+        "desc": "Select PNG or JPG, adjust quality and dimensions. Add a white, black or transparent background to match your needs."
+      },
+      "step3": {
+        "title": "3. Download Your High-Quality Image",
+        "desc": "Click convert and instantly download your rendered image. No watermark, no signup needed — it's that simple."
+      }
+    },
+    "features": {
+      "title": "Why Use Our Code to PNG Converter",
+      "f1": {
+        "title": "Convert SVG, HTML & CSS Code",
+        "desc": "Unlike basic SVG converters, our tool renders HTML/CSS markup into real images using browser-native rendering."
+      },
+      "f2": {
+        "title": "Free & No Watermark",
+        "desc": "Completely free. No registration, no watermark on your images, no file size limits. Just paste and download."
+      },
+      "f3": {
+        "title": "Instant Browser-Based Rendering",
+        "desc": "All conversion happens in your browser — your code never leaves your device. Fast, secure, and private."
+      },
+      "f4": {
+        "title": "High-Quality PNG & JPG Export",
+        "desc": "Export with custom dimensions and quality settings. Supports transparent backgrounds in PNG format."
+      }
+    },
     "faq": {
-      "title": "FAQ",
+      "title": "Frequently Asked Questions",
       "q1": "Can I convert HTML/CSS to an image?",
-      "a1": "Yes! Switch to the HTML/CSS tab, paste your code, and download as PNG or JPG.",
-      "q2": "Is it really free?",
-      "a2": "Completely free — no registration, no watermark, no file size limits.",
-      "q3": "What formats are supported?",
-      "a3": "PNG (supports transparency) and JPG. Need GIF? Try our main SVG converter."
+      "a1": "Yes! Switch to the HTML/CSS tab, paste your code, and download as PNG or JPG. Our tool renders any HTML markup with inline or embedded CSS into a crisp image.",
+      "q2": "Is it really free? Will there be a watermark?",
+      "a2": "Completely free — no registration, no watermark, no file size limits. Use it as many times as you want.",
+      "q3": "What formats can I export to?",
+      "a3": "PNG (supports transparency) and JPG. Need GIF? Try our main SVG converter.",
+      "q4": "How do I convert my code to PNG?",
+      "a4": "Just paste your SVG, HTML or CSS code into the editor, choose PNG or JPG as your format, adjust any settings, and click Convert. Your image downloads instantly.",
+      "q5": "Does my code get uploaded to a server?",
+      "a5": "No. All conversion happens entirely in your browser using JavaScript. Your code never leaves your device — it's 100% private and secure."
+    },
+    "cta": {
+      "title": "Ready to Convert Your Code to PNG?",
+      "desc": "Free, instant, no signup. Start now.",
+      "button": "Convert for Free"
     }
   }
 }

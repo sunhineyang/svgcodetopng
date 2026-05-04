@@ -269,7 +269,9 @@
     "hero": {
       "title": "Code zu PNG Bild Konverter",
       "subtitle": "SVG, HTML & CSS Code sofort in PNG Bilder umwandeln",
-      "description": "Kostenloses Online-Tool zum Umwandeln von Code in Bilder. SVG, HTML oder CSS einfügen und als PNG oder JPG herunterladen. Kein Wasserzeichen, keine Anmeldung."
+      "description": "Kostenloses Online-Tool zum Umwandeln von Code in Bilder. SVG, HTML oder CSS einfügen und als PNG oder JPG herunterladen. Kein Wasserzeichen, keine Anmeldung.",
+      "cta1": "Jetzt Konvertieren",
+      "cta2": "So Funktioniert es"
     },
     "tabs": {
       "svgCode": "SVG Code",
@@ -303,13 +305,56 @@
       "reset": "Zurücksetzen"
     },
     "faq": {
-      "title": "FAQ",
+      "title": "Häufig gestellte Fragen",
       "q1": "Kann ich HTML/CSS in ein Bild umwandeln?",
-      "a1": "Ja! Wechseln Sie zum HTML/CSS-Tab, fügen Sie Ihren Code ein und laden Sie ihn als PNG oder JPG herunter.",
-      "q2": "Ist es wirklich kostenlos?",
-      "a2": "Völlig kostenlos — keine Registrierung, kein Wasserzeichen, keine Dateigrößenbeschränkung.",
-      "q3": "Welche Formate werden unterstützt?",
-      "a3": "PNG (mit Transparenz) und JPG. Brauchen Sie GIF? Probieren Sie unseren Haupt-SVG-Konverter."
+      "a1": "Ja! Wechseln Sie zum HTML/CSS-Tab, fügen Sie Ihren Code ein und laden Sie ihn als PNG oder JPG herunter. Unser Tool rendert jedes HTML-Markup mit CSS in ein gestochen scharfes Bild.",
+      "q2": "Ist es wirklich kostenlos? Gibt es ein Wasserzeichen?",
+      "a2": "Völlig kostenlos — keine Registrierung, kein Wasserzeichen, keine Dateigrößenbeschränkung. Verwenden Sie es so oft Sie möchten.",
+      "q3": "In welche Formate kann ich exportieren?",
+      "a3": "PNG (unterstützt Transparenz) und JPG. Benötigen Sie GIF? Probieren Sie unseren Haupt-SVG-Konverter.",
+      "q4": "Wie konvertiere ich meinen Code in PNG?",
+      "a4": "Fügen Sie einfach Ihren SVG-, HTML- oder CSS-Code in den Editor ein, wählen Sie PNG oder JPG, passen Sie die Einstellungen an und klicken Sie auf Konvertieren.",
+      "q5": "Wird mein Code auf einen Server hochgeladen?",
+      "a5": "Nein. Die gesamte Konvertierung erfolgt vollständig in Ihrem Browser mit JavaScript. Ihr Code verlässt nie Ihr Gerät."
+    },
+    "howTo": {
+      "title": "Code in 3 einfachen Schritten in PNG umwandeln",
+      "step1": {
+        "title": "1. Fügen Sie Ihren SVG-, HTML- oder CSS-Code ein",
+        "desc": "Kopieren Sie einfach beliebiges SVG-Markup, HTML-Snippets oder CSS-Code und fügen Sie es in den Editor ein. Unser Tool rendert sofort eine Live-Vorschau."
+      },
+      "step2": {
+        "title": "2. Wählen Sie Format und Einstellungen",
+        "desc": "Wählen Sie PNG oder JPG, passen Sie Qualität und Abmessungen an. Fügen Sie einen weißen, schwarzen oder transparenten Hintergrund hinzu."
+      },
+      "step3": {
+        "title": "3. Laden Sie Ihr hochwertiges Bild herunter",
+        "desc": "Klicken Sie auf Konvertieren und laden Sie Ihr gerendertes Bild sofort herunter. Kein Wasserzeichen, keine Anmeldung."
+      }
+    },
+    "features": {
+      "title": "Warum unseren Code-zu-PNG-Konverter nutzen",
+      "f1": {
+        "title": "Konvertiert SVG-, HTML- und CSS-Code",
+        "desc": "Im Gegensatz zu einfachen SVG-Konvertern rendert unser Tool HTML/CSS-Markup mit browser-nativem Rendering in echte Bilder."
+      },
+      "f2": {
+        "title": "Kostenlos & ohne Wasserzeichen",
+        "desc": "Völlig kostenlos. Keine Registrierung, kein Wasserzeichen, keine Dateigrößenbeschränkung. Einfach einfügen und herunterladen."
+      },
+      "f3": {
+        "title": "Sofortiges browserbasiertes Rendering",
+        "desc": "Die gesamte Konvertierung erfolgt in Ihrem Browser — Ihr Code verlässt nie Ihr Gerät. Schnell, sicher und privat."
+      },
+      "f4": {
+        "title": "Hochwertiger PNG- und JPG-Export",
+        "desc": "Export mit benutzerdefinierten Abmessungen und Qualitätseinstellungen. Unterstützt transparente Hintergründe im PNG-Format."
+      }
+    },
+    "cta": {
+      "title": "Bereit, Ihren Code in PNG zu konvertieren?",
+      "desc": "Kostenlos, sofort, keine Anmeldung. Jetzt starten.",
+      "button": "Kostenlos konvertieren"
     }
   }
 }

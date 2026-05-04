@@ -46,6 +46,7 @@ const Footer = () => {
   const footerLinks = {
     product: [
       { name: 'Home', href: '/' },
+      { name: 'Code to PNG', href: '/code-to-png' },
     ],
     relatedProducts: [
       { name: 'SVG to PNG', href: 'https://svgtopng.app', external: true },
@@ -78,7 +79,7 @@ const Footer = () => {
                 <span className="text-xl font-bold">SVGCodeToPNG</span>
               </div>
               <p className="text-gray-400 mb-6 max-w-sm">
-                The fastest and most reliable way to convert SVG code to high-quality PNG images. Free, secure, and works entirely in your browser.
+                Convert code to high-quality images — SVG, HTML, CSS. Free, secure, and works entirely in your browser.
               </p>
               
               {/* Contact Us */}

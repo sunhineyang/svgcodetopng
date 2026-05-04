@@ -734,11 +734,13 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       description: 'Convert SVG code to high-quality PNG images instantly. Free online converter with live preview.',
       locale: 'en_US',
       type: 'website',
+      images: [{ url: '/logo.svg', width: 512, height: 512 }],
     },
     twitter: {
       card: 'summary_large_image',
       title: 'SVG Code to PNG Converter - Free Online Tool',
       description: 'Convert SVG code to high-quality PNG images instantly.',
+      images: ['/logo.svg'],
     },
     robots: {
       index: true,

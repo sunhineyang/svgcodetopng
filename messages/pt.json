@@ -269,7 +269,9 @@
     "hero": {
       "title": "Conversor de Código para PNG",
       "subtitle": "Converta Código SVG, HTML e CSS em Imagens PNG Instantaneamente",
-      "description": "Ferramenta online gratuita para transformar código em imagens. Cole SVG, HTML ou CSS e baixe como PNG ou JPG. Sem marca d'água, sem cadastro."
+      "description": "Ferramenta online gratuita para transformar código em imagens. Cole SVG, HTML ou CSS e baixe como PNG ou JPG. Sem marca d'água, sem cadastro.",
+      "cta1": "Começar a Converter",
+      "cta2": "Como Funciona"
     },
     "tabs": {
       "svgCode": "Código SVG",
@@ -305,11 +307,54 @@
     "faq": {
       "title": "Perguntas Frequentes",
       "q1": "Posso converter HTML/CSS em imagem?",
-      "a1": "Sim! Mude para a aba HTML/CSS, cole seu código e baixe como PNG ou JPG.",
-      "q2": "É realmente gratuito?",
-      "a2": "Totalmente gratuito — sem cadastro, sem marca d'água, sem limites.",
-      "q3": "Quais formatos são suportados?",
-      "a3": "PNG (com transparência) e JPG. Precisa de GIF? Experimente nosso conversor SVG principal."
+      "a1": "Sim! Mude para a aba HTML/CSS, cole seu código e baixe como PNG ou JPG. Nossa ferramenta renderiza qualquer marcação HTML com CSS em uma imagem nítida.",
+      "q2": "É realmente grátis? Terá marca d'água?",
+      "a2": "Totalmente grátis — sem cadastro, sem marca d'água, sem limites. Use quantas vezes quiser.",
+      "q3": "Para quais formatos posso exportar?",
+      "a3": "PNG (com transparência) e JPG. Precisa de GIF? Experimente nosso conversor SVG principal.",
+      "q4": "Como converter meu código para PNG?",
+      "a4": "Basta colar seu código SVG, HTML ou CSS no editor, escolher PNG ou JPG, ajustar as configurações e clicar em Converter. Sua imagem é baixada instantaneamente.",
+      "q5": "Meu código é enviado para um servidor?",
+      "a5": "Não. Toda a conversão é feita completamente no seu navegador usando JavaScript. Seu código nunca sai do seu dispositivo."
+    },
+    "howTo": {
+      "title": "Como Converter Código para PNG em 3 Passos Simples",
+      "step1": {
+        "title": "1. Cole seu Código SVG, HTML ou CSS",
+        "desc": "Basta copiar e colar qualquer marcação SVG, trecho HTML ou código CSS no editor. Nossa ferramenta renderiza uma pré-visualização ao vivo instantaneamente."
+      },
+      "step2": {
+        "title": "2. Escolha o Formato e as Configurações",
+        "desc": "Selecione PNG ou JPG, ajuste a qualidade e as dimensões. Adicione um fundo branco, preto ou transparente conforme necessário."
+      },
+      "step3": {
+        "title": "3. Baixe sua Imagem de Alta Qualidade",
+        "desc": "Clique em converter e baixe instantaneamente sua imagem renderizada. Sem marca d'água, sem cadastro — é simples assim."
+      }
+    },
+    "features": {
+      "title": "Por Que Usar Nosso Conversor de Código para PNG",
+      "f1": {
+        "title": "Converte Código SVG, HTML e CSS",
+        "desc": "Diferente dos conversores SVG básicos, nossa ferramenta renderiza marcação HTML/CSS em imagens reais usando renderização nativa do navegador."
+      },
+      "f2": {
+        "title": "Grátis e Sem Marca D'água",
+        "desc": "Completamente grátis. Sem cadastro, sem marca d'água, sem limites de tamanho. Basta colar e baixar."
+      },
+      "f3": {
+        "title": "Renderização Instantânea no Navegador",
+        "desc": "Toda a conversão acontece no seu navegador — seu código nunca sai do seu dispositivo. Rápido, seguro e privado."
+      },
+      "f4": {
+        "title": "Exportação PNG e JPG de Alta Qualidade",
+        "desc": "Exporte com dimensões e configurações de qualidade personalizadas. Suporta fundos transparentes no formato PNG."
+      }
+    },
+    "cta": {
+      "title": "Pronto para Converter seu Código para PNG?",
+      "desc": "Grátis, instantâneo, sem cadastro. Comece agora.",
+      "button": "Converter Grátis"
     }
   }
 }

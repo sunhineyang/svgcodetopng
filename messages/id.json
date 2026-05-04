@@ -269,7 +269,9 @@
     "hero": {
       "title": "Konverter Kode ke Gambar PNG",
       "subtitle": "Ubah Kode SVG, HTML & CSS menjadi Gambar PNG Seketika",
-      "description": "Alat online gratis untuk mengubah kode menjadi gambar. Tempel SVG, HTML atau CSS dan unduh sebagai PNG atau JPG. Tanpa watermark, tanpa daftar."
+      "description": "Alat online gratis untuk mengubah kode menjadi gambar. Tempel SVG, HTML atau CSS dan unduh sebagai PNG atau JPG. Tanpa watermark, tanpa daftar.",
+      "cta1": "Mulai Konversi",
+      "cta2": "Cara Kerja"
     },
     "tabs": {
       "svgCode": "Kode SVG",
@@ -303,13 +305,56 @@
       "reset": "Atur Ulang"
     },
     "faq": {
-      "title": "Tanya Jawab",
+      "title": "Pertanyaan Umum",
       "q1": "Bisakah saya mengonversi HTML/CSS menjadi gambar?",
-      "a1": "Ya! Beralih ke tab HTML/CSS, tempel kode Anda, dan unduh sebagai PNG atau JPG.",
-      "q2": "Apakah ini benar-benar gratis?",
-      "a2": "Sepenuhnya gratis — tanpa pendaftaran, tanpa watermark, tanpa batasan.",
-      "q3": "Format apa saja yang didukung?",
-      "a3": "PNG (mendukung transparansi) dan JPG. Butuh GIF? Coba konverter SVG utama kami."
+      "a1": "Ya! Beralih ke tab HTML/CSS, tempel kode Anda, dan unduh sebagai PNG atau JPG. Alat kami merender markup HTML apa pun dengan CSS menjadi gambar yang tajam.",
+      "q2": "Apakah ini benar-benar gratis? Apakah ada watermark?",
+      "a2": "Sepenuhnya gratis — tanpa pendaftaran, tanpa watermark, tanpa batasan. Gunakan sebanyak yang Anda mau.",
+      "q3": "Format apa yang bisa saya ekspor?",
+      "a3": "PNG (mendukung transparansi) dan JPG. Butuh GIF? Coba konverter SVG utama kami.",
+      "q4": "Bagaimana cara mengonversi kode saya ke PNG?",
+      "a4": "Cukup tempel kode SVG, HTML atau CSS Anda ke editor, pilih PNG atau JPG, sesuaikan pengaturan, dan klik Konversi. Gambar Anda langsung terunduh.",
+      "q5": "Apakah kode saya diunggah ke server?",
+      "a5": "Tidak. Semua konversi dilakukan sepenuhnya di browser Anda menggunakan JavaScript. Kode Anda tidak pernah meninggalkan perangkat Anda."
+    },
+    "howTo": {
+      "title": "Cara Mengonversi Kode ke PNG dalam 3 Langkah Mudah",
+      "step1": {
+        "title": "1. Tempel Kode SVG, HTML atau CSS Anda",
+        "desc": "Cukup salin dan tempel markup SVG, cuplikan HTML, atau kode CSS ke dalam editor. Alat kami langsung merender pratinjau langsung."
+      },
+      "step2": {
+        "title": "2. Pilih Format dan Pengaturan",
+        "desc": "Pilih PNG atau JPG, sesuaikan kualitas dan dimensi. Tambahkan latar belakang putih, hitam, atau transparan sesuai kebutuhan."
+      },
+      "step3": {
+        "title": "3. Unduh Gambar Berkualitas Tinggi Anda",
+        "desc": "Klik konversi dan langsung unduh gambar hasil render Anda. Tanpa watermark, tanpa daftar."
+      }
+    },
+    "features": {
+      "title": "Mengapa Menggunakan Konverter Kode ke PNG Kami",
+      "f1": {
+        "title": "Konversi Kode SVG, HTML & CSS",
+        "desc": "Tidak seperti konverter SVG biasa, alat kami merender markup HTML/CSS menjadi gambar nyata menggunakan rendering native browser."
+      },
+      "f2": {
+        "title": "Gratis & Tanpa Watermark",
+        "desc": "Sepenuhnya gratis. Tanpa pendaftaran, tanpa watermark, tanpa batasan ukuran file. Cukup tempel dan unduh."
+      },
+      "f3": {
+        "title": "Rendering Instan Berbasis Browser",
+        "desc": "Semua konversi terjadi di browser Anda — kode Anda tidak pernah meninggalkan perangkat Anda. Cepat, aman, dan pribadi."
+      },
+      "f4": {
+        "title": "Ekspor PNG & JPG Berkualitas Tinggi",
+        "desc": "Ekspor dengan dimensi dan pengaturan kualitas khusus. Mendukung latar belakang transparan dalam format PNG."
+      }
+    },
+    "cta": {
+      "title": "Siap Mengonversi Kode Anda ke PNG?",
+      "desc": "Gratis, instan, tanpa daftar. Mulai sekarang.",
+      "button": "Konversi Gratis"
     }
   }
 }

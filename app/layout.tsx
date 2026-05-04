@@ -57,11 +57,13 @@ export const metadata = {
     description: 'Convert SVG code to high-quality PNG images instantly. Free online converter with live preview.',
     locale: 'en_US',
     type: 'website',
+    images: [{ url: '/logo.svg', width: 512, height: 512 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'SVG Code to PNG Converter - Free Online Tool',
     description: 'Convert SVG code to high-quality PNG images instantly.',
+    images: ['/logo.svg'],
   },
   robots: {
     index: true,
@@ -84,6 +86,21 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebApplication',
+              name: 'SVG Code to PNG Converter',
+              url: siteConfig.url,
+              description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free.',
+              applicationCategory: 'Multimedia',
+              operatingSystem: 'All',
+              offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+            }),
+          }}
+        />
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-5RPN0F4G3Y"
