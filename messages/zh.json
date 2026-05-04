@@ -264,5 +264,52 @@
     "filter": "筛选",
     "clear": "清除",
     "reset": "重置"
+  },
+  "codeToPng": {
+    "hero": {
+      "title": "代码转PNG图片转换器",
+      "subtitle": "将 SVG、HTML 和 CSS 代码即时转换为 PNG 图片",
+      "description": "免费在线工具，将代码转为高质量图片。粘贴 SVG、HTML 或 CSS，下载为 PNG 或 JPG。无水印，无需注册。"
+    },
+    "tabs": {
+      "svgCode": "SVG 代码",
+      "htmlCss": "HTML / CSS"
+    },
+    "editor": {
+      "label": "代码编辑器",
+      "placeholderSvg": "在此粘贴 SVG 代码...",
+      "placeholderHtml": "在此粘贴 HTML/CSS 代码..."
+    },
+    "preview": {
+      "title": "实时预览",
+      "empty": "预览将在此显示"
+    },
+    "settings": {
+      "format": "格式",
+      "quality": "质量",
+      "width": "宽度",
+      "height": "高度",
+      "background": "背景",
+      "transparent": "透明",
+      "white": "白色",
+      "black": "黑色"
+    },
+    "actions": {
+      "downloadPng": "下载 PNG",
+      "downloadJpg": "下载 JPG",
+      "converting": "转换中...",
+      "copy": "复制",
+      "clear": "清空",
+      "reset": "重置为示例"
+    },
+    "faq": {
+      "title": "常见问题",
+      "q1": "可以将 HTML/CSS 转换为图片吗？",
+      "a1": "可以！切换到 HTML/CSS 标签页，粘贴代码，然后下载为 PNG 或 JPG。",
+      "q2": "真的免费吗？",
+      "a2": "完全免费 — 无需注册，无水印，无文件大小限制。",
+      "q3": "支持哪些格式？",
+      "a3": "PNG（支持透明）和 JPG。需要 GIF？试试我们的主 SVG 转换器。"
+    }
   }
 }

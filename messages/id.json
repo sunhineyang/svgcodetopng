@@ -264,5 +264,52 @@
     "filter": "Filter",
     "clear": "Hapus",
     "reset": "Reset"
+  },
+  "codeToPng": {
+    "hero": {
+      "title": "Konverter Kode ke Gambar PNG",
+      "subtitle": "Ubah Kode SVG, HTML & CSS menjadi Gambar PNG Seketika",
+      "description": "Alat online gratis untuk mengubah kode menjadi gambar. Tempel SVG, HTML atau CSS dan unduh sebagai PNG atau JPG. Tanpa watermark, tanpa daftar."
+    },
+    "tabs": {
+      "svgCode": "Kode SVG",
+      "htmlCss": "HTML / CSS"
+    },
+    "editor": {
+      "label": "Editor Kode",
+      "placeholderSvg": "Tempel kode SVG di sini...",
+      "placeholderHtml": "Tempel kode HTML/CSS di sini..."
+    },
+    "preview": {
+      "title": "Pratinjau Langsung",
+      "empty": "Pratinjau akan muncul di sini"
+    },
+    "settings": {
+      "format": "Format",
+      "quality": "Kualitas",
+      "width": "Lebar",
+      "height": "Tinggi",
+      "background": "Latar",
+      "transparent": "Transparan",
+      "white": "Putih",
+      "black": "Hitam"
+    },
+    "actions": {
+      "downloadPng": "Unduh PNG",
+      "downloadJpg": "Unduh JPG",
+      "converting": "Mengonversi...",
+      "copy": "Salin",
+      "clear": "Hapus",
+      "reset": "Atur Ulang"
+    },
+    "faq": {
+      "title": "Tanya Jawab",
+      "q1": "Bisakah saya mengonversi HTML/CSS menjadi gambar?",
+      "a1": "Ya! Beralih ke tab HTML/CSS, tempel kode Anda, dan unduh sebagai PNG atau JPG.",
+      "q2": "Apakah ini benar-benar gratis?",
+      "a2": "Sepenuhnya gratis — tanpa pendaftaran, tanpa watermark, tanpa batasan.",
+      "q3": "Format apa saja yang didukung?",
+      "a3": "PNG (mendukung transparansi) dan JPG. Butuh GIF? Coba konverter SVG utama kami."
+    }
   }
 }

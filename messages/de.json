@@ -264,5 +264,52 @@
     "filter": "Filtern",
     "clear": "Löschen",
     "reset": "Zurücksetzen"
+  },
+  "codeToPng": {
+    "hero": {
+      "title": "Code zu PNG Bild Konverter",
+      "subtitle": "SVG, HTML & CSS Code sofort in PNG Bilder umwandeln",
+      "description": "Kostenloses Online-Tool zum Umwandeln von Code in Bilder. SVG, HTML oder CSS einfügen und als PNG oder JPG herunterladen. Kein Wasserzeichen, keine Anmeldung."
+    },
+    "tabs": {
+      "svgCode": "SVG Code",
+      "htmlCss": "HTML / CSS"
+    },
+    "editor": {
+      "label": "Code-Editor",
+      "placeholderSvg": "SVG-Code hier einfügen...",
+      "placeholderHtml": "HTML/CSS-Code hier einfügen..."
+    },
+    "preview": {
+      "title": "Live-Vorschau",
+      "empty": "Vorschau erscheint hier"
+    },
+    "settings": {
+      "format": "Format",
+      "quality": "Qualität",
+      "width": "Breite",
+      "height": "Höhe",
+      "background": "Hintergrund",
+      "transparent": "Transparent",
+      "white": "Weiß",
+      "black": "Schwarz"
+    },
+    "actions": {
+      "downloadPng": "PNG herunterladen",
+      "downloadJpg": "JPG herunterladen",
+      "converting": "Konvertierung...",
+      "copy": "Kopieren",
+      "clear": "Löschen",
+      "reset": "Zurücksetzen"
+    },
+    "faq": {
+      "title": "FAQ",
+      "q1": "Kann ich HTML/CSS in ein Bild umwandeln?",
+      "a1": "Ja! Wechseln Sie zum HTML/CSS-Tab, fügen Sie Ihren Code ein und laden Sie ihn als PNG oder JPG herunter.",
+      "q2": "Ist es wirklich kostenlos?",
+      "a2": "Völlig kostenlos — keine Registrierung, kein Wasserzeichen, keine Dateigrößenbeschränkung.",
+      "q3": "Welche Formate werden unterstützt?",
+      "a3": "PNG (mit Transparenz) und JPG. Brauchen Sie GIF? Probieren Sie unseren Haupt-SVG-Konverter."
+    }
   }
 }

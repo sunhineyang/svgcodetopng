@@ -263,5 +263,52 @@
     "filter": "필터",
     "clear": "지우기",
     "reset": "재설정"
+  },
+  "codeToPng": {
+    "hero": {
+      "title": "코드 PNG 이미지 변환기",
+      "subtitle": "SVG, HTML 및 CSS 코드를 PNG 이미지로 즉시 변환",
+      "description": "코드를 고품질 이미지로 변환하는 무료 온라인 도구. SVG, HTML 또는 CSS를 붙여넣고 PNG 또는 JPG로 다운로드하세요. 워터마크 없음, 가입 불필요."
+    },
+    "tabs": {
+      "svgCode": "SVG 코드",
+      "htmlCss": "HTML / CSS"
+    },
+    "editor": {
+      "label": "코드 편집기",
+      "placeholderSvg": "SVG 코드를 여기에 붙여넣으세요...",
+      "placeholderHtml": "HTML/CSS 코드를 여기에 붙여넣으세요..."
+    },
+    "preview": {
+      "title": "실시간 미리보기",
+      "empty": "미리보기가 여기에 표시됩니다"
+    },
+    "settings": {
+      "format": "형식",
+      "quality": "품질",
+      "width": "너비",
+      "height": "높이",
+      "background": "배경",
+      "transparent": "투명",
+      "white": "흰색",
+      "black": "검정"
+    },
+    "actions": {
+      "downloadPng": "PNG 다운로드",
+      "downloadJpg": "JPG 다운로드",
+      "converting": "변환 중...",
+      "copy": "복사",
+      "clear": "지우기",
+      "reset": "예제로 초기화"
+    },
+    "faq": {
+      "title": "자주 묻는 질문",
+      "q1": "HTML/CSS를 이미지로 변환할 수 있나요?",
+      "a1": "네! HTML/CSS 탭으로 전환하고 코드를 붙여넣은 다음 PNG 또는 JPG로 다운로드하세요.",
+      "q2": "정말 무료인가요?",
+      "a2": "완전 무료 — 등록 불필요, 워터마크 없음, 파일 크기 제한 없음.",
+      "q3": "어떤 형식을 지원하나요?",
+      "a3": "PNG(투명도 지원) 및 JPG. GIF가 필요하신가요? 메인 SVG 변환기를 사용해보세요."
+    }
   }
 }

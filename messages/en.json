@@ -264,5 +264,52 @@
     "filter": "Filter",
     "clear": "Clear",
     "reset": "Reset"
+  },
+  "codeToPng": {
+    "hero": {
+      "title": "Code to PNG Image Converter",
+      "subtitle": "Convert SVG, HTML & CSS Code to PNG Images Instantly",
+      "description": "Free online tool to turn your code into high-quality images. Paste SVG, HTML or CSS and download as PNG or JPG. No watermark, no signup."
+    },
+    "tabs": {
+      "svgCode": "SVG Code",
+      "htmlCss": "HTML / CSS"
+    },
+    "editor": {
+      "label": "Code Editor",
+      "placeholderSvg": "Paste your SVG code here...",
+      "placeholderHtml": "Paste your HTML/CSS code here..."
+    },
+    "preview": {
+      "title": "Live Preview",
+      "empty": "Preview will appear here"
+    },
+    "settings": {
+      "format": "Format",
+      "quality": "Quality",
+      "width": "Width",
+      "height": "Height",
+      "background": "Background",
+      "transparent": "Transparent",
+      "white": "White",
+      "black": "Black"
+    },
+    "actions": {
+      "downloadPng": "Download PNG",
+      "downloadJpg": "Download JPG",
+      "converting": "Converting...",
+      "copy": "Copy",
+      "clear": "Clear",
+      "reset": "Reset to example"
+    },
+    "faq": {
+      "title": "FAQ",
+      "q1": "Can I convert HTML/CSS to an image?",
+      "a1": "Yes! Switch to the HTML/CSS tab, paste your code, and download as PNG or JPG.",
+      "q2": "Is it really free?",
+      "a2": "Completely free — no registration, no watermark, no file size limits.",
+      "q3": "What formats are supported?",
+      "a3": "PNG (supports transparency) and JPG. Need GIF? Try our main SVG converter."
+    }
   }
 }

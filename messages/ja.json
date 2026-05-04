@@ -284,5 +284,52 @@
     "filter": "フィルター",
     "clear": "クリア",
     "reset": "リセット"
+  },
+  "codeToPng": {
+    "hero": {
+      "title": "コード PNG 画像変換",
+      "subtitle": "SVG、HTML、CSSコードをPNG画像に即時変換",
+      "description": "コードを高品質画像に変換する無料オンラインツール。SVG、HTML、CSSを貼り付けてPNGまたはJPGでダウンロード。透かしなし、登録不要。"
+    },
+    "tabs": {
+      "svgCode": "SVGコード",
+      "htmlCss": "HTML / CSS"
+    },
+    "editor": {
+      "label": "コードエディタ",
+      "placeholderSvg": "SVGコードをここに貼り付け...",
+      "placeholderHtml": "HTML/CSSコードをここに貼り付け..."
+    },
+    "preview": {
+      "title": "ライブプレビュー",
+      "empty": "プレビューがここに表示されます"
+    },
+    "settings": {
+      "format": "形式",
+      "quality": "品質",
+      "width": "幅",
+      "height": "高さ",
+      "background": "背景",
+      "transparent": "透明",
+      "white": "白",
+      "black": "黒"
+    },
+    "actions": {
+      "downloadPng": "PNGをダウンロード",
+      "downloadJpg": "JPGをダウンロード",
+      "converting": "変換中...",
+      "copy": "コピー",
+      "clear": "クリア",
+      "reset": "例にリセット"
+    },
+    "faq": {
+      "title": "よくある質問",
+      "q1": "HTML/CSSを画像に変換できますか？",
+      "a1": "はい！HTML/CSSタブに切り替えて、コードを貼り付け、PNGまたはJPGでダウンロードしてください。",
+      "q2": "本当に無料ですか？",
+      "a2": "完全無料 — 登録不要、透かしなし、ファイルサイズ制限なし。",
+      "q3": "どの形式をサポートしていますか？",
+      "a3": "PNG（透過対応）とJPG。GIFが必要な場合は、メインのSVG変換ツールをお試しください。"
+    }
   }
 }

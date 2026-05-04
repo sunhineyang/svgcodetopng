@@ -264,5 +264,52 @@
     "filter": "Filtrer",
     "clear": "Effacer",
     "reset": "Réinitialiser"
+  },
+  "codeToPng": {
+    "hero": {
+      "title": "Convertisseur de Code en PNG",
+      "subtitle": "Convertissez le Code SVG, HTML et CSS en Images PNG Instantanément",
+      "description": "Outil en ligne gratuit pour transformer votre code en images. Collez du SVG, HTML ou CSS et téléchargez en PNG ou JPG. Sans filigrane, sans inscription."
+    },
+    "tabs": {
+      "svgCode": "Code SVG",
+      "htmlCss": "HTML / CSS"
+    },
+    "editor": {
+      "label": "Éditeur de Code",
+      "placeholderSvg": "Collez votre code SVG ici...",
+      "placeholderHtml": "Collez votre code HTML/CSS ici..."
+    },
+    "preview": {
+      "title": "Aperçu en Direct",
+      "empty": "L'aperçu apparaîtra ici"
+    },
+    "settings": {
+      "format": "Format",
+      "quality": "Qualité",
+      "width": "Largeur",
+      "height": "Hauteur",
+      "background": "Fond",
+      "transparent": "Transparent",
+      "white": "Blanc",
+      "black": "Noir"
+    },
+    "actions": {
+      "downloadPng": "Télécharger PNG",
+      "downloadJpg": "Télécharger JPG",
+      "converting": "Conversion...",
+      "copy": "Copier",
+      "clear": "Effacer",
+      "reset": "Réinitialiser"
+    },
+    "faq": {
+      "title": "FAQ",
+      "q1": "Puis-je convertir du HTML/CSS en image ?",
+      "a1": "Oui ! Passez à l'onglet HTML/CSS, collez votre code et téléchargez en PNG ou JPG.",
+      "q2": "Est-ce vraiment gratuit ?",
+      "a2": "Totalement gratuit — sans inscription, sans filigrane, sans limites.",
+      "q3": "Quels formats sont supportés ?",
+      "a3": "PNG (avec transparence) et JPG. Besoin de GIF ? Essayez notre convertisseur SVG principal."
+    }
   }
 }
