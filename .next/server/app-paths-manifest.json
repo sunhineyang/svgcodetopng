@@ -1,6 +1,4 @@
 {
-  "/robots.txt/route": "app/robots.txt/route.js",
-  "/sitemap.xml/[[...__metadata_id__]]/route": "app/sitemap.xml/[[...__metadata_id__]]/route.js",
-  "/[locale]/page": "app/[locale]/page.js",
-  "/[locale]/code-to-png/page": "app/[locale]/code-to-png/page.js"
+  "/[locale]/code-to-png/page": "app/[locale]/code-to-png/page.js",
+  "/[locale]/page": "app/[locale]/page.js"
 }

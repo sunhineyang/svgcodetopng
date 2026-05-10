@@ -300,7 +300,8 @@
       "converting": "변환 중...",
       "copy": "복사",
       "clear": "지우기",
-      "reset": "예제로 초기화"
+      "reset": "예제로 초기화",
+      "convertPreview": "변환 및 미리보기"
     },
     "faq": {
       "title": "자주 묻는 질문",

@@ -280,7 +280,8 @@
       "converting": "変換中...",
       "copy": "コピー",
       "clear": "クリア",
-      "reset": "例にリセット"
+      "reset": "例にリセット",
+      "convertPreview": "変換してプレビュー"
     },
     "faq": {
       "title": "よくある質問",

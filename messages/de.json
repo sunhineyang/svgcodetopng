@@ -302,7 +302,8 @@
       "converting": "Konvertierung...",
       "copy": "Kopieren",
       "clear": "Löschen",
-      "reset": "Zurücksetzen"
+      "reset": "Zurücksetzen",
+      "convertPreview": "Konvertieren & Vorschau"
     },
     "faq": {
       "title": "Häufig gestellte Fragen",

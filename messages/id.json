@@ -302,7 +302,8 @@
       "converting": "Mengonversi...",
       "copy": "Salin",
       "clear": "Hapus",
-      "reset": "Atur Ulang"
+      "reset": "Atur Ulang",
+      "convertPreview": "Konversi & Pratinjau"
     },
     "faq": {
       "title": "Pertanyaan Umum",

@@ -302,7 +302,8 @@
       "converting": "转换中...",
       "copy": "复制",
       "clear": "清空",
-      "reset": "重置为示例"
+      "reset": "重置为示例",
+      "convertPreview": "转换并预览"
     },
     "faq": {
       "title": "常见问题解答",

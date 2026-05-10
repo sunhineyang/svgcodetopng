@@ -99,6 +99,12 @@ export default function CodeToPngConverter() {
 
     const parser = new DOMParser();
     const svgDoc = parser.parseFromString(svgCode, 'image/svg+xml');
+    const parseError = svgDoc.querySelector('parsererror');
+
+    if (parseError) {
+      throw new Error(parseError.textContent?.trim() || 'Invalid SVG code');
+    }
+
     const svgElement = svgDoc.querySelector('svg');
 
     if (!svgElement) throw new Error('Invalid SVG code');
@@ -465,7 +471,7 @@ export default function CodeToPngConverter() {
                   ) : (
                     <>
                       <ArrowDown className="w-4 h-4" />
-                      Convert &amp; Preview
+                      {t('actions.convertPreview')}
                     </>
                   )}
                 </button>

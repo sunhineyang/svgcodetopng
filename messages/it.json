@@ -302,7 +302,8 @@
       "converting": "Conversione...",
       "copy": "Copia",
       "clear": "Cancella",
-      "reset": "Ripristina"
+      "reset": "Ripristina",
+      "convertPreview": "Converti e anteprima"
     },
     "faq": {
       "title": "Domande Frequenti",

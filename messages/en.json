@@ -302,7 +302,8 @@
       "converting": "Converting...",
       "copy": "Copy",
       "clear": "Clear",
-      "reset": "Reset to example"
+      "reset": "Reset to example",
+      "convertPreview": "Convert & Preview"
     },
     "howTo": {
       "title": "How to Convert Code to PNG in 3 Simple Steps",
