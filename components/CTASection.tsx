@@ -55,13 +55,15 @@ const CTASection = () => {
               <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
             </Link>
             
-            <Link
-              href="/templates"
+            <a
+              href="https://svgtopng.app/free-svgs"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center px-8 py-4 border-2 border-white/30 text-white font-semibold text-lg rounded-xl hover:bg-white/10 backdrop-blur-sm transition-all duration-300 transform hover:scale-105"
             >
               Browse Templates
               <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </a>
           </div>
           
           {/* Features List */}

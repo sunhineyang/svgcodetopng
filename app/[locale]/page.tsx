@@ -395,10 +395,15 @@ export default function KoreanHomePage() {
                 <Code className="w-5 h-5" />
                 {t('hero.primaryCta')}
               </button>
-              <button className="border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 px-8 py-4 rounded-lg font-semibold transition-colors flex items-center gap-2 justify-center">
+              <a
+                href="https://svgtopng.app/free-svgs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 px-8 py-4 rounded-lg font-semibold transition-colors flex items-center gap-2 justify-center"
+              >
                 <Layers className="w-5 h-5" />
                 {t('hero.secondaryCta')}
-              </button>
+              </a>
             </div>
           </div>
         </div>

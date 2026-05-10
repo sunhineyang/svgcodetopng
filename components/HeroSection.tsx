@@ -53,13 +53,15 @@ const HeroSection = () => {
                 <ArrowRightIcon className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
               
-              <Link
-                href="/templates"
+              <a
+                href="https://svgtopng.app/free-svgs"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center px-8 py-4 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
               >
                 <PlayIcon className="w-5 h-5 mr-2" />
                 View Templates
-              </Link>
+              </a>
             </div>
 
             {/* Trust Indicators */}
