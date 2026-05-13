@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import GIF from 'gif.js';
+import { jsPDF } from 'jspdf';
 import { 
   ArrowDown, 
   Download, 
@@ -28,10 +29,11 @@ import { Editor } from '@monaco-editor/react';
 import { useTheme } from 'next-themes';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
+import AiAssistant from '../../components/AiAssistant';
 import { trackEvent } from '../../utils/analytics';
 
 interface ExportSettings {
-  format: 'png' | 'jpg' | 'gif';
+  format: 'png' | 'jpg' | 'gif' | 'webp' | 'pdf';
   quality: number;
   width: number;
   height: number;
@@ -210,7 +212,10 @@ export default function KoreanHomePage() {
             trackConversion();
           }, 'image/png', exportSettings.quality / 100);
         } else {
-          const mimeType = exportSettings.format === 'jpg' ? 'image/jpeg' : 'image/png';
+          let mimeType = 'image/png';
+          if (exportSettings.format === 'jpg') mimeType = 'image/jpeg';
+          if (exportSettings.format === 'webp') mimeType = 'image/webp';
+          
           canvas.toBlob((blob) => {
             if (blob) {
               const url = URL.createObjectURL(blob);
@@ -235,6 +240,108 @@ export default function KoreanHomePage() {
       alert('Error converting SVG: ' + (error as Error).message);
     }
   }, [svgCode, exportSettings]);
+
+  const downloadFormat = async (format: 'png' | 'jpg' | 'gif' | 'webp' | 'pdf') => {
+    if (!svgCode.trim()) return;
+
+    trackEvent('download_image', { format });
+
+    try {
+      setIsConverting(true);
+      const originalFormat = exportSettings.format;
+      
+      // 临时切换到目标格式
+      setExportSettings(prev => ({ ...prev, format }));
+      
+      // 等待状态更新
+      await new Promise(r => setTimeout(r, 50));
+      
+      // 重新转换
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svgCode, 'image/svg+xml');
+      const svgElement = svgDoc.querySelector('svg');
+      
+      if (!svgElement) {
+        throw new Error('Invalid SVG code');
+      }
+
+      const originalWidth = parseInt(svgElement.getAttribute('width') || '200');
+      const originalHeight = parseInt(svgElement.getAttribute('height') || '200');
+      const finalWidth = exportSettings.width || originalWidth * exportSettings.scale;
+      const finalHeight = exportSettings.height || originalHeight * exportSettings.scale;
+      
+      const svgBlob = new Blob([svgCode], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+      
+      const img = new Image();
+      
+      img.onload = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        
+        canvas.width = finalWidth;
+        canvas.height = finalHeight;
+        
+        if (exportSettings.backgroundColor !== 'transparent') {
+          ctx.fillStyle = exportSettings.backgroundColor;
+          ctx.fillRect(0, 0, finalWidth, finalHeight);
+        }
+        
+        ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
+        
+        const handleBlob = (blob: Blob | null) => {
+          if (blob) {
+            const downloadUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = `converted-image.${format}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(downloadUrl);
+          }
+          URL.revokeObjectURL(url);
+          setIsConverting(false);
+          setExportSettings(prev => ({ ...prev, format: originalFormat }));
+        };
+        
+        if (format === 'pdf') {
+          const pdf = new jsPDF({
+            orientation: finalWidth > finalHeight ? 'landscape' : 'portrait',
+            unit: 'px',
+            format: [finalWidth, finalHeight]
+          });
+          
+          const imgData = canvas.toDataURL('image/png');
+          pdf.addImage(imgData, 'PNG', 0, 0, finalWidth, finalHeight);
+          
+          const pdfBlob = pdf.output('blob');
+          handleBlob(pdfBlob);
+        } else {
+          let mimeType = 'image/png';
+          if (format === 'jpg') mimeType = 'image/jpeg';
+          if (format === 'webp') mimeType = 'image/webp';
+          
+          canvas.toBlob(handleBlob, mimeType, exportSettings.quality / 100);
+        }
+      };
+      
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        setIsConverting(false);
+        setExportSettings(prev => ({ ...prev, format: originalFormat }));
+        alert('Error loading SVG');
+      };
+      
+      img.src = url;
+    } catch (error) {
+      setIsConverting(false);
+      console.error('Download error:', error);
+    }
+  };
 
   const downloadImage = () => {
     if (!previewUrl) return;
@@ -489,12 +596,14 @@ export default function KoreanHomePage() {
                         </label>
                         <select
                           value={exportSettings.format}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, format: e.target.value as 'png' | 'jpg' | 'gif' }))}
+                          onChange={(e) => setExportSettings(prev => ({ ...prev, format: e.target.value as 'png' | 'jpg' | 'gif' | 'webp' | 'pdf' }))}
                           className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                         >
                           <option value="png">PNG</option>
                           <option value="jpg">JPG</option>
                           <option value="gif">GIF</option>
+                          <option value="webp">WebP</option>
+                          <option value="pdf">PDF</option>
                         </select>
                       </div>
                       <div>
@@ -593,51 +702,20 @@ export default function KoreanHomePage() {
                         style={{ maxHeight: '200px' }}
                       />
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 flex-wrap">
                       <button
-                        onClick={downloadImage}
+                        onClick={() => downloadFormat('png')}
                         className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 flex items-center justify-center text-sm sm:text-base flex-1"
                       >
                         <Download className="w-4 h-4 mr-1 sm:mr-2" />
-                        <span className="hidden sm:inline">{t('converter.download')} </span>PNG
+                        PNG
                       </button>
                       <button
-                        onClick={() => {
-                          const originalFormat = exportSettings.format;
-                          setExportSettings(prev => ({ ...prev, format: 'jpg' }));
-                          setTimeout(() => {
-                            convertToImage().then(() => {
-                              setTimeout(() => {
-                                const link = document.createElement('a');
-                                link.download = 'converted-image.jpg';
-                                if (previewUrl) {
-                                  const canvas = document.createElement('canvas');
-                                  const ctx = canvas.getContext('2d');
-                                  if (!ctx) {
-                                    console.error('Unable to get canvas context');
-                                    return;
-                                  }
-                                  const img = new Image();
-                                  img.onload = () => {
-                                    canvas.width = img.width;
-                                    canvas.height = img.height;
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                                    ctx.drawImage(img, 0, 0);
-                                    link.href = canvas.toDataURL('image/jpeg', 0.9);
-                                    link.click();
-                                  };
-                                  img.src = previewUrl;
-                                }
-                                setExportSettings(prev => ({ ...prev, format: originalFormat }));
-                              }, 100);
-                            });
-                          }, 50);
-                        }}
+                        onClick={() => downloadFormat('jpg')}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 flex items-center justify-center text-sm sm:text-base flex-1"
                       >
                         <Download className="w-4 h-4 mr-1 sm:mr-2" />
-                        <span className="hidden sm:inline">{t('converter.download')} </span>JPG
+                        JPG
                       </button>
                       <button
                         onClick={downloadGIF}
@@ -645,12 +723,34 @@ export default function KoreanHomePage() {
                         className="bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white font-semibold py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 flex items-center justify-center text-sm sm:text-base flex-1"
                       >
                         <Download className="w-4 h-4 mr-1 sm:mr-2" />
-                        <span className="hidden sm:inline">{isConverting ? t('converter.converting') : t('converter.download')} </span>GIF
+                        {isConverting ? t('converter.converting') : 'GIF'}
+                      </button>
+                      <button
+                        onClick={() => downloadFormat('webp')}
+                        className="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 flex items-center justify-center text-sm sm:text-base flex-1"
+                      >
+                        <Download className="w-4 h-4 mr-1 sm:mr-2" />
+                        WebP
+                      </button>
+                      <button
+                        onClick={() => downloadFormat('pdf')}
+                        className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 flex items-center justify-center text-sm sm:text-base flex-1"
+                      >
+                        <Download className="w-4 h-4 mr-1 sm:mr-2" />
+                        PDF
                       </button>
                     </div>
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* AI Assistant */}
+            <div className="lg:col-span-2 mt-8">
+              <AiAssistant 
+                svgCode={svgCode} 
+                onSvgCodeChange={setSvgCode} 
+              />
             </div>
           </div>
         </div>

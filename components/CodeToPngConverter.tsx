@@ -5,16 +5,43 @@ import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { Editor } from '@monaco-editor/react';
 import html2canvas from 'html2canvas';
+import GIF from 'gif.js';
+import { jsPDF } from 'jspdf';
+import { HexColorPicker } from 'react-colorful';
 import {
   ArrowDown, Download, ImageIcon, Settings, Code,
-  Copy, Trash2, RotateCcw, ChevronDown, ChevronUp, CheckCircle
+  Copy, Trash2, RotateCcw, ChevronDown, ChevronUp, CheckCircle, Palette
 } from 'lucide-react';
 import Navigation from './Navigation';
 import Footer from './Footer';
-import { trackEvent } from '../utils/analytics';
+import {
+  trackEvent,
+  trackSettingsOpen,
+  trackSettingsTabSwitch,
+  trackSettingsFormatChange,
+  trackSettingsQualityChange,
+  trackSettingsDimensionChange,
+  trackColorTabOpen,
+  trackColorReplaceSingle,
+  trackColorReplaceAll,
+  trackColorPresetUsed,
+  trackColorResetAll,
+  trackColorWheelOpen,
+  trackColorWheelClose,
+} from '../utils/analytics';
+import {
+  extractColors,
+  replaceColor,
+  replaceAllColors,
+  isValidHex,
+  colorEquals,
+} from '../utils/svg-color';
+import { PRESET_PALETTES } from '../utils/color-palettes';
+
+type ExportFormat = 'png' | 'jpg' | 'gif' | 'webp' | 'pdf';
 
 interface ExportSettings {
-  format: 'png' | 'jpg';
+  format: ExportFormat;
   quality: number;
   width: number;
   height: number;
@@ -68,9 +95,18 @@ export default function CodeToPngConverter() {
   const [convertError, setConvertError] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [settingsTab, setSettingsTab] = useState<'format' | 'color'>('format');
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const htmlPreviewRef = useRef<HTMLDivElement>(null);
+  
+  // 颜色编辑相关状态
+  const [extractedColors, setExtractedColors] = useState<string[]>([]);
+  const [colorMappings, setColorMappings] = useState<Record<string, string>>({});
+  const [renderedSvg, setRenderedSvg] = useState<string>(DEFAULT_SVG);
+  const [targetColor, setTargetColor] = useState<string>('#3B82F6');
+  const [pickerOpen, setPickerOpen] = useState<string | null>(null);
+  
   const [exportSettings, setExportSettings] = useState<ExportSettings>({
     format: 'png',
     quality: 100,
@@ -81,6 +117,31 @@ export default function CodeToPngConverter() {
   });
 
   const currentCode = activeTab === 'svg' ? svgCode : htmlCode;
+  
+  // 自动提取 SVG 颜色
+  useEffect(() => {
+    if (activeTab === 'svg' && svgCode) {
+      const colors = extractColors(svgCode);
+      setExtractedColors(colors);
+      // 重置颜色映射和渲染副本
+      const initialMappings = colors.reduce((acc, c) => ({ ...acc, [c]: c }), {});
+      setColorMappings(initialMappings);
+      setRenderedSvg(svgCode);
+    }
+  }, [svgCode, activeTab]);
+
+  // 应用颜色替换到渲染副本
+  useEffect(() => {
+    if (activeTab === 'svg') {
+      let result = svgCode;
+      for (const [oldColor, newColor] of Object.entries(colorMappings)) {
+        if (!colorEquals(oldColor, newColor)) {
+          result = replaceColor(result, oldColor, newColor);
+        }
+      }
+      setRenderedSvg(result);
+    }
+  }, [colorMappings, svgCode, activeTab]);
 
   useEffect(() => {
     if (activeTab === 'html' && htmlPreviewRef.current) {
@@ -89,16 +150,25 @@ export default function CodeToPngConverter() {
   }, [htmlCode, activeTab]);
 
   useEffect(() => {
-    if (exportSettings.format === 'jpg' && exportSettings.backgroundColor === 'transparent') {
+    if ((exportSettings.format === 'jpg' || exportSettings.format === 'gif') && exportSettings.backgroundColor === 'transparent') {
       setExportSettings(prev => ({ ...prev, backgroundColor: '#ffffff' }));
     }
   }, [exportSettings.format]);
 
+  const getMimeType = (format: string): string => {
+    switch (format) {
+      case 'jpg': return 'image/jpeg';
+      case 'webp': return 'image/webp';
+      case 'gif': return 'image/png';
+      default: return 'image/png';
+    }
+  };
+
   const convertSvgToImage = useCallback(async () => {
-    if (!svgCode.trim()) return null;
+    if (!renderedSvg.trim()) return null;
 
     const parser = new DOMParser();
-    const svgDoc = parser.parseFromString(svgCode, 'image/svg+xml');
+    const svgDoc = parser.parseFromString(renderedSvg, 'image/svg+xml');
     const parseError = svgDoc.querySelector('parsererror');
 
     if (parseError) {
@@ -115,7 +185,7 @@ export default function CodeToPngConverter() {
     const finalWidth = exportSettings.width || originalWidth * exportSettings.scale;
     const finalHeight = exportSettings.height || originalHeight * exportSettings.scale;
 
-    const svgBlob = new Blob([svgCode], { type: 'image/svg+xml;charset=utf-8' });
+    const svgBlob = new Blob([renderedSvg], { type: 'image/svg+xml;charset=utf-8' });
     const url = URL.createObjectURL(svgBlob);
 
     return new Promise<Blob | null>((resolve, reject) => {
@@ -138,12 +208,44 @@ export default function CodeToPngConverter() {
 
         ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
 
-        const mimeType = exportSettings.format === 'jpg' ? 'image/jpeg' : 'image/png';
-        canvas.toBlob((blob) => {
-          resolve(blob);
-        }, mimeType, exportSettings.quality / 100);
-
-        URL.revokeObjectURL(url);
+        if (exportSettings.format === 'gif') {
+          const gif = new GIF({
+            workers: 2,
+            quality: 10,
+            width: finalWidth,
+            height: finalHeight,
+            workerScript: '/gif.worker.js',
+          });
+          gif.addFrame(canvas, { delay: 500, copy: true });
+          gif.on('finished', (blob: Blob) => {
+            URL.revokeObjectURL(url);
+            resolve(blob);
+          });
+          gif.on('error', (err: Error) => {
+            URL.revokeObjectURL(url);
+            reject(err);
+          });
+          gif.render();
+        } else if (exportSettings.format === 'pdf') {
+          const pdf = new jsPDF({
+            orientation: finalWidth > finalHeight ? 'landscape' : 'portrait',
+            unit: 'px',
+            format: [finalWidth, finalHeight]
+          });
+          
+          const imgData = canvas.toDataURL('image/png');
+          pdf.addImage(imgData, 'PNG', 0, 0, finalWidth, finalHeight);
+          
+          const pdfBlob = pdf.output('blob');
+          URL.revokeObjectURL(url);
+          resolve(pdfBlob);
+        } else {
+          const mimeType = getMimeType(exportSettings.format);
+          canvas.toBlob((blob) => {
+            URL.revokeObjectURL(url);
+            resolve(blob);
+          }, mimeType, exportSettings.quality / 100);
+        }
       };
 
       img.onerror = () => {
@@ -173,8 +275,37 @@ export default function CodeToPngConverter() {
       height: exportSettings.height || undefined,
     });
 
+    if (exportSettings.format === 'gif') {
+      return new Promise<Blob | null>((resolve, reject) => {
+        const gif = new GIF({
+          workers: 2,
+          quality: 10,
+          width: canvas.width,
+          height: canvas.height,
+          workerScript: '/gif.worker.js',
+        });
+        gif.addFrame(canvas, { delay: 500, copy: true });
+        gif.on('finished', (blob: Blob) => resolve(blob));
+        gif.on('error', (err: Error) => reject(err));
+        gif.render();
+      });
+    }
+
+    if (exportSettings.format === 'pdf') {
+      const pdf = new jsPDF({
+        orientation: canvas.width > canvas.height ? 'landscape' : 'portrait',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      
+      return pdf.output('blob');
+    }
+
     return new Promise<Blob | null>((resolve) => {
-      const mimeType = exportSettings.format === 'jpg' ? 'image/jpeg' : 'image/png';
+      const mimeType = getMimeType(exportSettings.format);
       canvas.toBlob((blob) => {
         resolve(blob);
       }, mimeType, exportSettings.quality / 100);
@@ -209,17 +340,44 @@ export default function CodeToPngConverter() {
     }
   };
 
-  const downloadImage = (format: 'png' | 'jpg') => {
-    if (!previewUrl) return;
+  const downloadImage = async (format: ExportFormat) => {
+    if (!currentCode.trim()) return;
 
     trackEvent('download_image', { format, mode: activeTab });
 
-    const link = document.createElement('a');
-    link.href = previewUrl;
-    link.download = `code-to-png-${Date.now()}.${format}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      setIsConverting(true);
+      const originalFormat = exportSettings.format;
+      
+      // 临时切换到目标格式
+      setExportSettings(prev => ({ ...prev, format }));
+      
+      // 等待状态更新
+      await new Promise(r => setTimeout(r, 50));
+      
+      // 执行转换
+      const blob = activeTab === 'svg'
+        ? await convertSvgToImage()
+        : await convertHtmlToImage();
+      
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `code-to-png-${Date.now()}.${format}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+      
+      // 恢复原始格式
+      setExportSettings(prev => ({ ...prev, format: originalFormat }));
+    } catch (error) {
+      console.error('Download error:', error);
+    } finally {
+      setIsConverting(false);
+    }
   };
 
   const copyCode = () => {
@@ -359,7 +517,12 @@ export default function CodeToPngConverter() {
                     {t('preview.title')}
                   </h2>
                   <button
-                    onClick={() => setShowSettings(!showSettings)}
+                    onClick={() => {
+                      setShowSettings(!showSettings);
+                      if (!showSettings) {
+                        trackSettingsOpen();
+                      }
+                    }}
                     className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"
                   >
                     <Settings className="w-3.5 h-3.5" />
@@ -369,62 +532,239 @@ export default function CodeToPngConverter() {
 
                 {showSettings && (
                   <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-lg space-y-3">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.format')}</label>
-                        <select
-                          value={exportSettings.format}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, format: e.target.value as 'png' | 'jpg' }))}
-                          className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                        >
-                          <option value="png">PNG</option>
-                          <option value="jpg">JPG</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.quality')} (%)</label>
-                        <input
-                          type="number" min="1" max="100"
-                          value={exportSettings.quality}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, quality: parseInt(e.target.value) || 100 }))}
-                          className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.width')} (px)</label>
-                        <input
-                          type="number" min="0"
-                          value={exportSettings.width}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, width: parseInt(e.target.value) || 0 }))}
-                          placeholder="Auto"
-                          className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.height')} (px)</label>
-                        <input
-                          type="number" min="0"
-                          value={exportSettings.height}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, height: parseInt(e.target.value) || 0 }))}
-                          placeholder="Auto"
-                          className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.background')}</label>
-                      <select
-                        value={exportSettings.backgroundColor}
-                        onChange={(e) => setExportSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
-                        className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                    {/* Settings Tabs */}
+                    <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700 pb-2 mb-2">
+                      <button
+                        onClick={() => {
+                          setSettingsTab('format');
+                          trackSettingsTabSwitch('format');
+                        }}
+                        className={`px-3 py-1 text-xs font-medium rounded-t transition-colors ${
+                          settingsTab === 'format'
+                            ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
+                        }`}
                       >
-                        <option value="transparent">{t('settings.transparent')}</option>
-                        <option value="#ffffff">{t('settings.white')}</option>
-                        <option value="#000000">{t('settings.black')}</option>
-                      </select>
+                        Format
+                      </button>
+                      {activeTab === 'svg' && (
+                        <button
+                          onClick={() => {
+                            setSettingsTab('color');
+                            trackSettingsTabSwitch('color');
+                            if (settingsTab !== 'color') {
+                              trackColorTabOpen(extractedColors.length);
+                            }
+                          }}
+                          className={`px-3 py-1 text-xs font-medium rounded-t transition-colors ${
+                            settingsTab === 'color'
+                              ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm'
+                              : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
+                          }`}
+                        >
+                          Color
+                        </button>
+                      )}
                     </div>
+
+                    {/* Format Settings */}
+                    {settingsTab === 'format' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.format')}</label>
+                            <select
+                              value={exportSettings.format}
+                              onChange={(e) => setExportSettings(prev => ({ ...prev, format: e.target.value as ExportFormat }))}
+                              className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                            >
+                              <option value="png">PNG</option>
+                              <option value="jpg">JPG</option>
+                              <option value="gif">GIF</option>
+                              <option value="webp">WebP</option>
+                              <option value="pdf">PDF</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.quality')} (%)</label>
+                            <input
+                              type="number" min="1" max="100"
+                              value={exportSettings.quality}
+                              onChange={(e) => setExportSettings(prev => ({ ...prev, quality: parseInt(e.target.value) || 100 }))}
+                              className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                            />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.width')} (px)</label>
+                            <input
+                              type="number" min="0"
+                              value={exportSettings.width}
+                              onChange={(e) => setExportSettings(prev => ({ ...prev, width: parseInt(e.target.value) || 0 }))}
+                              placeholder="Auto"
+                              className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.height')} (px)</label>
+                            <input
+                              type="number" min="0"
+                              value={exportSettings.height}
+                              onChange={(e) => setExportSettings(prev => ({ ...prev, height: parseInt(e.target.value) || 0 }))}
+                              placeholder="Auto"
+                              className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.background')}</label>
+                          <select
+                            value={exportSettings.backgroundColor}
+                            onChange={(e) => setExportSettings(prev => ({ ...prev, backgroundColor: e.target.value }))}
+                            className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                          >
+                            <option value="transparent">{t('settings.transparent')}</option>
+                            <option value="#ffffff">{t('settings.white')}</option>
+                            <option value="#000000">{t('settings.black')}</option>
+                          </select>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Color Settings */}
+                    {settingsTab === 'color' && activeTab === 'svg' && (
+                      <div className="space-y-4">
+                        {/* Extracted Colors */}
+                        {extractedColors.length > 0 ? (
+                          <>
+                            <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
+                              Detected {extractedColors.length} color{extractedColors.length > 1 ? 's' : ''}:
+                            </p>
+                            <div className="space-y-2">
+                              {extractedColors.map((color, index) => (
+                                <div key={index} className="flex items-center gap-2">
+                                  {/* Color Swatch */}
+                                  <div
+                                    className="w-8 h-8 rounded border border-slate-300 dark:border-slate-600 cursor-pointer"
+                                    style={{ backgroundColor: color }}
+                                    onClick={() => {
+                                      if (pickerOpen === color) {
+                                        setPickerOpen(null);
+                                        trackColorWheelClose();
+                                      } else {
+                                        setPickerOpen(color);
+                                        trackColorWheelOpen(color);
+                                      }
+                                    }}
+                                  />
+                                  {/* Original Color */}
+                                  <span className="text-xs font-mono text-slate-500 w-20">{color}</span>
+                                  {/* New Color Picker */}
+                                  <div className="relative">
+                                    <input
+                                      type="text"
+                                      value={colorMappings[color] || color}
+                                      onChange={(e) => {
+                                        if (isValidHex(e.target.value) || e.target.value === '') {
+                                          setColorMappings(prev => ({ ...prev, [color]: e.target.value }));
+                                          if (e.target.value !== color && isValidHex(e.target.value)) {
+                                            trackColorReplaceSingle(color, e.target.value, 'input');
+                                          }
+                                        }
+                                      }}
+                                      className="w-24 px-2 py-1 text-xs font-mono border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                                    />
+                                    {pickerOpen === color && (
+                                      <div className="absolute top-full left-0 mt-2 z-10 bg-white dark:bg-slate-800 rounded-lg shadow-xl p-2">
+                                        <HexColorPicker
+                                          color={colorMappings[color] || color}
+                                          onChange={(newColor) => {
+                                            setColorMappings(prev => ({ ...prev, [color]: newColor }));
+                                            trackColorReplaceSingle(color, newColor, 'wheel');
+                                          }}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Preset Palettes */}
+                            <div className="border-t border-slate-200 dark:border-slate-700 pt-3">
+                              <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">Presets:</p>
+                              <div className="max-h-48 overflow-y-auto space-y-3">
+                                {PRESET_PALETTES.map((palette) => (
+                                  <div key={palette.id}>
+                                    <p className="text-xs font-medium text-slate-500 mb-1">{palette.name}</p>
+                                    <div className="grid grid-cols-8 gap-1">
+                                      {palette.colors.map((c, i) => (
+                                        <div
+                                          key={i}
+                                          className="w-6 h-6 rounded border border-slate-300 dark:border-slate-600 cursor-pointer hover:scale-110 transition-transform"
+                                          style={{ backgroundColor: c }}
+                                          onClick={() => {
+                                            setTargetColor(c);
+                                            trackColorPresetUsed(palette.id, palette.name, i);
+                                          }}
+                                        />
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Quick Actions */}
+                            <div className="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-2">
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={targetColor}
+                                  onChange={(e) => {
+                                    if (isValidHex(e.target.value) || e.target.value === '') {
+                                      setTargetColor(e.target.value);
+                                    }
+                                  }}
+                                  className="w-24 px-2 py-1 text-xs font-mono border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                                />
+                                <button
+                                  onClick={() => {
+                                    const newMappings: Record<string, string> = {};
+                                    for (const c of extractedColors) {
+                                      newMappings[c] = targetColor;
+                                    }
+                                    setColorMappings(newMappings);
+                                    trackColorReplaceAll(targetColor);
+                                  }}
+                                  className="flex-1 px-3 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+                                >
+                                  Replace All
+                                </button>
+                              </div>
+                              <button
+                                onClick={() => {
+                                  const resetMappings: Record<string, string> = {};
+                                  for (const c of extractedColors) {
+                                    resetMappings[c] = c;
+                                  }
+                                  setColorMappings(resetMappings);
+                                  trackColorResetAll();
+                                }}
+                                className="w-full px-3 py-1.5 text-xs font-medium border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors"
+                              >
+                                Reset All Colors
+                              </button>
+                            </div>
+                          </>
+                        ) : (
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
+                            No colors detected. Paste your SVG code first!
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -432,7 +772,7 @@ export default function CodeToPngConverter() {
                   {currentCode ? (
                     activeTab === 'svg' ? (
                       <div
-                        dangerouslySetInnerHTML={{ __html: svgCode }}
+                        dangerouslySetInnerHTML={{ __html: renderedSvg }}
                         className="max-w-full max-h-full"
                       />
                     ) : (
@@ -482,26 +822,49 @@ export default function CodeToPngConverter() {
                       <CheckCircle className="w-4 h-4 text-green-600" />
                       <span className="text-sm font-medium text-green-800 dark:text-green-200">Ready to download</span>
                     </div>
-                    <img
-                      src={previewUrl}
-                      alt="Converted"
-                      className="max-w-full h-auto rounded border border-gray-200 dark:border-gray-600 mb-2"
-                      style={{ maxHeight: '160px' }}
-                    />
-                    <div className="flex gap-2">
+                    {exportSettings.format !== 'gif' && (
+                      <img
+                        src={previewUrl}
+                        alt="Converted"
+                        className="max-w-full h-auto rounded border border-gray-200 dark:border-gray-600 mb-2"
+                        style={{ maxHeight: '160px' }}
+                      />
+                    )}
+                    <div className="flex gap-2 flex-wrap">
                       <button
                         onClick={() => downloadImage('png')}
                         className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-3 rounded-lg transition-colors text-sm flex items-center justify-center gap-1"
                       >
                         <Download className="w-3.5 h-3.5" />
-                        {t('actions.downloadPng')}
+                        PNG
                       </button>
                       <button
                         onClick={() => downloadImage('jpg')}
                         className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 rounded-lg transition-colors text-sm flex items-center justify-center gap-1"
                       >
                         <Download className="w-3.5 h-3.5" />
-                        {t('actions.downloadJpg')}
+                        JPG
+                      </button>
+                      <button
+                        onClick={() => downloadImage('gif')}
+                        className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-3 rounded-lg transition-colors text-sm flex items-center justify-center gap-1"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        GIF
+                      </button>
+                      <button
+                        onClick={() => downloadImage('webp')}
+                        className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-3 rounded-lg transition-colors text-sm flex items-center justify-center gap-1"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        WebP
+                      </button>
+                      <button
+                        onClick={() => downloadImage('pdf')}
+                        className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-3 rounded-lg transition-colors text-sm flex items-center justify-center gap-1"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        PDF
                       </button>
                     </div>
                   </div>

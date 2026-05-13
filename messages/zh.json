@@ -357,5 +357,61 @@
       "desc": "免费、即时、无需注册。现在开始吧。",
       "button": "免费转换"
     }
+  },
+  "aiAssistant": {
+    "title": "AI 助手",
+    "subtitle": "让 AI 帮你修改 SVG",
+    "quickActions": "快捷操作",
+    "inputPlaceholder": "告诉 AI 你想如何修改 SVG...",
+    "processing": "处理中",
+    "send": "发送",
+    "changesMade": "变更内容",
+    "prompts": {
+      "optimizeCode": "优化代码",
+      "blueGradient": "蓝色渐变",
+      "redTheme": "红色主题",
+      "2xLarger": "放大两倍",
+      "50pctSmaller": "缩小一半",
+      "breathingAnimation": "呼吸动画",
+      "softShadow": "柔和阴影",
+      "centerContent": "居中内容"
+    },
+    "errors": {
+      "svgTooLong": {
+        "title": "SVG 代码过长",
+        "message": "此 SVG 超出了处理限制。",
+        "suggestion": "请简化 SVG 或清除对话历史。"
+      },
+      "svgSyntaxError": {
+        "title": "AI 生成了无效的 SVG",
+        "message": "AI 生成了无效的 SVG 代码，已保留原始版本。",
+        "suggestion": "请尝试换一种方式描述你的需求（例如「优化代码」）。"
+      },
+      "extractionFailed": {
+        "title": "无法提取 SVG",
+        "message": "AI 的回复无法正确解析。",
+        "suggestion": "请尝试更具体的描述（例如「将所有文字改为红色」）。"
+      },
+      "timeout": {
+        "title": "请求超时",
+        "message": "AI 处理时间过长。",
+        "suggestion": "请稍后重试或检查网络连接。"
+      },
+      "rateLimit": {
+        "title": "请求过于频繁",
+        "message": "请稍后再试。",
+        "suggestion": "两次请求之间至少等待 5 秒。"
+      },
+      "networkError": {
+        "title": "网络错误",
+        "message": "无法连接到 AI 服务。",
+        "suggestion": "请检查网络连接后重试。"
+      },
+      "aiError": {
+        "title": "AI 服务错误",
+        "message": "AI 服务遇到了错误。",
+        "suggestion": "请稍后重试。"
+      }
+    }
   }
 }

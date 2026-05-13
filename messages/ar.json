@@ -246,22 +246,6 @@
     "selectTemplate": "اختر قالبًا للبدء",
     "useTemplate": "استخدام القالب"
   },
-  "aiAssistant": {
-    "title": "مساعد الذكاء الاصطناعي",
-    "subtitle": "دعم ذكي لتحسينات SVG",
-    "description": "استخدم قوة الذكاء الاصطناعي لتحسين رسومات SVG الخاصة بك. يمكن لمساعدنا اقتراح تحسينات وإصلاح الأخطاء وتحسين الأداء.",
-    "features": {
-      "optimize": "تحسين",
-      "optimizeDescription": "تحسين حجم الملف والأداء",
-      "fixErrors": "إصلاح الأخطاء",
-      "fixErrorsDescription": "اكتشاف وإصلاح أخطاء SVG الشائعة",
-      "enhance": "تحسين",
-      "enhanceDescription": "تحسين الجودة البصرية للرسومات"
-    },
-    "analyzeButton": "تحليل SVG",
-    "analyzing": "جاري التحليل...",
-    "suggestions": "الاقتراحات"
-  },
   "pricing": {
     "title": "الأسعار",
     "subtitle": "اختر الخطة التي تناسبك",
@@ -496,6 +480,62 @@
       "title": "هل أنت مستعد لتحويل الكود الخاص بك إلى PNG؟",
       "desc": "مجاني، فوري، بدون تسجيل. ابدأ الآن.",
       "button": "تحويل مجاني"
+    }
+  },
+  "aiAssistant": {
+    "title": "AI Assistant",
+    "subtitle": "Ask to modify your SVG",
+    "quickActions": "Quick Actions",
+    "inputPlaceholder": "Ask AI to modify your SVG...",
+    "processing": "Processing",
+    "send": "Send",
+    "changesMade": "Changes Made",
+    "prompts": {
+      "optimizeCode": "Optimize Code",
+      "blueGradient": "Blue Gradient",
+      "redTheme": "Red Theme",
+      "2xLarger": "2x Larger",
+      "50pctSmaller": "50% Smaller",
+      "breathingAnimation": "Breathing Animation",
+      "softShadow": "Soft Shadow",
+      "centerContent": "Center Content"
+    },
+    "errors": {
+      "svgTooLong": {
+        "title": "SVG is too long",
+        "message": "This SVG exceeds processing limits.",
+        "suggestion": "Please simplify the SVG or clear conversation history."
+      },
+      "svgSyntaxError": {
+        "title": "Invalid SVG from AI",
+        "message": "The AI generated invalid SVG code. Keeping original.",
+        "suggestion": "Try phrasing your request differently (e.g., \"optimize code\")."
+      },
+      "extractionFailed": {
+        "title": "Could not extract SVG",
+        "message": "The AI response could not be parsed properly.",
+        "suggestion": "Try being more specific (e.g., \"change all text to red\")."
+      },
+      "timeout": {
+        "title": "Request timed out",
+        "message": "The AI is taking too long.",
+        "suggestion": "Please try again later or check your network."
+      },
+      "rateLimit": {
+        "title": "Too many requests",
+        "message": "Please try again later.",
+        "suggestion": "Wait at least 5 seconds between requests."
+      },
+      "networkError": {
+        "title": "Network error",
+        "message": "Could not connect to AI service.",
+        "suggestion": "Please check your network and try again."
+      },
+      "aiError": {
+        "title": "AI service error",
+        "message": "The AI service encountered an error.",
+        "suggestion": "Please try again later."
+      }
     }
   }
 }

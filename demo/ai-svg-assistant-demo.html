@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI SVG 助手 Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自定义滚动条 */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* 平滑过渡 */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        /* 加载动画 */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-6xl mx-auto p-6">
+        <!-- 标题 -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">🤖 AI SVG 助手 Demo</h1>
+            <p class="text-gray-600">测试 SVG 提取、验证、差异对比功能（使用 Mock 数据）</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- 左侧：编辑器 + AI 交互 -->
+            <div class="space-y-6">
+                <!-- SVG 代码编辑器 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">📝 SVG 代码编辑器</h2>
+                        <button onclick="resetToOriginal()" class="text-sm text-blue-600 hover:text-blue-800">
+                            重置原始代码
+                        </button>
+                    </div>
+                    <textarea 
+                        id="svgCode" 
+                        class="w-full h-64 p-4 border-2 border-gray-200 rounded-lg font-mono text-sm custom-scrollbar focus:border-blue-500 focus:outline-none"
+                        placeholder="粘贴 SVG 代码..."
+                    ></textarea>
+                </div>
+
+                <!-- AI 对话区域 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">💬 AI 助手</h2>
+                    
+                    <!-- 快捷按钮 -->
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2">快捷提示：</p>
+                        <div class="flex flex-wrap gap-2" id="quickButtons">
+                            <button onclick="useQuickPrompt('优化代码')" class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm hover:bg-purple-200 transition-all">
+                                ✨ 优化代码
+                            </button>
+                            <button onclick="useQuickPrompt('改变颜色')" class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm hover:bg-pink-200 transition-all">
+                                🎨 改变颜色
+                            </button>
+                            <button onclick="useQuickPrompt('调整尺寸')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition-all">
+                                📏 调整尺寸
+                            </button>
+                            <button onclick="useQuickPrompt('添加动画')" class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200 transition-all">
+                                ✨ 添加动画
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 输入框 -->
+                    <div class="flex gap-2 mb-4">
+                        <input 
+                            type="text" 
+                            id="userInput" 
+                            class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none"
+                            placeholder="输入你的需求..."
+                            onkeypress="if(event.key==='Enter') sendMessage()"
+                        >
+                        <button 
+                            onclick="sendMessage()" 
+                            id="sendBtn"
+                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        >
+                            发送
+                        </button>
+                    </div>
+
+                    <!-- AI 状态显示 -->
+                    <div id="aiStatus" class="hidden mb-4 p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <div class="animate-pulse">
+                                <span class="text-2xl">🤖</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-gray-700" id="statusText">AI 正在思考...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI 回复 -->
+                    <div id="aiResponse" class="hidden p-4 bg-gray-50 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">AI 回复：</p>
+                        <pre id="aiResponseContent" class="text-sm text-gray-800 whitespace-pre-wrap font-mono"></pre>
+                    </div>
+
+                    <!-- 应用/撤销按钮 -->
+                    <div id="actionButtons" class="hidden mt-4 flex gap-2">
+                        <button 
+                            onclick="applyChanges()" 
+                            class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all"
+                        >
+                            ✅ 应用修改
+                        </button>
+                        <button 
+                            onclick="discardChanges()" 
+                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all"
+                        >
+                            取消
+                        </button>
+                        <button 
+                            onclick="showDiff()" 
+                            class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-all"
+                        >
+                            📝 查看差异
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：预览 + 版本 + 差异 -->
+            <div class="space-y-6">
+                <!-- SVG 预览 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">👁️ 预览</h2>
+                    <div id="svgPreview" class="bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-[300px] flex items-center justify-center">
+                        <p class="text-gray-400">预览区域</p>
+                    </div>
+                </div>
+
+                <!-- 版本历史 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">📜 版本历史</h2>
+                    <div id="versionTimeline" class="overflow-x-auto custom-scrollbar pb-2">
+                        <div class="flex gap-2 min-w-max">
+                            <!-- 版本将在这里动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 差异查看器 -->
+                <div id="diffViewer" class="hidden bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">📝 本次改动</h2>
+                        <button onclick="hideDiff()" class="text-gray-500 hover:text-gray-700">
+                            ✕ 关闭
+                        </button>
+                    </div>
+                    <div id="diffContent" class="space-y-2 font-mono text-sm">
+                        <!-- 差异内容 -->
+                    </div>
+                </div>
+
+                <!-- 测试用例 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">🧪 测试用例</h2>
+                    <div class="space-y-2">
+                        <button onclick="runTest(1)" class="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-left transition-all">
+                            <span class="font-semibold">测试 1:</span> 完美情况（纯 SVG）
+                        </button>
+                        <button onclick="runTest(2)" class="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-left transition-all">
+                            <span class="font-semibold">测试 2:</span> 带解释文字
+                        </button>
+                        <button onclick="runTest(3)" class="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-left transition-all">
+                            <span class="font-semibold">测试 3:</span> Markdown 格式
+                        </button>
+                        <button onclick="runTest(4)" class="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-left transition-all">
+                            <span class="font-semibold">测试 4:</span> 不完整代码
+                        </button>
+                    </div>
+                    <div id="testResult" class="mt-4 p-4 bg-gray-50 rounded-lg hidden">
+                        <p class="font-semibold mb-2">测试结果：</p>
+                        <pre id="testResultContent" class="text-sm font-mono whitespace-pre-wrap"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 核心工具函数（从 TypeScript 转换）
+        // ==========================================
+
+        /**
+         * 验证 AI 输出格式
+         */
+        function validateOutput(output) {
+            const issues = [];
+            const trimmed = output.trim();
+
+            // 检查解释文字
+            const explanationPatterns = [
+                '已修改', '修改完成', '以下是', '代码如下',
+                '已为您', '我来帮你', '好的', '可以的',
+                '好的，', '已完成', '修改后的'
+            ];
+
+            for (const pattern of explanationPatterns) {
+                if (trimmed.startsWith(pattern)) {
+                    issues.push(`包含解释文字: "${pattern}"`);
+                    break;
+                }
+            }
+
+            // 检查 Markdown
+            if (trimmed.includes('```')) {
+                issues.push('包含 Markdown 代码块标记');
+            }
+
+            // 检查完整性
+            if (!trimmed.includes('<svg')) {
+                issues.push('缺少 <svg> 标签');
+            }
+            if (!trimmed.includes('</svg>')) {
+                issues.push('缺少 </svg> 标签');
+            }
+
+            return {
+                isValid: issues.length === 0,
+                issues,
+                rawResponse: output
+            };
+        }
+
+        /**
+         * 从 AI 响应中提取 SVG 代码
+         */
+        function extractSvgCode(response) {
+            const trimmed = response.trim();
+
+            // 策略 1：直接以 <svg 开头
+            if (trimmed.startsWith('<svg')) {
+                return extractCompleteSvg(trimmed);
+            }
+
+            // 策略 2：Markdown 代码块
+            const codeBlockPatterns = [
+                /```(?:\w+)?\n?([\s\S]*?)```/g,
+                /`{3}(\w+)?\n?([\s\S]*?)`{3}/g
+            ];
+
+            for (const pattern of codeBlockPatterns) {
+                let match;
+                while ((match = pattern.exec(trimmed)) !== null) {
+                    const code = (match[2] || match[1]).trim();
+                    if (code.includes('<svg') && code.includes('</svg>')) {
+                        return extractCompleteSvg(code);
+                    }
+                }
+            }
+
+            // 策略 3：从文本中提取
+            if (trimmed.includes('<svg') && trimmed.includes('</svg>')) {
+                const startIdx = trimmed.indexOf('<svg');
+                const endIdx = trimmed.lastIndexOf('</svg>') + 6;
+                return extractCompleteSvg(trimmed.substring(startIdx, endIdx));
+            }
+
+            return null;
+        }
+
+        /**
+         * 提取完整的 SVG
+         */
+        function extractCompleteSvg(text) {
+            const startMatch = text.match(/<svg[\s>]/);
+            if (!startMatch) return text;
+
+            const startIdx = text.indexOf(startMatch[0]);
+            let extracted = text.substring(startIdx);
+
+            let depth = 0;
+            let inTag = false;
+            let inString = false;
+            let stringChar = '';
+            let endIdx = -1;
+
+            for (let i = 0; i < extracted.length; i++) {
+                const char = extracted[i];
+
+                // 处理字符串
+                if ((char === '"' || char === "'") && !inString && (i === 0 || extracted[i - 1] !== '\\')) {
+                    inString = true;
+                    stringChar = char;
+                } else if (char === stringChar && inString && extracted[i - 1] !== '\\') {
+                    inString = false;
+                    stringChar = '';
+                }
+
+                // 不在字符串内处理标签
+                if (!inString) {
+                    if (char === '<') {
+                        // 检查注释
+                        if (extracted.substring(i, i + 4) === '<!--') {
+                            const commentEnd = extracted.indexOf('-->', i);
+                            if (commentEnd !== -1) {
+                                i = commentEnd + 2;
+                                continue;
+                            }
+                        }
+
+                        // 检查开始/结束标签
+                        if (extracted.substring(i, i + 2) === '</') {
+                            depth--;
+                            if (depth === 0) {
+                                endIdx = i + extracted.substring(i).indexOf('>') + 1;
+                                break;
+                            }
+                        } else if (extracted[i + 1] !== '!') {
+                            depth++;
+                        }
+                    }
+                }
+            }
+
+            if (endIdx === -1) {
+                const svgEndMatch = extracted.match(/<\/svg>/i);
+                if (svgEndMatch) {
+                    endIdx = extracted.indexOf(svgEndMatch[0]) + svgEndMatch[0].length;
+                } else {
+                    return extracted;
+                }
+            }
+
+            return extracted.substring(0, endIdx);
+        }
+
+        /**
+         * XML 语法验证
+         */
+        function validateSvgSyntax(svgCode) {
+            const issues = [];
+
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(svgCode, 'image/svg+xml');
+
+                const parseError = doc.querySelector('parsererror');
+                if (parseError) {
+                    issues.push(`XML 语法错误: ${parseError.textContent.substring(0, 100)}`);
+                }
+
+                const svg = doc.querySelector('svg');
+                if (!svg) {
+                    issues.push('文档中未找到 <svg> 元素');
+                }
+            } catch (error) {
+                issues.push(`解析异常: ${error.message}`);
+            }
+
+            return {
+                isValid: issues.length === 0,
+                issues
+            };
+        }
+
+        /**
+         * 解析 SVG 元素
+         */
+        function parseSvgElements(svgCode) {
+            const elements = [];
+            const tagRegex = /<(\w+)([^>]*?)(\/?)>/g;
+            let match;
+            let index = 0;
+
+            while ((match = tagRegex.exec(svgCode)) !== null) {
+                const tagName = match[1];
+                const attributes = match[2];
+
+                const props = {};
+                const attrRegex = /(\w+(?:-\w+)?)\s*=\s*(?:"([^"]*)"|'([^']*)')/g;
+                let attrMatch;
+
+                while ((attrMatch = attrRegex.exec(attributes)) !== null) {
+                    props[attrMatch[1]] = attrMatch[2] || attrMatch[3] || '';
+                }
+
+                elements.push({
+                    type: tagName,
+                    index,
+                    raw: match[0],
+                    properties: props
+                });
+
+                index++;
+            }
+
+            return elements;
+        }
+
+        /**
+         * 对比两个 SVG
+         */
+        function compareSvg(oldCode, newCode) {
+            const diff = {
+                added: [],
+                removed: [],
+                modified: []
+            };
+
+            const oldElements = parseSvgElements(oldCode);
+            const newElements = parseSvgElements(newCode);
+
+            const maxLen = Math.max(oldElements.length, newElements.length);
+
+            for (let i = 0; i < maxLen; i++) {
+                const oldEl = oldElements[i];
+                const newEl = newElements[i];
+
+                if (!oldEl && newEl) {
+                    diff.added.push(newEl);
+                } else if (oldEl && !newEl) {
+                    diff.removed.push(oldEl);
+                } else if (oldEl && newEl) {
+                    const allKeys = new Set([
+                        ...Object.keys(oldEl.properties),
+                        ...Object.keys(newEl.properties)
+                    ]);
+
+                    for (const key of allKeys) {
+                        const oldVal = oldEl.properties[key];
+                        const newVal = newEl.properties[key];
+
+                        if (oldVal !== newVal) {
+                            diff.modified.push({
+                                element: newEl.type,
+                                index: newEl.index,
+                                property: key,
+                                oldValue: oldVal || '(无)',
+                                newValue: newVal || '(无)'
+                            });
+                        }
+                    }
+                }
+            }
+
+            return diff;
+        }
+
+        /**
+         * 生成差异描述
+         */
+        function generateDiffDescription(diff) {
+            const descriptions = [];
+
+            if (diff.added.length > 0) {
+                descriptions.push(`✅ 新增 ${diff.added.length} 个元素`);
+                diff.added.slice(0, 3).forEach(el => {
+                    descriptions.push(`   + ${el.type}`);
+                });
+                if (diff.added.length > 3) {
+                    descriptions.push(`   ...还有 ${diff.added.length - 3} 个`);
+                }
+            }
+
+            if (diff.removed.length > 0) {
+                descriptions.push(`❌ 删除 ${diff.removed.length} 个元素`);
+            }
+
+            if (diff.modified.length > 0) {
+                descriptions.push(`✏️  修改 ${diff.modified.length} 处`);
+                diff.modified.slice(0, 5).forEach(mod => {
+                    const oldVal = String(mod.oldValue).substring(0, 20);
+                    const newVal = String(mod.newValue).substring(0, 20);
+                    descriptions.push(
+                        `   • ${mod.element}.${mod.property}: ${oldVal} → ${newVal}`
+                    );
+                });
+                if (diff.modified.length > 5) {
+                    descriptions.push(`   ...还有 ${diff.modified.length - 5} 处`);
+                }
+            }
+
+            if (descriptions.length === 0) {
+                descriptions.push('代码未发生变化');
+            }
+
+            return descriptions;
+        }
+
+        // ==========================================
+        // Mock 数据
+        // ==========================================
+
+        const ORIGINAL_SVG = `<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f7"/>
+      <stop offset="100%" stop-color="#e8e8ed"/>
+    </linearGradient>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007AFF"/>
+      <stop offset="100%" stop-color="#5856D6"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+  <rect width="200" height="200" fill="url(#cardGradient)" rx="24"/>
+  <g filter="url(#softShadow)">
+    <rect x="20" y="25" width="160" height="60" rx="12" fill="white"/>
+    <text x="100" y="62" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1d1d1f">SVG Code</text>
+  </g>
+  <g transform="translate(100, 110)">
+    <circle cx="0" cy="0" r="22" fill="url(#primaryGradient)"/>
+    <path d="M-7 -3 L0 5 L7 -3" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#softShadow)">
+    <rect x="20" y="135" width="160" height="45" rx="12" fill="white"/>
+    <text x="100" y="164" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1d1d1f">PNG Image</text>
+  </g>
+  <circle cx="45" cy="55" r="4" fill="#007AFF" opacity="0.9"/>
+  <circle cx="45" cy="157" r="4" fill="#007AFF" opacity="0.9"/>
+</svg>`;
+
+        // Mock AI 响应
+        const MOCK_RESPONSES = {
+            1: `<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f7"/>
+      <stop offset="100%" stop-color="#e8e8ed"/>
+    </linearGradient>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007AFF"/>
+      <stop offset="100%" stop-color="#5856D6"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+  <rect width="200" height="200" fill="url(#cardGradient)" rx="24"/>
+  <g filter="url(#softShadow)">
+    <rect x="20" y="25" width="160" height="60" rx="12" fill="white"/>
+    <text x="100" y="62" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1d1d1f">SVG Code</text>
+  </g>
+  <g transform="translate(100, 110)">
+    <circle cx="0" cy="0" r="22" fill="url(#primaryGradient)"/>
+    <path d="M-7 -3 L0 5 L7 -3" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#softShadow)">
+    <rect x="20" y="135" width="160" height="45" rx="12" fill="white"/>
+    <text x="100" y="164" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1d1d1f">PNG Image</text>
+  </g>
+  <circle cx="45" cy="55" r="4" fill="#007AFF" opacity="0.9"/>
+  <circle cx="45" cy="157" r="4" fill="#007AFF" opacity="0.9"/>
+</svg>`,
+
+            2: `好的，我已经优化了 SVG 代码，移除了冗余的属性和不必要的元素。以下是优化后的代码：
+
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f5f5f7"/>
+      <stop offset="1" stop-color="#e8e8ed"/>
+    </linearGradient>
+    <linearGradient id="p" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#007AFF"/>
+      <stop offset="1" stop-color="#5856D6"/>
+    </linearGradient>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+  <rect width="200" height="200" fill="url(#g)" rx="24"/>
+  <g filter="url(#s)">
+    <rect x="20" y="25" width="160" height="60" rx="12" fill="#fff"/>
+    <text x="100" y="62" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1d1d1f">SVG Code</text>
+  </g>
+  <g transform="translate(100,110)">
+    <circle cx="0" cy="0" r="22" fill="url(#p)"/>
+    <path d="M-7 -3 L0 5 L7 -3" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#s)">
+    <rect x="20" y="135" width="160" height="45" rx="12" fill="#fff"/>
+    <text x="100" y="164" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1d1d1f">PNG Image</text>
+  </g>
+  <circle cx="45" cy="55" r="4" fill="#007AFF" opacity="0.9"/>
+  <circle cx="45" cy="157" r="4" fill="#007AFF" opacity="0.9"/>
+</svg>`,
+
+            3: `\`\`\`svg
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f7"/>
+      <stop offset="100%" stop-color="#e8e8ed"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+    <style>
+      @keyframes breathe {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(0.98); }
+      }
+      .breathe { animation: breathe 3s ease-in-out infinite; }
+    </style>
+  </defs>
+  <rect width="200" height="200" fill="url(#cardGradient)" rx="24"/>
+  <g filter="url(#softShadow)">
+    <rect x="20" y="25" width="160" height="60" rx="12" fill="white"/>
+    <text x="100" y="62" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1d1d1f">SVG Code</text>
+  </g>
+  <g transform="translate(100, 110)" class="breathe">
+    <circle cx="0" cy="0" r="22" fill="#007AFF"/>
+    <path d="M-7 -3 L0 5 L7 -3" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#softShadow)">
+    <rect x="20" y="135" width="160" height="45" rx="12" fill="white"/>
+    <text x="100" y="164" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1d1d1f">PNG Image</text>
+  </g>
+  <circle cx="45" cy="55" r="4" fill="#007AFF" opacity="0.9"/>
+</svg>
+\`\`\`
+
+这应该可以了！`,
+
+            4: `<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="50" fill="purple"/>`
+        };
+
+        // ==========================================
+        // 状态管理
+        // ==========================================
+
+        let currentSvgCode = ORIGINAL_SVG;
+        let versions = [];
+        let pendingSvgCode = null;
+        let lastDiff = null;
+
+        // ==========================================
+        // 初始化
+        // ==========================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            resetToOriginal();
+            addVersion(currentSvgCode, '初始版本', false);
+        });
+
+        // ==========================================
+        // UI 函数
+        // ==========================================
+
+        function resetToOriginal() {
+            currentSvgCode = ORIGINAL_SVG;
+            document.getElementById('svgCode').value = currentSvgCode;
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const preview = document.getElementById('svgPreview');
+            preview.innerHTML = currentSvgCode;
+        }
+
+        function useQuickPrompt(prompt) {
+            document.getElementById('userInput').value = prompt;
+        }
+
+        function showStatus(text) {
+            const status = document.getElementById('aiStatus');
+            document.getElementById('statusText').textContent = text;
+            status.classList.remove('hidden');
+        }
+
+        function hideStatus() {
+            document.getElementById('aiStatus').classList.add('hidden');
+        }
+
+        function showResponse(content) {
+            const response = document.getElementById('aiResponse');
+            document.getElementById('aiResponseContent').textContent = content;
+            response.classList.remove('hidden');
+        }
+
+        function hideResponse() {
+            document.getElementById('aiResponse').classList.add('hidden');
+        }
+
+        function showActions() {
+            document.getElementById('actionButtons').classList.remove('hidden');
+        }
+
+        function hideActions() {
+            document.getElementById('actionButtons').classList.add('hidden');
+        }
+
+        // ==========================================
+        // 版本管理
+        // ==========================================
+
+        function addVersion(code, description, isAiModified) {
+            const version = {
+                id: Date.now().toString(),
+                code,
+                timestamp: Date.now(),
+                description,
+                isAiModified,
+                isCurrent: true
+            };
+
+            // 更新所有版本的 isCurrent
+            versions = versions.map(v => ({ ...v, isCurrent: false }));
+            versions.push(version);
+
+            // 保持最多 10 个版本
+            if (versions.length > 10) {
+                versions = versions.slice(-10);
+            }
+
+            updateVersionTimeline();
+        }
+
+        function updateVersionTimeline() {
+            const container = document.getElementById('versionTimeline');
+            const currentVersion = versions.find(v => v.isCurrent);
+
+            container.innerHTML = versions.slice().reverse().map(v => {
+                const time = new Date(v.timestamp).toLocaleTimeString();
+                const icon = v.isAiModified ? '🤖' : '📝';
+                const isCurrent = v.isCurrent ? 'ring-2 ring-blue-500' : '';
+                
+                return `
+                    <div class="flex-shrink-0 px-3 py-2 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-all ${isCurrent}" 
+                         onclick="rollbackToVersion('${v.id}')">
+                        <div class="flex items-center gap-1 text-xs">
+                            <span>${icon}</span>
+                            <span class="font-semibold">v${versions.length - versions.indexOf(v)}</span>
+                            ${v.isCurrent ? '<span class="text-blue-600">✓</span>' : ''}
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">${time}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function rollbackToVersion(versionId) {
+            const version = versions.find(v => v.id === versionId);
+            if (!version) return;
+
+            // 更新版本状态
+            versions = versions.map(v => ({
+                ...v,
+                isCurrent: v.id === versionId
+            }));
+
+            currentSvgCode = version.code;
+            document.getElementById('svgCode').value = currentSvgCode;
+            updatePreview();
+            updateVersionTimeline();
+        }
+
+        // ==========================================
+        // 核心逻辑
+        // ==========================================
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput').value.trim();
+            if (!userInput) return;
+
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
+
+            showStatus('🤖 AI 正在思考...');
+
+            // 模拟 AI 延迟
+            setTimeout(() => {
+                hideStatus();
+
+                // 模拟选择不同的响应
+                const testCases = [1, 2, 3, 4];
+                const randomTest = testCases[Math.floor(Math.random() * testCases.length)];
+                const mockResponse = MOCK_RESPONSES[randomTest];
+
+                showResponse(mockResponse);
+
+                // 处理响应
+                processAiResponse(mockResponse);
+
+                sendBtn.disabled = false;
+            }, 1500);
+        }
+
+        function processAiResponse(response) {
+            // 1. 验证输出
+            const validation = validateOutput(response);
+            
+            console.log('验证结果:', validation);
+
+            // 2. 提取 SVG
+            const extractedSvg = extractSvgCode(response);
+            
+            console.log('提取结果:', extractedSvg ? '成功' : '失败');
+
+            if (!extractedSvg) {
+                alert('无法从 AI 响应中提取 SVG 代码');
+                return;
+            }
+
+            // 3. 验证 SVG 语法
+            const syntaxValidation = validateSvgSyntax(extractedSvg);
+            
+            console.log('语法验证:', syntaxValidation);
+
+            if (!syntaxValidation.isValid) {
+                alert('SVG 语法错误: ' + syntaxValidation.issues.join(', '));
+                return;
+            }
+
+            // 4. 保存待应用的代码
+            pendingSvgCode = extractedSvg;
+
+            // 5. 对比差异
+            lastDiff = compareSvg(currentSvgCode, extractedSvg);
+
+            console.log('差异:', lastDiff);
+
+            // 6. 显示操作按钮
+            showActions();
+        }
+
+        function applyChanges() {
+            if (!pendingSvgCode) return;
+
+            // 保存版本
+            const userInput = document.getElementById('userInput').value.trim();
+            addVersion(pendingSvgCode, `AI: ${userInput}`, true);
+
+            // 应用修改
+            currentSvgCode = pendingSvgCode;
+            document.getElementById('svgCode').value = currentSvgCode;
+            updatePreview();
+
+            // 清理
+            pendingSvgCode = null;
+            hideActions();
+            hideResponse();
+            document.getElementById('userInput').value = '';
+        }
+
+        function discardChanges() {
+            pendingSvgCode = null;
+            lastDiff = null;
+            hideActions();
+            hideResponse();
+        }
+
+        function showDiff() {
+            if (!lastDiff) return;
+
+            const viewer = document.getElementById('diffViewer');
+            const content = document.getElementById('diffContent');
+
+            const descriptions = generateDiffDescription(lastDiff);
+            
+            content.innerHTML = descriptions.map(desc => {
+                let colorClass = 'text-gray-700';
+                if (desc.startsWith('✅')) colorClass = 'text-green-600';
+                if (desc.startsWith('❌')) colorClass = 'text-red-600';
+                if (desc.startsWith('✏️')) colorClass = 'text-blue-600';
+                
+                return `<div class="${colorClass}">${desc}</div>`;
+            }).join('');
+
+            viewer.classList.remove('hidden');
+        }
+
+        function hideDiff() {
+            document.getElementById('diffViewer').classList.add('hidden');
+        }
+
+        // ==========================================
+        // 测试用例
+        // ==========================================
+
+        function runTest(testNum) {
+            const resultDiv = document.getElementById('testResult');
+            const resultContent = document.getElementById('testResultContent');
+            
+            resultDiv.classList.remove('hidden');
+
+            const response = MOCK_RESPONSES[testNum];
+            let output = '';
+
+            output += '='.repeat(60) + '\n';
+            output += `测试 ${testNum} - 原始 AI 响应\n`;
+            output += '='.repeat(60) + '\n';
+            output += response + '\n\n';
+
+            // 验证
+            const validation = validateOutput(response);
+            output += '验证结果:\n';
+            output += `  ✅ 格式有效: ${validation.isValid}\n`;
+            if (!validation.isValid) {
+                output += `  ❌ 问题: ${validation.issues.join(', ')}\n`;
+            }
+            output += '\n';
+
+            // 提取
+            const extracted = extractSvgCode(response);
+            output += '提取结果:\n';
+            output += `  ${extracted ? '✅ 成功提取' : '❌ 提取失败'}\n`;
+            if (extracted) {
+                output += `  代码长度: ${extracted.length} 字符\n\n`;
+            }
+
+            // 语法验证
+            if (extracted) {
+                const syntax = validateSvgSyntax(extracted);
+                output += '语法验证:\n';
+                output += `  ${syntax.isValid ? '✅ 通过' : '❌ 失败'}\n`;
+                if (!syntax.isValid) {
+                    output += `  错误: ${syntax.issues.join(', ')}\n`;
+                }
+                output += '\n';
+            }
+
+            // 差异对比
+            if (extracted && extracted !== currentSvgCode) {
+                const diff = compareSvg(currentSvgCode, extracted);
+                const descriptions = generateDiffDescription(diff);
+                
+                output += '差异对比:\n';
+                descriptions.forEach(d => {
+                    output += `  ${d}\n`;
+                });
+            }
+
+            resultContent.textContent = output;
+        }
+    </script>
+</body>
+</html>
