@@ -227,7 +227,16 @@
     "placeholder": "ここにSVGコードを貼り付けるか、テンプレートを選択してください...",
     "convertButton": "PNGに変換",
     "converting": "変換中...",
-    "conversionComplete": "変換完了！"
+    "conversionComplete": "変換完了！",
+    "colorEditor": {
+      "formatTab": "フォーマット",
+      "colorTab": "カラー",
+      "detectedColors": "{count}色を検出:",
+      "presets": "プリセット:",
+      "replaceAll": "すべて置換",
+      "resetAllColors": "すべての色をリセット",
+      "noColorsDetected": "色が検出されません。SVGコードを先に貼り付けてください!"
+    }
   },
   "common": {
     "loading": "読み込み中...",
@@ -272,7 +281,17 @@
       "background": "背景",
       "transparent": "透明",
       "white": "白",
-      "black": "黒"
+      "black": "黒",
+      "color": {
+        "formatTab": "フォーマット",
+        "colorTab": "カラー",
+        "detectedColors": "{count}色を検出:",
+        "presets": "プリセット:",
+        "replaceAll": "すべて置換",
+        "resetAllColors": "すべての色をリセット",
+        "noColorsDetected": "色が検出されません。SVGコードを先に貼り付けてください!",
+        "settingsButton": "設定"
+      }
     },
     "actions": {
       "downloadPng": "PNGをダウンロード",

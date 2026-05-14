@@ -249,7 +249,16 @@
     "placeholder": "Fügen Sie hier Ihren SVG-Code ein oder wählen Sie eine Vorlage...",
     "convertButton": "In PNG Konvertieren",
     "converting": "Konvertierung läuft...",
-    "conversionComplete": "Konvertierung Abgeschlossen!"
+    "conversionComplete": "Konvertierung Abgeschlossen!",
+    "colorEditor": {
+      "formatTab": "Format",
+      "colorTab": "Farbe",
+      "detectedColors": "{count, plural, one {# Farbe erkannt} other {# Farben erkannt}}:",
+      "presets": "Voreinstellungen:",
+      "replaceAll": "Alle ersetzen",
+      "resetAllColors": "Alle Farben zurücksetzen",
+      "noColorsDetected": "Keine Farben erkannt. Bitte zuerst SVG-Code einfügen!"
+    }
   },
   "common": {
     "loading": "Laden...",
@@ -294,7 +303,17 @@
       "background": "Hintergrund",
       "transparent": "Transparent",
       "white": "Weiß",
-      "black": "Schwarz"
+      "black": "Schwarz",
+      "color": {
+        "formatTab": "Format",
+        "colorTab": "Farbe",
+        "detectedColors": "{count, plural, one {# Farbe erkannt} other {# Farben erkannt}}:",
+        "presets": "Voreinstellungen:",
+        "replaceAll": "Alle ersetzen",
+        "resetAllColors": "Alle Farben zurücksetzen",
+        "noColorsDetected": "Keine Farben erkannt. Bitte zuerst SVG-Code einfügen!",
+        "settingsButton": "Einstellungen"
+      }
     },
     "actions": {
       "downloadPng": "PNG herunterladen",

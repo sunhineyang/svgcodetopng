@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import GIF from 'gif.js';
 import { jsPDF } from 'jspdf';
+import { HexColorPicker } from 'react-colorful';
 import { 
   ArrowDown, 
   Download, 
@@ -30,7 +31,25 @@ import { useTheme } from 'next-themes';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
 import AiAssistant from '../../components/AiAssistant';
-import { trackEvent } from '../../utils/analytics';
+import {
+  trackEvent,
+  trackSettingsOpen,
+  trackSettingsTabSwitch,
+  trackColorTabOpen,
+  trackColorReplaceSingle,
+  trackColorReplaceAll,
+  trackColorPresetUsed,
+  trackColorResetAll,
+  trackColorWheelOpen,
+  trackColorWheelClose,
+} from '../../utils/analytics';
+import {
+  extractColors,
+  replaceColor,
+  isValidHex,
+  colorEquals,
+} from '../../utils/svg-color';
+import { PRESET_PALETTES } from '../../utils/color-palettes';
 
 interface ExportSettings {
   format: 'png' | 'jpg' | 'gif' | 'webp' | 'pdf';
@@ -124,6 +143,14 @@ export default function KoreanHomePage() {
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [settingsTab, setSettingsTab] = useState<'format' | 'color'>('format');
+  
+  // 颜色编辑相关状态
+  const [extractedColors, setExtractedColors] = useState<string[]>([]);
+  const [colorMappings, setColorMappings] = useState<Record<string, string>>({});
+  const [renderedSvg, setRenderedSvg] = useState<string>(svgCode);
+  const [targetColor, setTargetColor] = useState<string>('#3B82F6');
+  const [pickerOpen, setPickerOpen] = useState<string | null>(null);
 
   const features = [
     {
@@ -148,6 +175,32 @@ export default function KoreanHomePage() {
     }
   ];
 
+  // 自动提取 SVG 颜色
+  useEffect(() => {
+    if (svgCode) {
+      const colors = extractColors(svgCode);
+      setExtractedColors(colors);
+      setColorMappings(prev => {
+        const newMappings: Record<string, string> = {};
+        for (const c of colors) {
+          newMappings[c] = prev[c] || c;
+        }
+        return newMappings;
+      });
+    }
+  }, [svgCode]);
+
+  // 应用颜色替换到渲染副本
+  useEffect(() => {
+    let result = svgCode;
+    for (const [oldColor, newColor] of Object.entries(colorMappings)) {
+      if (!colorEquals(oldColor, newColor)) {
+        result = replaceColor(result, oldColor, newColor);
+      }
+    }
+    setRenderedSvg(result);
+  }, [colorMappings, svgCode]);
+
   // Convert SVG to image
   const convertToImage = useCallback(async () => {
     if (!svgCode.trim()) return;
@@ -169,7 +222,7 @@ export default function KoreanHomePage() {
       const finalWidth = exportSettings.width || originalWidth * exportSettings.scale;
       const finalHeight = exportSettings.height || originalHeight * exportSettings.scale;
       
-      const svgBlob = new Blob([svgCode], { type: 'image/svg+xml;charset=utf-8' });
+      const svgBlob = new Blob([renderedSvg], { type: 'image/svg+xml;charset=utf-8' });
       const url = URL.createObjectURL(svgBlob);
       
       const img = new Image();
@@ -201,8 +254,6 @@ export default function KoreanHomePage() {
           });
 
         if (exportSettings.format === 'gif') {
-          // For GIF, we'll create a simple static image
-          // In a real implementation, you'd handle animation frames
           canvas.toBlob((blob) => {
             if (blob) {
               const url = URL.createObjectURL(blob);
@@ -239,7 +290,7 @@ export default function KoreanHomePage() {
       setIsConverting(false);
       alert('Error converting SVG: ' + (error as Error).message);
     }
-  }, [svgCode, exportSettings]);
+  }, [renderedSvg, exportSettings]);
 
   const downloadFormat = async (format: 'png' | 'jpg' | 'gif' | 'webp' | 'pdf') => {
     if (!svgCode.trim()) return;
@@ -270,7 +321,7 @@ export default function KoreanHomePage() {
       const finalWidth = exportSettings.width || originalWidth * exportSettings.scale;
       const finalHeight = exportSettings.height || originalHeight * exportSettings.scale;
       
-      const svgBlob = new Blob([svgCode], { type: 'image/svg+xml;charset=utf-8' });
+      const svgBlob = new Blob([renderedSvg], { type: 'image/svg+xml;charset=utf-8' });
       const url = URL.createObjectURL(svgBlob);
       
       const img = new Image();
@@ -578,7 +629,12 @@ export default function KoreanHomePage() {
                     {t('converter.preview')}
                   </h3>
                   <button
-                    onClick={() => setShowSettings(!showSettings)}
+                    onClick={() => {
+                      setShowSettings(!showSettings);
+                      if (!showSettings) {
+                        trackSettingsOpen();
+                      }
+                    }}
                     className="flex items-center gap-2 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                   >
                     <Settings className="w-4 h-4" />
@@ -589,65 +645,228 @@ export default function KoreanHomePage() {
                 {/* Export Settings */}
                 {showSettings && (
                   <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          {t('converter.format')}
-                        </label>
-                        <select
-                          value={exportSettings.format}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, format: e.target.value as 'png' | 'jpg' | 'gif' | 'webp' | 'pdf' }))}
-                          className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                        >
-                          <option value="png">PNG</option>
-                          <option value="jpg">JPG</option>
-                          <option value="gif">GIF</option>
-                          <option value="webp">WebP</option>
-                          <option value="pdf">PDF</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          {t('converter.quality')} (%)
-                        </label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="100"
-                          value={exportSettings.quality}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, quality: parseInt(e.target.value) || 100 }))}
-                          className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                        />
-                      </div>
+                    <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700 pb-2 mb-2">
+                      <button
+                        onClick={() => {
+                          setSettingsTab('format');
+                          trackSettingsTabSwitch('format');
+                        }}
+                        className={`px-3 py-1 text-xs font-medium rounded-t transition-colors ${
+                          settingsTab === 'format'
+                            ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
+                        }`}
+                      >
+                        {t('converter.colorEditor.formatTab')}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSettingsTab('color');
+                          trackSettingsTabSwitch('color');
+                          if (settingsTab !== 'color') {
+                            trackColorTabOpen(extractedColors.length);
+                          }
+                        }}
+                        className={`px-3 py-1 text-xs font-medium rounded-t transition-colors ${
+                          settingsTab === 'color'
+                            ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
+                        }`}
+                      >
+                        {t('converter.colorEditor.colorTab')}
+                      </button>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          {t('converter.width')} (px)
-                        </label>
-                        <input
-                          type="number"
-                          min="0"
-                          value={exportSettings.width}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, width: parseInt(e.target.value) || 0 }))}
-                          placeholder="Auto"
-                          className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                        />
+
+                    {settingsTab === 'format' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                              {t('converter.format')}
+                            </label>
+                            <select
+                              value={exportSettings.format}
+                              onChange={(e) => setExportSettings(prev => ({ ...prev, format: e.target.value as 'png' | 'jpg' | 'gif' | 'webp' | 'pdf' }))}
+                              className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                            >
+                              <option value="png">PNG</option>
+                              <option value="jpg">JPG</option>
+                              <option value="gif">GIF</option>
+                              <option value="webp">WebP</option>
+                              <option value="pdf">PDF</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                              {t('converter.quality')} (%)
+                            </label>
+                            <input
+                              type="number"
+                              min="1"
+                              max="100"
+                              value={exportSettings.quality}
+                              onChange={(e) => setExportSettings(prev => ({ ...prev, quality: parseInt(e.target.value) || 100 }))}
+                              className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                            />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                              {t('converter.width')} (px)
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              value={exportSettings.width}
+                              onChange={(e) => setExportSettings(prev => ({ ...prev, width: parseInt(e.target.value) || 0 }))}
+                              placeholder="Auto"
+                              className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                              {t('converter.height')} (px)
+                            </label>
+                            <input
+                              type="number"
+                              min="0"
+                              value={exportSettings.height}
+                              onChange={(e) => setExportSettings(prev => ({ ...prev, height: parseInt(e.target.value) || 0 }))}
+                              placeholder="Auto"
+                              className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {settingsTab === 'color' && (
+                      <div className="space-y-4">
+                        {extractedColors.length > 0 ? (
+                          <>
+                            <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
+                              {t('converter.colorEditor.detectedColors', { count: extractedColors.length })}
+                            </p>
+                            <div className="space-y-2">
+                              {extractedColors.map((color, index) => (
+                                <div key={index} className="flex items-center gap-2">
+                                  <div
+                                    className="w-8 h-8 rounded border border-slate-300 dark:border-slate-600 cursor-pointer"
+                                    style={{ backgroundColor: color }}
+                                    onClick={() => {
+                                      if (pickerOpen === color) {
+                                        setPickerOpen(null);
+                                        trackColorWheelClose();
+                                      } else {
+                                        setPickerOpen(color);
+                                        trackColorWheelOpen(color);
+                                      }
+                                    }}
+                                  />
+                                  <span className="text-xs font-mono text-slate-500 w-20">{color}</span>
+                                  <div className="relative">
+                                    <input
+                                      type="text"
+                                      value={colorMappings[color] || color}
+                                      onChange={(e) => {
+                                        if (isValidHex(e.target.value) || e.target.value === '') {
+                                          setColorMappings(prev => ({ ...prev, [color]: e.target.value }));
+                                          if (e.target.value !== color && isValidHex(e.target.value)) {
+                                            trackColorReplaceSingle(color, e.target.value, 'input');
+                                          }
+                                        }
+                                      }}
+                                      className="w-24 px-2 py-1 text-xs font-mono border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                                    />
+                                    {pickerOpen === color && (
+                                      <div className="absolute top-full left-0 mt-2 z-10 bg-white dark:bg-slate-800 rounded-lg shadow-xl p-2">
+                                        <HexColorPicker
+                                          color={colorMappings[color] || color}
+                                          onChange={(newColor) => {
+                                            setColorMappings(prev => ({ ...prev, [color]: newColor }));
+                                            trackColorReplaceSingle(color, newColor, 'wheel');
+                                          }}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+
+                            <div className="border-t border-slate-200 dark:border-slate-700 pt-3">
+                              <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{t('converter.colorEditor.presets')}</p>
+                              <div className="max-h-48 overflow-y-auto space-y-3">
+                                {PRESET_PALETTES.map((palette) => (
+                                  <div key={palette.id}>
+                                    <p className="text-xs font-medium text-slate-500 mb-1">{palette.name}</p>
+                                    <div className="grid grid-cols-8 gap-1">
+                                      {palette.colors.map((c, i) => (
+                                        <div
+                                          key={i}
+                                          className="w-6 h-6 rounded border border-slate-300 dark:border-slate-600 cursor-pointer hover:scale-110 transition-transform"
+                                          style={{ backgroundColor: c }}
+                                          onClick={() => {
+                                            setTargetColor(c);
+                                            trackColorPresetUsed(palette.id, palette.name, i);
+                                          }}
+                                        />
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            <div className="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-2">
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={targetColor}
+                                  onChange={(e) => {
+                                    if (isValidHex(e.target.value) || e.target.value === '') {
+                                      setTargetColor(e.target.value);
+                                    }
+                                  }}
+                                  className="w-24 px-2 py-1 text-xs font-mono border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                                />
+                                <button
+                                  onClick={() => {
+                                    const newMappings: Record<string, string> = {};
+                                    for (const c of extractedColors) {
+                                      newMappings[c] = targetColor;
+                                    }
+                                    setColorMappings(newMappings);
+                                    trackColorReplaceAll(targetColor);
+                                  }}
+                                  className="flex-1 px-3 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+                                >
+                                  {t('converter.colorEditor.replaceAll')}
+                                </button>
+                              </div>
+                              <button
+                                onClick={() => {
+                                  const resetMappings: Record<string, string> = {};
+                                  for (const c of extractedColors) {
+                                    resetMappings[c] = c;
+                                  }
+                                  setColorMappings(resetMappings);
+                                  trackColorResetAll();
+                                }}
+                                className="w-full px-3 py-1.5 text-xs font-medium border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors"
+                              >
+                                {t('converter.colorEditor.resetAllColors')}
+                              </button>
+                            </div>
+                          </>
+                        ) : (
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
+                            {t('converter.colorEditor.noColorsDetected')}
+                          </p>
+                        )}
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          {t('converter.height')} (px)
-                        </label>
-                        <input
-                          type="number"
-                          min="0"
-                          value={exportSettings.height}
-                          onChange={(e) => setExportSettings(prev => ({ ...prev, height: parseInt(e.target.value) || 0 }))}
-                          placeholder="Auto"
-                          className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                        />
-                      </div>
-                    </div>
+                    )}
                   </div>
                 )}
 
@@ -655,7 +874,7 @@ export default function KoreanHomePage() {
                 <div className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 bg-white dark:bg-slate-900 min-h-[300px] flex items-center justify-center">
                   {svgCode ? (
                     <div 
-                      dangerouslySetInnerHTML={{ __html: svgCode }}
+                      dangerouslySetInnerHTML={{ __html: renderedSvg }}
                       className="max-w-full max-h-full"
                     />
                   ) : (

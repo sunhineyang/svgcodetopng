@@ -230,7 +230,16 @@
     "placeholder": "الصق كود SVG هنا أو اختر قالبًا...",
     "convertButton": "تحويل إلى PNG",
     "converting": "جاري التحويل...",
-    "conversionComplete": "اكتمل التحويل!"
+    "conversionComplete": "اكتمل التحويل!",
+    "colorEditor": {
+      "formatTab": "التنسيق",
+      "colorTab": "اللون",
+      "detectedColors": "{count, plural, one {تم اكتشاف # لون} other {تم اكتشاف # ألوان}}:",
+      "presets": "الإعدادات المسبقة:",
+      "replaceAll": "استبدال الكل",
+      "resetAllColors": "إعادة تعيين جميع الألوان",
+      "noColorsDetected": "لم يتم اكتشاف ألوان. الصق كود SVG أولاً!"
+    }
   },
   "templates": {
     "title": "قوالب SVG",
@@ -418,7 +427,17 @@
       "background": "الخلفية",
       "transparent": "شفاف",
       "white": "أبيض",
-      "black": "أسود"
+      "black": "أسود",
+      "color": {
+        "formatTab": "التنسيق",
+        "colorTab": "اللون",
+        "detectedColors": "{count, plural, one {تم اكتشاف # لون} other {تم اكتشاف # ألوان}}:",
+        "presets": "الإعدادات المسبقة:",
+        "replaceAll": "استبدال الكل",
+        "resetAllColors": "إعادة تعيين جميع الألوان",
+        "noColorsDetected": "لم يتم اكتشاف ألوان. الصق كود SVG أولاً!",
+        "settingsButton": "الإعدادات"
+      }
     },
     "actions": {
       "downloadPng": "تحميل PNG",

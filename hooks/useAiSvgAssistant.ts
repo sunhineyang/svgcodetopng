@@ -60,7 +60,7 @@ async function fetchWithRetry(
   }
 }
 
-export const useAiSvgAssistant = (initialSvgCode: string) => {
+export const useAiSvgAssistant = (initialSvgCode: string, onSvgCodeChange?: (code: string) => void) => {
   const t = useTranslations('aiAssistant.errors');
   const [svgCode, setSvgCode] = useState(initialSvgCode);
   const [conversationHistory, setConversationHistory] = useState<
@@ -158,6 +158,7 @@ export const useAiSvgAssistant = (initialSvgCode: string) => {
         const newVersions = addVersion(versions, newVersion);
         setVersions(newVersions);
         setSvgCode(newSvgCode);
+        onSvgCodeChange?.(newSvgCode);
 
       } catch (err) {
         const errObj = err as Error;
@@ -172,7 +173,7 @@ export const useAiSvgAssistant = (initialSvgCode: string) => {
         setIsProcessing(false);
       }
     },
-    [svgCode, conversationHistory, versions, t, setTranslatedError]
+    [svgCode, conversationHistory, versions, t, setTranslatedError, onSvgCodeChange]
   );
 
   const handleRollback = useCallback((versionId: string) => {
@@ -180,8 +181,9 @@ export const useAiSvgAssistant = (initialSvgCode: string) => {
     if (result) {
       setVersions(result.versions);
       setSvgCode(result.code);
+      onSvgCodeChange?.(result.code);
     }
-  }, [versions]);
+  }, [versions, onSvgCodeChange]);
 
   const handleApplyQuickPrompt = useCallback((index: number) => {
     const prompt = QUICK_PROMPTS[index];
@@ -206,7 +208,8 @@ export const useAiSvgAssistant = (initialSvgCode: string) => {
       const newVersions = addVersion(versions, newVersion);
       setVersions(newVersions);
     }
-  }, [versions]);
+    onSvgCodeChange?.(newCode);
+  }, [versions, onSvgCodeChange]);
 
   return {
     svgCode,

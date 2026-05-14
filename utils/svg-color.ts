@@ -36,22 +36,56 @@ export function extractColors(svgString: string): string[] {
 
 /**
  * 将颜色替换为新颜色
+ * 支持：fill, stroke, stop-color, flood-color, color, animate values, CSS 属性
  */
 export function replaceColor(
   svgString: string,
   oldColor: string,
   newColor: string
 ): string {
+  if (!oldColor || !newColor || oldColor === newColor) return svgString;
+  
   const escapedOld = escapeRegExp(oldColor);
   
-  // 按顺序尝试替换各种属性
-  return svgString
-    .replace(new RegExp(`fill=["']${escapedOld}["']`, 'gi'), `fill="${newColor}"`)
-    .replace(new RegExp(`stroke=["']${escapedOld}["']`, 'gi'), `stroke="${newColor}"`)
-    .replace(new RegExp(`stop-color=["']${escapedOld}["']`, 'gi'), `stop-color="${newColor}"`)
-    .replace(new RegExp(`fill:\\s*${escapedOld}\\s*;`, 'gi'), `fill: ${newColor};`)
-    .replace(new RegExp(`stroke:\\s*${escapedOld}\\s*;`, 'gi'), `stroke: ${newColor};`)
-    .replace(new RegExp(`background-color:\\s*${escapedOld}\\s*;`, 'gi'), `background-color: ${newColor};`);
+  let result = svgString;
+  
+  // 1. XML 属性（带引号）
+  const attrPatterns = [
+    'fill', 'stroke', 'stop-color', 'flood-color', 'color',
+    'solid-color', 'lighting-color', 'border-color', 'background-color',
+  ];
+  for (const attr of attrPatterns) {
+    result = result.replace(
+      new RegExp(`${attr}=["']${escapedOld}["']`, 'gi'),
+      `${attr}="${newColor}"`
+    );
+  }
+  
+  // 2. animate/animateTransform 的 values 属性中的颜色（支持多值，全局替换）
+  // 例如: values="#007AFF;#5856D6;#007AFF" 或 values="#007AFF;#fff;#007AFF"
+  result = result.replace(
+    new RegExp(`(${escapedOld})`, 'g'),
+    newColor
+  );
+  
+  // 3. CSS 内联样式属性（带分号）
+  const cssPatterns = [
+    'fill', 'stroke', 'stop-color', 'flood-color', 'color', 'background-color',
+  ];
+  for (const cssProp of cssPatterns) {
+    result = result.replace(
+      new RegExp(`(${cssProp}):\\s*${escapedOld}\\s*;`, 'gi'),
+      `${cssProp}: ${newColor};`
+    );
+  }
+  
+  // 4. 处理不带分号的 CSS（行尾或字符串结尾）
+  result = result.replace(
+    new RegExp(`(fill):\\s*${escapedOld}([^;\\n"']*)$`, 'gi'),
+    `fill: ${newColor}$2`
+  );
+  
+  return result;
 }
 
 /**

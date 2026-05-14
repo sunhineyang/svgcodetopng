@@ -249,7 +249,16 @@
     "placeholder": "Tempel kode SVG Anda di sini atau pilih templat...",
     "convertButton": "Konversi ke PNG",
     "converting": "Mengonversi...",
-    "conversionComplete": "Konversi Selesai!"
+    "conversionComplete": "Konversi Selesai!",
+    "colorEditor": {
+      "formatTab": "Format",
+      "colorTab": "Warna",
+      "detectedColors": "{count} warna terdeteksi:",
+      "presets": "Preset:",
+      "replaceAll": "Ganti Semua",
+      "resetAllColors": "Reset Semua Warna",
+      "noColorsDetected": "Tidak ada warna terdeteksi. Tempelkan kode SVG Anda terlebih dahulu!"
+    }
   },
   "common": {
     "loading": "Memuat...",
@@ -294,7 +303,17 @@
       "background": "Latar",
       "transparent": "Transparan",
       "white": "Putih",
-      "black": "Hitam"
+      "black": "Hitam",
+      "color": {
+        "formatTab": "Format",
+        "colorTab": "Warna",
+        "detectedColors": "{count} warna terdeteksi:",
+        "presets": "Preset:",
+        "replaceAll": "Ganti Semua",
+        "resetAllColors": "Reset Semua Warna",
+        "noColorsDetected": "Tidak ada warna terdeteksi. Tempelkan kode SVG Anda terlebih dahulu!",
+        "settingsButton": "Pengaturan"
+      }
     },
     "actions": {
       "downloadPng": "Unduh PNG",

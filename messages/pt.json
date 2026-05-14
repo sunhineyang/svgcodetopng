@@ -249,7 +249,16 @@
     "placeholder": "Cole seu código SVG aqui ou selecione um modelo...",
     "convertButton": "Converter para PNG",
     "converting": "Convertendo...",
-    "conversionComplete": "Conversão Concluída!"
+    "conversionComplete": "Conversão Concluída!",
+    "colorEditor": {
+      "formatTab": "Formato",
+      "colorTab": "Cor",
+      "detectedColors": "{count, plural, one {# cor detectada} other {# cores detectadas}}:",
+      "presets": "Predefinições:",
+      "replaceAll": "Substituir tudo",
+      "resetAllColors": "Redefinir todas as cores",
+      "noColorsDetected": "Nenhuma cor detectada. Cole seu código SVG primeiro!"
+    }
   },
   "common": {
     "loading": "Carregando...",
@@ -294,7 +303,17 @@
       "background": "Fundo",
       "transparent": "Transparente",
       "white": "Branco",
-      "black": "Preto"
+      "black": "Preto",
+      "color": {
+        "formatTab": "Formato",
+        "colorTab": "Cor",
+        "detectedColors": "{count, plural, one {# cor detectada} other {# cores detectadas}}:",
+        "presets": "Predefinições:",
+        "replaceAll": "Substituir tudo",
+        "resetAllColors": "Redefinir todas as cores",
+        "noColorsDetected": "Nenhuma cor detectada. Cole seu código SVG primeiro!",
+        "settingsButton": "Configurações"
+      }
     },
     "actions": {
       "downloadPng": "Baixar PNG",

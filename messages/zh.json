@@ -249,7 +249,16 @@
     "placeholder": "在此粘贴您的SVG代码或选择模板...",
     "convertButton": "转换为PNG",
     "converting": "转换中...",
-    "conversionComplete": "转换完成!"
+    "conversionComplete": "转换完成!",
+    "colorEditor": {
+      "formatTab": "格式",
+      "colorTab": "颜色",
+      "detectedColors": "检测到 {count} 种颜色:",
+      "presets": "预设色板:",
+      "replaceAll": "全部替换",
+      "resetAllColors": "重置所有颜色",
+      "noColorsDetected": "未检测到颜色。请先粘贴 SVG 代码!"
+    }
   },
   "common": {
     "loading": "加载中...",
@@ -294,7 +303,17 @@
       "background": "背景",
       "transparent": "透明",
       "white": "白色",
-      "black": "黑色"
+      "black": "黑色",
+      "color": {
+        "formatTab": "格式",
+        "colorTab": "颜色",
+        "detectedColors": "检测到 {count} 种颜色:",
+        "presets": "预设色板:",
+        "replaceAll": "全部替换",
+        "resetAllColors": "重置所有颜色",
+        "noColorsDetected": "未检测到颜色。请先粘贴 SVG 代码!",
+        "settingsButton": "设置"
+      }
     },
     "actions": {
       "downloadPng": "下载 PNG",

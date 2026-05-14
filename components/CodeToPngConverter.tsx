@@ -86,7 +86,7 @@ function sanitizeHtml(html: string): string {
 
 export default function CodeToPngConverter() {
   const _t = useTranslations();
-  const t = (key: string): string => _t(`codeToPng.${key}` as any);
+  const t = (key: string, values?: Record<string, any>): string => _t(`codeToPng.${key}` as any, values);
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState<'svg' | 'html'>('svg');
   const [svgCode, setSvgCode] = useState(DEFAULT_SVG);
@@ -103,7 +103,7 @@ export default function CodeToPngConverter() {
   // 颜色编辑相关状态
   const [extractedColors, setExtractedColors] = useState<string[]>([]);
   const [colorMappings, setColorMappings] = useState<Record<string, string>>({});
-  const [renderedSvg, setRenderedSvg] = useState<string>(DEFAULT_SVG);
+  const [renderedSvg, setRenderedSvg] = useState<string>(svgCode);
   const [targetColor, setTargetColor] = useState<string>('#3B82F6');
   const [pickerOpen, setPickerOpen] = useState<string | null>(null);
   
@@ -123,9 +123,16 @@ export default function CodeToPngConverter() {
     if (activeTab === 'svg' && svgCode) {
       const colors = extractColors(svgCode);
       setExtractedColors(colors);
-      // 重置颜色映射和渲染副本
-      const initialMappings = colors.reduce((acc, c) => ({ ...acc, [c]: c }), {});
-      setColorMappings(initialMappings);
+      // 智能合并颜色映射：保留已有映射，只更新新增的颜色
+      setColorMappings(prev => {
+        const newMappings: Record<string, string> = {};
+        for (const c of colors) {
+          // 保留已有映射，新颜色默认映射到自身
+          newMappings[c] = prev[c] || c;
+        }
+        return newMappings;
+      });
+      // 更新渲染副本
       setRenderedSvg(svgCode);
     }
   }, [svgCode, activeTab]);
@@ -526,7 +533,7 @@ export default function CodeToPngConverter() {
                     className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"
                   >
                     <Settings className="w-3.5 h-3.5" />
-                    Settings
+                    {t('settings.color.settingsButton')}
                   </button>
                 </div>
 
@@ -545,7 +552,7 @@ export default function CodeToPngConverter() {
                             : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
                         }`}
                       >
-                        Format
+                        {t('settings.color.formatTab')}
                       </button>
                       {activeTab === 'svg' && (
                         <button
@@ -562,7 +569,7 @@ export default function CodeToPngConverter() {
                               : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
                           }`}
                         >
-                          Color
+                          {t('settings.color.colorTab')}
                         </button>
                       )}
                     </div>
@@ -639,7 +646,7 @@ export default function CodeToPngConverter() {
                         {extractedColors.length > 0 ? (
                           <>
                             <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
-                              Detected {extractedColors.length} color{extractedColors.length > 1 ? 's' : ''}:
+                              {t('settings.color.detectedColors', { count: extractedColors.length })}
                             </p>
                             <div className="space-y-2">
                               {extractedColors.map((color, index) => (
@@ -693,7 +700,7 @@ export default function CodeToPngConverter() {
 
                             {/* Preset Palettes */}
                             <div className="border-t border-slate-200 dark:border-slate-700 pt-3">
-                              <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">Presets:</p>
+                              <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{t('settings.color.presets')}</p>
                               <div className="max-h-48 overflow-y-auto space-y-3">
                                 {PRESET_PALETTES.map((palette) => (
                                   <div key={palette.id}>
@@ -740,7 +747,7 @@ export default function CodeToPngConverter() {
                                   }}
                                   className="flex-1 px-3 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
                                 >
-                                  Replace All
+                                  {t('settings.color.replaceAll')}
                                 </button>
                               </div>
                               <button
@@ -754,13 +761,13 @@ export default function CodeToPngConverter() {
                                 }}
                                 className="w-full px-3 py-1.5 text-xs font-medium border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors"
                               >
-                                Reset All Colors
+                                {t('settings.color.resetAllColors')}
                               </button>
                             </div>
                           </>
                         ) : (
                           <p className="text-xs text-slate-500 dark:text-slate-400">
-                            No colors detected. Paste your SVG code first!
+                            {t('settings.color.noColorsDetected')}
                           </p>
                         )}
                       </div>

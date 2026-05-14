@@ -227,7 +227,16 @@
     "placeholder": "Вставьте ваш SVG код сюда или выберите шаблон...",
     "convertButton": "Конвертировать в PNG",
     "converting": "Конвертация...",
-    "conversionComplete": "Конвертация завершена!"
+    "conversionComplete": "Конвертация завершена!",
+    "colorEditor": {
+      "formatTab": "Формат",
+      "colorTab": "Цвет",
+      "detectedColors": "Обнаружено {count, plural, one {# цвет} few {# цвета} other {# цветов}}:",
+      "presets": "Пресеты:",
+      "replaceAll": "Заменить всё",
+      "resetAllColors": "Сбросить все цвета",
+      "noColorsDetected": "Цвета не обнаружены. Сначала вставьте SVG-код!"
+    }
   },
   "common": {
     "loading": "Загрузка...",
@@ -272,7 +281,17 @@
       "background": "Фон",
       "transparent": "Прозрачный",
       "white": "Белый",
-      "black": "Черный"
+      "black": "Черный",
+      "color": {
+        "formatTab": "Формат",
+        "colorTab": "Цвет",
+        "detectedColors": "Обнаружено {count, plural, one {# цвет} few {# цвета} other {# цветов}}:",
+        "presets": "Пресеты:",
+        "replaceAll": "Заменить всё",
+        "resetAllColors": "Сбросить все цвета",
+        "noColorsDetected": "Цвета не обнаружены. Сначала вставьте SVG-код!",
+        "settingsButton": "Настройки"
+      }
     },
     "actions": {
       "downloadPng": "Скачать PNG",

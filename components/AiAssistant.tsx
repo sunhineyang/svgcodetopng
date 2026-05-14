@@ -56,7 +56,7 @@ export default function AiAssistant({
     handleRollback,
     handleApplyQuickPrompt,
     dismissError,
-  } = useAiSvgAssistant(initialCode);
+  } = useAiSvgAssistant(initialCode, onSvgCodeChange);
 
   useEffect(() => {
     trackAiAssistantEnter();
