@@ -582,7 +582,11 @@ export default function CodeToPngConverter() {
                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.format')}</label>
                             <select
                               value={exportSettings.format}
-                              onChange={(e) => setExportSettings(prev => ({ ...prev, format: e.target.value as ExportFormat }))}
+                              onChange={(e) => {
+                                const newFormat = e.target.value as ExportFormat;
+                                setExportSettings(prev => ({ ...prev, format: newFormat }));
+                                trackSettingsFormatChange(newFormat);
+                              }}
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             >
                               <option value="png">PNG</option>
@@ -597,7 +601,11 @@ export default function CodeToPngConverter() {
                             <input
                               type="number" min="1" max="100"
                               value={exportSettings.quality}
-                              onChange={(e) => setExportSettings(prev => ({ ...prev, quality: parseInt(e.target.value) || 100 }))}
+                              onChange={(e) => {
+                                const newQuality = parseInt(e.target.value) || 100;
+                                setExportSettings(prev => ({ ...prev, quality: newQuality }));
+                                trackSettingsQualityChange(newQuality);
+                              }}
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
                           </div>
@@ -608,7 +616,11 @@ export default function CodeToPngConverter() {
                             <input
                               type="number" min="0"
                               value={exportSettings.width}
-                              onChange={(e) => setExportSettings(prev => ({ ...prev, width: parseInt(e.target.value) || 0 }))}
+                              onChange={(e) => {
+                                const newWidth = parseInt(e.target.value) || 0;
+                                setExportSettings(prev => ({ ...prev, width: newWidth }));
+                                trackSettingsDimensionChange(newWidth, exportSettings.height);
+                              }}
                               placeholder="Auto"
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
@@ -618,7 +630,11 @@ export default function CodeToPngConverter() {
                             <input
                               type="number" min="0"
                               value={exportSettings.height}
-                              onChange={(e) => setExportSettings(prev => ({ ...prev, height: parseInt(e.target.value) || 0 }))}
+                              onChange={(e) => {
+                                const newHeight = parseInt(e.target.value) || 0;
+                                setExportSettings(prev => ({ ...prev, height: newHeight }));
+                                trackSettingsDimensionChange(exportSettings.width, newHeight);
+                              }}
                               placeholder="Auto"
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
