@@ -61,11 +61,14 @@ export function replaceColor(
     );
   }
   
-  // 2. animate/animateTransform 的 values 属性中的颜色（支持多值，全局替换）
+  // 2. animate/animateTransform 的 values 属性中的颜色（仅在 values 属性内替换，避免全局误替换）
   // 例如: values="#007AFF;#5856D6;#007AFF" 或 values="#007AFF;#fff;#007AFF"
   result = result.replace(
-    new RegExp(`(${escapedOld})`, 'g'),
-    newColor
+    new RegExp(`values="([^"]*${escapedOld}[^"]*)"`, 'gi'),
+    (match, valuesStr) => {
+      const newValues = valuesStr.replace(new RegExp(escapedOld, 'g'), newColor);
+      return `values="${newValues}"`;
+    }
   );
   
   // 3. CSS 内联样式属性（带分号）
