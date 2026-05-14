@@ -57,7 +57,6 @@ export const AnalyticsEvents = {
   // Color Editor Events (New)
   COLOR_TAB_OPEN: 'color_tab_open',
   COLOR_REPLACE_SINGLE: 'color_replace_single',
-  COLOR_REPLACE_ALL: 'color_replace_all',
   COLOR_PRESET_USED: 'color_preset_used',
   COLOR_RESET_ALL: 'color_reset_all',
   COLOR_WHEEL_OPEN: 'color_wheel_open',
@@ -128,10 +127,6 @@ export const trackColorReplaceSingle = (
     new_color: newColor,
     method,
   });
-};
-
-export const trackColorReplaceAll = (newColor: string) => {
-  trackEvent(AnalyticsEvents.COLOR_REPLACE_ALL, { new_color: newColor });
 };
 
 export const trackColorPresetUsed = (

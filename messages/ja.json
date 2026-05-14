@@ -233,9 +233,9 @@
       "colorTab": "カラー",
       "detectedColors": "{count}色を検出:",
       "presets": "プリセット:",
-      "replaceAll": "すべて置換",
       "resetAllColors": "すべての色をリセット",
-      "noColorsDetected": "色が検出されません。SVGコードを先に貼り付けてください!"
+      "noColorsDetected": "色が検出されません。SVGコードを先に貼り付けてください!",
+      "selectColorToEdit": "編集する色を選択してください"
     }
   },
   "common": {
@@ -287,10 +287,10 @@
         "colorTab": "カラー",
         "detectedColors": "{count}色を検出:",
         "presets": "プリセット:",
-        "replaceAll": "すべて置換",
         "resetAllColors": "すべての色をリセット",
         "noColorsDetected": "色が検出されません。SVGコードを先に貼り付けてください!",
-        "settingsButton": "設定"
+        "settingsButton": "設定",
+        "selectColorToEdit": "編集する色を選択してください"
       }
     },
     "actions": {

@@ -255,9 +255,9 @@
       "colorTab": "颜色",
       "detectedColors": "检测到 {count} 种颜色:",
       "presets": "预设色板:",
-      "replaceAll": "全部替换",
       "resetAllColors": "重置所有颜色",
-      "noColorsDetected": "未检测到颜色。请先粘贴 SVG 代码!"
+      "noColorsDetected": "未检测到颜色。请先粘贴 SVG 代码!",
+      "selectColorToEdit": "选择一个颜色进行编辑"
     }
   },
   "common": {
@@ -309,10 +309,10 @@
         "colorTab": "颜色",
         "detectedColors": "检测到 {count} 种颜色:",
         "presets": "预设色板:",
-        "replaceAll": "全部替换",
         "resetAllColors": "重置所有颜色",
         "noColorsDetected": "未检测到颜色。请先粘贴 SVG 代码!",
-        "settingsButton": "设置"
+        "settingsButton": "设置",
+        "selectColorToEdit": "选择一个颜色进行编辑"
       }
     },
     "actions": {

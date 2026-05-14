@@ -255,9 +255,9 @@
       "colorTab": "Couleur",
       "detectedColors": "{count, plural, one {# couleur détectée} other {# couleurs détectées}} :",
       "presets": "Préréglages :",
-      "replaceAll": "Tout remplacer",
       "resetAllColors": "Réinitialiser toutes les couleurs",
-      "noColorsDetected": "Aucune couleur détectée. Collez d'abord votre code SVG !"
+      "noColorsDetected": "Aucune couleur détectée. Collez d'abord votre code SVG !",
+      "selectColorToEdit": "Sélectionnez une couleur à modifier"
     }
   },
   "common": {
@@ -309,10 +309,10 @@
         "colorTab": "Couleur",
         "detectedColors": "{count, plural, one {# couleur détectée} other {# couleurs détectées}} :",
         "presets": "Préréglages :",
-        "replaceAll": "Tout remplacer",
         "resetAllColors": "Réinitialiser toutes les couleurs",
         "noColorsDetected": "Aucune couleur détectée. Collez d'abord votre code SVG !",
-        "settingsButton": "Paramètres"
+        "settingsButton": "Paramètres",
+        "selectColorToEdit": "Sélectionnez une couleur à modifier"
       }
     },
     "actions": {

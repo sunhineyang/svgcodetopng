@@ -255,9 +255,9 @@
       "colorTab": "Farbe",
       "detectedColors": "{count, plural, one {# Farbe erkannt} other {# Farben erkannt}}:",
       "presets": "Voreinstellungen:",
-      "replaceAll": "Alle ersetzen",
       "resetAllColors": "Alle Farben zurücksetzen",
-      "noColorsDetected": "Keine Farben erkannt. Bitte zuerst SVG-Code einfügen!"
+      "noColorsDetected": "Keine Farben erkannt. Bitte zuerst SVG-Code einfügen!",
+      "selectColorToEdit": "Wählen Sie eine Farbe zum Bearbeiten"
     }
   },
   "common": {
@@ -309,10 +309,10 @@
         "colorTab": "Farbe",
         "detectedColors": "{count, plural, one {# Farbe erkannt} other {# Farben erkannt}}:",
         "presets": "Voreinstellungen:",
-        "replaceAll": "Alle ersetzen",
         "resetAllColors": "Alle Farben zurücksetzen",
         "noColorsDetected": "Keine Farben erkannt. Bitte zuerst SVG-Code einfügen!",
-        "settingsButton": "Einstellungen"
+        "settingsButton": "Einstellungen",
+        "selectColorToEdit": "Wählen Sie eine Farbe zum Bearbeiten"
       }
     },
     "actions": {

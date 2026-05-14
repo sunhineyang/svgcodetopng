@@ -236,9 +236,9 @@
       "colorTab": "اللون",
       "detectedColors": "{count, plural, one {تم اكتشاف # لون} other {تم اكتشاف # ألوان}}:",
       "presets": "الإعدادات المسبقة:",
-      "replaceAll": "استبدال الكل",
       "resetAllColors": "إعادة تعيين جميع الألوان",
-      "noColorsDetected": "لم يتم اكتشاف ألوان. الصق كود SVG أولاً!"
+      "noColorsDetected": "لم يتم اكتشاف ألوان. الصق كود SVG أولاً!",
+      "selectColorToEdit": "اختر لونًا للتعديل"
     }
   },
   "templates": {
@@ -433,10 +433,10 @@
         "colorTab": "اللون",
         "detectedColors": "{count, plural, one {تم اكتشاف # لون} other {تم اكتشاف # ألوان}}:",
         "presets": "الإعدادات المسبقة:",
-        "replaceAll": "استبدال الكل",
         "resetAllColors": "إعادة تعيين جميع الألوان",
         "noColorsDetected": "لم يتم اكتشاف ألوان. الصق كود SVG أولاً!",
-        "settingsButton": "الإعدادات"
+        "settingsButton": "الإعدادات",
+        "selectColorToEdit": "اختر لونًا للتعديل"
       }
     },
     "actions": {

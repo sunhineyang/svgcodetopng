@@ -233,9 +233,9 @@
       "colorTab": "Цвет",
       "detectedColors": "Обнаружено {count, plural, one {# цвет} few {# цвета} other {# цветов}}:",
       "presets": "Пресеты:",
-      "replaceAll": "Заменить всё",
       "resetAllColors": "Сбросить все цвета",
-      "noColorsDetected": "Цвета не обнаружены. Сначала вставьте SVG-код!"
+      "noColorsDetected": "Цвета не обнаружены. Сначала вставьте SVG-код!",
+      "selectColorToEdit": "Выберите цвет для редактирования"
     }
   },
   "common": {
@@ -287,10 +287,10 @@
         "colorTab": "Цвет",
         "detectedColors": "Обнаружено {count, plural, one {# цвет} few {# цвета} other {# цветов}}:",
         "presets": "Пресеты:",
-        "replaceAll": "Заменить всё",
         "resetAllColors": "Сбросить все цвета",
         "noColorsDetected": "Цвета не обнаружены. Сначала вставьте SVG-код!",
-        "settingsButton": "Настройки"
+        "settingsButton": "Настройки",
+        "selectColorToEdit": "Выберите цвет для редактирования"
       }
     },
     "actions": {

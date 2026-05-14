@@ -40,7 +40,6 @@ import {
   trackSettingsDimensionChange,
   trackColorTabOpen,
   trackColorReplaceSingle,
-  trackColorReplaceAll,
   trackColorPresetUsed,
   trackColorResetAll,
   trackColorWheelOpen,
@@ -152,8 +151,7 @@ export default function KoreanHomePage() {
   const [extractedColors, setExtractedColors] = useState<string[]>([]);
   const [colorMappings, setColorMappings] = useState<Record<string, string>>({});
   const [renderedSvg, setRenderedSvg] = useState<string>(svgCode);
-  const [targetColor, setTargetColor] = useState<string>('#3B82F6');
-  const [pickerOpen, setPickerOpen] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   const features = [
     {
@@ -190,6 +188,7 @@ export default function KoreanHomePage() {
         }
         return newMappings;
       });
+      setSelectedColor(prev => (prev && colors.includes(prev)) ? prev : null);
     }
   }, [svgCode]);
 
@@ -203,6 +202,8 @@ export default function KoreanHomePage() {
     }
     setRenderedSvg(result);
   }, [colorMappings, svgCode]);
+
+
 
   // Convert SVG to image
   const convertToImage = useCallback(async () => {
@@ -761,123 +762,130 @@ export default function KoreanHomePage() {
                     )}
 
                     {settingsTab === 'color' && (
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         {extractedColors.length > 0 ? (
                           <>
                             <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
                               {t('converter.colorEditor.detectedColors', { count: extractedColors.length })}
                             </p>
-                            <div className="space-y-2">
-                              {extractedColors.map((color, index) => (
-                                <div key={index} className="flex items-center gap-2">
-                                  <div
-                                    className="w-8 h-8 rounded border border-slate-300 dark:border-slate-600 cursor-pointer"
-                                    style={{ backgroundColor: color }}
-                                    onClick={() => {
-                                      if (pickerOpen === color) {
-                                        setPickerOpen(null);
-                                        trackColorWheelClose();
-                                      } else {
-                                        setPickerOpen(color);
-                                        trackColorWheelOpen(color);
-                                      }
-                                    }}
-                                  />
-                                  <span className="text-xs font-mono text-slate-500 w-20">{color}</span>
-                                  <div className="relative">
-                                    <input
-                                      type="text"
-                                      value={colorMappings[color] || color}
-                                      onChange={(e) => {
-                                        if (isValidHex(e.target.value) || e.target.value === '') {
-                                          setColorMappings(prev => ({ ...prev, [color]: e.target.value }));
-                                          if (e.target.value !== color && isValidHex(e.target.value)) {
-                                            trackColorReplaceSingle(color, e.target.value, 'input');
-                                          }
+                            <div className="flex gap-3">
+                              <div className="flex-1 space-y-1 max-h-72 overflow-y-auto">
+                                {extractedColors.map((color, index) => {
+                                  const mappedColor = colorMappings[color] || color;
+                                  const isChanged = !colorEquals(color, mappedColor);
+                                  return (
+                                    <div
+                                      key={index}
+                                      className={`flex items-center gap-2 px-2 py-1.5 rounded cursor-pointer transition-colors ${
+                                        selectedColor === color
+                                          ? 'bg-blue-50 dark:bg-blue-900/30 ring-2 ring-blue-500'
+                                          : 'hover:bg-slate-50 dark:hover:bg-slate-800'
+                                      }`}
+                                      onClick={() => {
+                                        if (selectedColor === color) {
+                                          setSelectedColor(null);
+                                          trackColorWheelClose();
+                                        } else {
+                                          setSelectedColor(color);
+                                          trackColorWheelOpen(color);
                                         }
                                       }}
-                                      className="w-24 px-2 py-1 text-xs font-mono border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                                    />
-                                    {pickerOpen === color && (
-                                      <div className="absolute top-full left-0 mt-2 z-10 bg-white dark:bg-slate-800 rounded-lg shadow-xl p-2">
-                                        <HexColorPicker
-                                          color={colorMappings[color] || color}
-                                          onChange={(newColor) => {
-                                            setColorMappings(prev => ({ ...prev, [color]: newColor }));
-                                            trackColorReplaceSingle(color, newColor, 'wheel');
-                                          }}
-                                        />
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-
-                            <div className="border-t border-slate-200 dark:border-slate-700 pt-3">
-                              <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{t('converter.colorEditor.presets')}</p>
-                              <div className="max-h-48 overflow-y-auto space-y-3">
-                                {PRESET_PALETTES.map((palette) => (
-                                  <div key={palette.id}>
-                                    <p className="text-xs font-medium text-slate-500 mb-1">{palette.name}</p>
-                                    <div className="grid grid-cols-8 gap-1">
-                                      {palette.colors.map((c, i) => (
+                                    >
+                                      <div
+                                        className="w-6 h-6 rounded border border-slate-300 dark:border-slate-600 shrink-0"
+                                        style={{ backgroundColor: mappedColor }}
+                                      />
+                                      <span className="text-xs font-mono text-slate-500 shrink-0">{color}</span>
+                                      {isChanged && (
                                         <div
-                                          key={i}
-                                          className="w-6 h-6 rounded border border-slate-300 dark:border-slate-600 cursor-pointer hover:scale-110 transition-transform"
-                                          style={{ backgroundColor: c }}
-                                          onClick={() => {
-                                            setTargetColor(c);
-                                            trackColorPresetUsed(palette.id, palette.name, i);
-                                          }}
+                                          className="w-4 h-4 rounded border border-slate-300 dark:border-slate-600 shrink-0 ml-auto"
+                                          style={{ backgroundColor: color }}
                                         />
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              <div className="w-56 shrink-0">
+                                {selectedColor ? (
+                                  <div className="space-y-3">
+                                    <div className="flex items-center gap-2">
+                                      <div
+                                        className="w-7 h-7 rounded border border-slate-300 dark:border-slate-600"
+                                        style={{ backgroundColor: selectedColor }}
+                                      />
+                                      <span className="text-xs text-slate-400">→</span>
+                                      <div
+                                        className="w-7 h-7 rounded border border-slate-300 dark:border-slate-600"
+                                        style={{ backgroundColor: colorMappings[selectedColor] || selectedColor }}
+                                      />
+                                      <input
+                                        type="text"
+                                        value={colorMappings[selectedColor] || selectedColor}
+                                        onChange={(e) => {
+                                          if (!selectedColor) return;
+                                          if (isValidHex(e.target.value) || e.target.value === '') {
+                                            setColorMappings(prev => ({ ...prev, [selectedColor]: e.target.value }));
+                                            if (e.target.value !== selectedColor && isValidHex(e.target.value)) {
+                                              trackColorReplaceSingle(selectedColor, e.target.value, 'input');
+                                            }
+                                          }
+                                        }}
+                                        className="flex-1 min-w-0 px-1.5 py-0.5 text-xs font-mono border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                                      />
+                                    </div>
+                                    <HexColorPicker
+                                      color={colorMappings[selectedColor] || selectedColor}
+                                      onChange={(newColor) => {
+                                        if (!selectedColor) return;
+                                        setColorMappings(prev => ({ ...prev, [selectedColor]: newColor }));
+                                        trackColorReplaceSingle(selectedColor, newColor, 'wheel');
+                                      }}
+                                    />
+                                    <div className="max-h-48 overflow-y-auto space-y-2">
+                                      {PRESET_PALETTES.map((palette) => (
+                                        <div key={palette.id}>
+                                          <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 mb-0.5 truncate">{palette.name}</p>
+                                          <div className="grid grid-cols-8 gap-0.5">
+                                            {palette.colors.map((c, i) => (
+                                              <div
+                                                key={`${palette.id}-${i}`}
+                                                className="w-5 h-5 rounded-sm cursor-pointer hover:scale-110 transition-transform border border-slate-200 dark:border-slate-700"
+                                                style={{ backgroundColor: c }}
+                                                onClick={() => {
+                                                  if (!selectedColor) return;
+                                                  setColorMappings(prev => ({ ...prev, [selectedColor]: c }));
+                                                  trackColorPresetUsed(palette.id, palette.name, i);
+                                                  trackColorReplaceSingle(selectedColor, c, 'preset');
+                                                }}
+                                              />
+                                            ))}
+                                          </div>
+                                        </div>
                                       ))}
                                     </div>
                                   </div>
-                                ))}
+                                ) : (
+                                  <div className="flex items-center justify-center h-48 text-xs text-slate-400 dark:text-slate-500 text-center px-4">
+                                    {t('converter.colorEditor.selectColorToEdit')}
+                                  </div>
+                                )}
                               </div>
                             </div>
-
-                            <div className="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-2">
-                              <div className="flex items-center gap-2">
-                                <input
-                                  type="text"
-                                  value={targetColor}
-                                  onChange={(e) => {
-                                    if (isValidHex(e.target.value) || e.target.value === '') {
-                                      setTargetColor(e.target.value);
-                                    }
-                                  }}
-                                  className="w-24 px-2 py-1 text-xs font-mono border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                                />
-                                <button
-                                  onClick={() => {
-                                    const newMappings: Record<string, string> = {};
-                                    for (const c of extractedColors) {
-                                      newMappings[c] = targetColor;
-                                    }
-                                    setColorMappings(newMappings);
-                                    trackColorReplaceAll(targetColor);
-                                  }}
-                                  className="flex-1 px-3 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
-                                >
-                                  {t('converter.colorEditor.replaceAll')}
-                                </button>
-                              </div>
-                              <button
-                                onClick={() => {
-                                  const resetMappings: Record<string, string> = {};
-                                  for (const c of extractedColors) {
-                                    resetMappings[c] = c;
-                                  }
-                                  setColorMappings(resetMappings);
-                                  trackColorResetAll();
-                                }}
-                                className="w-full px-3 py-1.5 text-xs font-medium border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors"
-                              >
-                                {t('converter.colorEditor.resetAllColors')}
-                              </button>
-                            </div>
+                            <button
+                              onClick={() => {
+                                const resetMappings: Record<string, string> = {};
+                                for (const c of extractedColors) {
+                                  resetMappings[c] = c;
+                                }
+                                setColorMappings(resetMappings);
+                                setSelectedColor(null);
+                                trackColorResetAll();
+                              }}
+                              className="w-full px-3 py-1.5 text-xs font-medium border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors"
+                            >
+                              {t('converter.colorEditor.resetAllColors')}
+                            </button>
                           </>
                         ) : (
                           <p className="text-xs text-slate-500 dark:text-slate-400">

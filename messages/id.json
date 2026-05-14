@@ -255,9 +255,9 @@
       "colorTab": "Warna",
       "detectedColors": "{count} warna terdeteksi:",
       "presets": "Preset:",
-      "replaceAll": "Ganti Semua",
       "resetAllColors": "Reset Semua Warna",
-      "noColorsDetected": "Tidak ada warna terdeteksi. Tempelkan kode SVG Anda terlebih dahulu!"
+      "noColorsDetected": "Tidak ada warna terdeteksi. Tempelkan kode SVG Anda terlebih dahulu!",
+      "selectColorToEdit": "Pilih warna untuk diedit"
     }
   },
   "common": {
@@ -309,10 +309,10 @@
         "colorTab": "Warna",
         "detectedColors": "{count} warna terdeteksi:",
         "presets": "Preset:",
-        "replaceAll": "Ganti Semua",
         "resetAllColors": "Reset Semua Warna",
         "noColorsDetected": "Tidak ada warna terdeteksi. Tempelkan kode SVG Anda terlebih dahulu!",
-        "settingsButton": "Pengaturan"
+        "settingsButton": "Pengaturan",
+        "selectColorToEdit": "Pilih warna untuk diedit"
       }
     },
     "actions": {

@@ -255,9 +255,9 @@
       "colorTab": "Color",
       "detectedColors": "Detected {count, plural, one {# color} other {# colors}}:",
       "presets": "Presets:",
-      "replaceAll": "Replace All",
       "resetAllColors": "Reset All Colors",
-      "noColorsDetected": "No colors detected. Paste your SVG code first!"
+      "noColorsDetected": "No colors detected. Paste your SVG code first!",
+      "selectColorToEdit": "Select a color to edit"
     }
   },
   "common": {
@@ -309,10 +309,10 @@
         "colorTab": "Color",
         "detectedColors": "Detected {count, plural, one {# color} other {# colors}}:",
         "presets": "Presets:",
-        "replaceAll": "Replace All",
         "resetAllColors": "Reset All Colors",
         "noColorsDetected": "No colors detected. Paste your SVG code first!",
-        "settingsButton": "Settings"
+        "settingsButton": "Settings",
+        "selectColorToEdit": "Select a color to edit"
       }
     },
     "actions": {

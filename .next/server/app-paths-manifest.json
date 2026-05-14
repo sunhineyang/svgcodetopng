@@ -1,10 +1,4 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/api/ai/route": "app/api/ai/route.js",
-  "/sitemap.xml/route": "app/sitemap.xml/route.js",
-  "/icon.svg/route": "app/icon.svg/route.js",
-  "/robots.txt/route": "app/robots.txt/route.js",
-  "/page": "app/page.js",
-  "/[locale]/code-to-png/page": "app/[locale]/code-to-png/page.js",
   "/[locale]/page": "app/[locale]/page.js"
 }
