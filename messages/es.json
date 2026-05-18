@@ -155,6 +155,14 @@
       "question": "¿Cómo ayuda el asistente de IA con la creación de SVG?",
       "answer": "Nuestro asistente de IA puede generar código SVG desde descripciones de texto, optimizar código existente para mejor rendimiento y sugerir animaciones basadas en tus objetivos de diseño."
     },
+    "question6": {
+      "question": "¿Cómo convierto una etiqueta SVG a una imagen PNG?",
+      "answer": "Pega cualquier etiqueta SVG o marcado — ya sea una sola etiqueta <svg>, código SVG en línea o SVG incrustado en HTML. Nuestra herramienta renderiza el código SVG como imagen al instante, permitiéndote descargar como PNG, JPG o WebP con dimensiones personalizadas y fondos transparentes."
+    },
+    "question7": {
+      "question": "¿Puedo convertir código SVG a PNG u otros formatos de imagen?",
+      "answer": "¡Sí! Puedes convertir código SVG a PNG, JPG, GIF, WebP o PDF. Simplemente pega tu código en el editor, ajusta la configuración y descarga. No necesitas subir archivos — solo pega el código SVG y obtén tu imagen en segundos."
+    },
     "questions": {
       "free": {
         "question": "¿Es el convertidor SVG PNG completamente gratis?",

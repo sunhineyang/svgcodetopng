@@ -35,7 +35,7 @@ export const SVG_LIMITS = {
 export const AI_CONFIG = {
   MODEL: 'deepseek-v4-flash',
   BASE_URL: 'https://api.deepseek.com',
-  TIMEOUT_MS: 60000,
+  TIMEOUT_MS: 90000,
   MAX_OUTPUT_TOKENS: 4096,
   TEMPERATURE: 0.3,
 };

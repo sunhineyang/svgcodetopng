@@ -155,6 +155,14 @@
       "question": "AI助手如何帮助SVG创建?",
       "answer": "我们的AI助手可以从文本描述生成SVG代码,优化现有代码以获得更好的性能,并根据您的设计目标建议动画。"
     },
+    "question6": {
+      "question": "如何将SVG标签转换为PNG图片？",
+      "answer": "粘贴任意SVG标签或标记——无论是单个<svg>标签、内联SVG代码，还是HTML中嵌入的SVG。我们的工具会立即将SVG代码渲染为图片，支持以自定义尺寸和透明背景下载为PNG、JPG或WebP格式。"
+    },
+    "question7": {
+      "question": "可以将SVG代码转换为PNG或其他图片格式吗？",
+      "answer": "可以！您可以将SVG代码转换为PNG、JPG、GIF、WebP或PDF。只需将代码粘贴到编辑器中，调整设置后即可下载。无需上传文件——只需粘贴SVG代码，几秒钟内即可获取图片。"
+    },
     "questions": {
       "free": {
         "question": "SVG PNG 转换器完全免费吗?",

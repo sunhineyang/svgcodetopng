@@ -155,6 +155,14 @@
       "question": "Bagaimana asisten AI membantu dengan pembuatan SVG?",
       "answer": "Asisten AI kami dapat menghasilkan kode SVG dari deskripsi teks, mengoptimalkan kode yang ada untuk kinerja yang lebih baik, dan menyarankan animasi berdasarkan tujuan desain Anda."
     },
+    "question6": {
+      "question": "Bagaimana cara mengonversi tag SVG menjadi gambar PNG?",
+      "answer": "Tempel tag SVG atau markup apa pun — baik tag <svg> tunggal, kode SVG inline, atau SVG yang disematkan dalam HTML. Alat kami langsung merender kode SVG sebagai gambar, memungkinkan Anda mengunduh sebagai PNG, JPG, atau WebP dengan dimensi kustom dan latar belakang transparan."
+    },
+    "question7": {
+      "question": "Bisakah saya mengonversi kode SVG ke PNG atau format gambar lain?",
+      "answer": "Ya! Anda dapat mengonversi kode SVG ke PNG, JPG, GIF, WebP, atau PDF. Cukup tempel kode Anda ke editor, sesuaikan pengaturan, dan unduh. Tidak perlu mengunggah file — cukup tempel kode SVG dan dapatkan gambar Anda dalam hitungan detik."
+    },
     "questions": {
       "free": {
         "question": "Apakah konverter SVG PNG sepenuhnya gratis?",
