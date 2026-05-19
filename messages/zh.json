@@ -163,6 +163,10 @@
       "question": "可以将SVG代码转换为PNG或其他图片格式吗？",
       "answer": "可以！您可以将SVG代码转换为PNG、JPG、GIF、WebP或PDF。只需将代码粘贴到编辑器中，调整设置后即可下载。无需上传文件——只需粘贴SVG代码，几秒钟内即可获取图片。"
     },
+    "question8": {
+      "question": "可以将包含文字的SVG转换为PNG吗？",
+      "answer": "可以！我们的转换器完美处理包含<text>元素的SVG文件。无论您的SVG包含文字、形状、渐变还是复杂路径，转换为PNG时都能精确渲染。文字在任何分辨率下都保持清晰锐利。"
+    },
     "questions": {
       "free": {
         "question": "SVG PNG 转换器完全免费吗?",

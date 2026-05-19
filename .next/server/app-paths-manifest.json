@@ -5,6 +5,6 @@
   "/sitemap.xml/route": "app/sitemap.xml/route.js",
   "/robots.txt/route": "app/robots.txt/route.js",
   "/page": "app/page.js",
-  "/[locale]/code-to-png/page": "app/[locale]/code-to-png/page.js",
-  "/[locale]/page": "app/[locale]/page.js"
+  "/[locale]/page": "app/[locale]/page.js",
+  "/[locale]/code-to-png/page": "app/[locale]/code-to-png/page.js"
 }

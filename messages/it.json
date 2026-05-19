@@ -163,6 +163,10 @@
       "question": "Posso convertire il codice SVG in PNG o altri formati immagine?",
       "answer": "Sì! Puoi convertire il codice SVG in PNG, JPG, GIF, WebP o PDF. Basta incollare il codice nell'editor, regolare le impostazioni e scaricare. Non è necessario caricare file — incolla semplicemente il codice SVG e ottieni la tua immagine in pochi secondi."
     },
+    "question8": {
+      "question": "Posso convertire SVG con testo in PNG?",
+      "answer": "Sì! Il nostro convertore gestisce perfettamente i file SVG con elementi <text>. Che il tuo SVG contenga testo, forme, gradienti o percorsi complessi, tutto viene renderizzato con precisione durante la conversione in PNG. Il testo rimane nitido e chiaro a qualsiasi risoluzione."
+    },
     "questions": {
       "free": {
         "question": "Il convertitore SVG PNG è completamente gratuito?",

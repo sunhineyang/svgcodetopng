@@ -163,6 +163,10 @@
       "question": "Bisakah saya mengonversi kode SVG ke PNG atau format gambar lain?",
       "answer": "Ya! Anda dapat mengonversi kode SVG ke PNG, JPG, GIF, WebP, atau PDF. Cukup tempel kode Anda ke editor, sesuaikan pengaturan, dan unduh. Tidak perlu mengunggah file — cukup tempel kode SVG dan dapatkan gambar Anda dalam hitungan detik."
     },
+    "question8": {
+      "question": "Bisakah saya mengonversi SVG dengan teks ke PNG?",
+      "answer": "Ya! Konverter kami menangani file SVG dengan elemen <text> dengan sempurna. Baik SVG Anda berisi teks, bentuk, gradien, atau jalur kompleks, semuanya dirender dengan akurat saat dikonversi ke PNG. Teks tetap tajam dan jelas pada resolusi apa pun."
+    },
     "questions": {
       "free": {
         "question": "Apakah konverter SVG PNG sepenuhnya gratis?",

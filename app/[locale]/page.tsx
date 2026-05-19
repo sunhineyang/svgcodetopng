@@ -1212,6 +1212,10 @@ export default function KoreanHomePage() {
               {
                 question: t('faq.question7.question'),
                 answer: t('faq.question7.answer')
+              },
+              {
+                question: t('faq.question8.question'),
+                answer: t('faq.question8.answer')
               }
             ].map((faq, index) => (
               <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
