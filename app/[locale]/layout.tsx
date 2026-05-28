@@ -1,23 +1,23 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { ThemeProvider } from 'next-themes';
-import { Inter, JetBrains_Mono } from 'next/font/google';
-import Script from 'next/script';
 import { languages } from '../../i18n';
 import { metadataBase, siteConfig } from '../../config/site';
-import '../globals.css';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-});
+const hreflangLanguages = {
+  'x-default': '/',
+  'en': '/',
+  'ko': '/ko',
+  'ja': '/ja',
+  'ru': '/ru',
+  'es': '/es',
+  'fr': '/fr',
+  'de': '/de',
+  'zh': '/zh',
+  'pt': '/pt',
+  'it': '/it',
+  'id': '/id',
+  'ar': '/ar',
+};
 
 // Dynamic metadata will be handled by generateMetadata function
 export async function generateMetadata({ params }: { params: { locale: string } }) {
@@ -41,7 +41,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/ko`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -98,7 +99,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/ja`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -155,7 +157,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/ru`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -212,7 +215,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/es`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -268,7 +272,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/pt`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -325,7 +330,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/it`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -382,7 +388,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/fr`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -439,7 +446,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/de`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -496,7 +504,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/zh`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -553,7 +562,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/id`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -610,7 +620,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       alternates: {
         canonical: `${siteConfig.url}/ar`,
         languages: {
-          'en-US': '/',
+          'x-default': '/',
+          'en': '/',
           'ko': '/ko',
           'ja': '/ja',
           'ru': '/ru',
@@ -653,7 +664,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   return {
     metadataBase,
     title: 'SVG Code to PNG Converter (PNG, JPG, GIF) | Free Online Tool',
-    description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file.Fast,easy,no signup.',
+    description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file. Fast, easy, no signup.',
     keywords: 'svg to png, svg converter, svg to image, code to png, online converter',
     icons: { icon: '/favicon.svg' },
     authors: [{ name: 'SVG Converter Team' }],
@@ -667,7 +678,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     alternates: {
       canonical: `${siteConfig.url}/`,
       languages: {
-        'en-US': '/',
+        'x-default': '/',
+          'en': '/',
         'ko': '/ko',
         'ja': '/ja',
         'ru': '/ru',
@@ -717,18 +729,10 @@ export default async function LocaleLayout({
 }) {
   const locale = params.locale || 'en';
   const messages = await getMessages({ locale });
-  const languageConfig = languages[locale] || languages['en'];
   
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        {children}
-      </ThemeProvider>
+      {children}
     </NextIntlClientProvider>
   );
 }

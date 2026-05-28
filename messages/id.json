@@ -157,7 +157,7 @@
     },
     "question6": {
       "question": "Bagaimana cara mengonversi tag SVG menjadi gambar PNG?",
-      "answer": "Tempel tag SVG atau markup apa pun — baik tag <svg> tunggal, kode SVG inline, atau SVG yang disematkan dalam HTML. Alat kami langsung merender kode SVG sebagai gambar, memungkinkan Anda mengunduh sebagai PNG, JPG, atau WebP dengan dimensi kustom dan latar belakang transparan."
+      "answer": "Tempel tag SVG atau markup apa pun — baik tag &lt;svg&gt; tunggal, kode SVG inline, atau SVG yang disematkan dalam HTML. Alat kami langsung merender kode SVG sebagai gambar, memungkinkan Anda mengunduh sebagai PNG, JPG, atau WebP dengan dimensi kustom dan latar belakang transparan."
     },
     "question7": {
       "question": "Bisakah saya mengonversi kode SVG ke PNG atau format gambar lain?",
@@ -165,7 +165,7 @@
     },
     "question8": {
       "question": "Bisakah saya mengonversi SVG dengan teks ke PNG?",
-      "answer": "Ya! Konverter kami menangani file SVG dengan elemen <text> dengan sempurna. Baik SVG Anda berisi teks, bentuk, gradien, atau jalur kompleks, semuanya dirender dengan akurat saat dikonversi ke PNG. Teks tetap tajam dan jelas pada resolusi apa pun."
+      "answer": "Ya! Konverter kami menangani file SVG dengan elemen &lt;text&gt; dengan sempurna. Baik SVG Anda berisi teks, bentuk, gradien, atau jalur kompleks, semuanya dirender dengan akurat saat dikonversi ke PNG. Teks tetap tajam dan jelas pada resolusi apa pun."
     },
     "questions": {
       "free": {
@@ -222,7 +222,8 @@
     "contactUs": "Hubungi Kami",
     "navigation": {
       "title": "Navigasi",
-      "home": "Beranda"
+      "home": "Beranda",
+      "codeToPng": "Kode ke PNG"
     },
     "legal": {
       "title": "Legal",
@@ -387,6 +388,11 @@
       "title": "Siap Mengonversi Kode Anda ke PNG?",
       "desc": "Gratis, instan, tanpa daftar. Mulai sekarang.",
       "button": "Konversi Gratis"
+    },
+    "crossPromo": {
+      "title": "Konversi batch file SVG?",
+      "subtitle": "Seret & lepas banyak file di svgtopng.app — gratis, tanpa unggah.",
+      "cta": "Coba"
     }
   },
   "aiAssistant": {
@@ -409,40 +415,76 @@
     },
     "errors": {
       "svgTooLong": {
-        "title": "SVG is too long",
-        "message": "This SVG exceeds processing limits.",
-        "suggestion": "Please simplify the SVG or clear conversation history."
+        "title": "File SVG terlalu panjang",
+        "message": "File SVG melebihi batas pemrosesan.",
+        "suggestion": "Silakan sederhanakan SVG atau hapus riwayat percakapan."
       },
       "svgSyntaxError": {
-        "title": "Invalid SVG from AI",
-        "message": "The AI generated invalid SVG code. Keeping original.",
-        "suggestion": "Try phrasing your request differently (e.g., \"optimize code\")."
+        "title": "SVG tidak valid dari AI",
+        "message": "AI menghasilkan kode SVG yang tidak valid. File asli dipertahankan.",
+        "suggestion": "Coba ubah cara Anda meminta (misalnya: \"optimalkan kode\")."
       },
       "extractionFailed": {
-        "title": "Could not extract SVG",
-        "message": "The AI response could not be parsed properly.",
-        "suggestion": "Try being more specific (e.g., \"change all text to red\")."
+        "title": "Tidak dapat mengekstrak SVG",
+        "message": "Respons AI tidak dapat diurai dengan benar.",
+        "suggestion": "Coba lebih spesifik (misalnya: \"ubah semua teks menjadi merah\")."
       },
       "timeout": {
-        "title": "Request timed out",
-        "message": "The AI is taking too long.",
-        "suggestion": "Please try again later or check your network."
+        "title": "Waktu permintaan habis",
+        "message": "AI membutuhkan waktu terlalu lama.",
+        "suggestion": "Silakan coba lagi nanti atau periksa jaringan Anda."
       },
       "rateLimit": {
-        "title": "Too many requests",
-        "message": "Please try again later.",
-        "suggestion": "Wait at least 5 seconds between requests."
+        "title": "Terlalu banyak permintaan",
+        "message": "Silakan coba lagi nanti.",
+        "suggestion": "Tunggu setidaknya 5 detik antar permintaan."
       },
       "networkError": {
-        "title": "Network error",
-        "message": "Could not connect to AI service.",
-        "suggestion": "Please check your network and try again."
+        "title": "Kesalahan jaringan",
+        "message": "Tidak dapat terhubung ke layanan AI.",
+        "suggestion": "Silakan periksa jaringan Anda dan coba lagi."
       },
       "aiError": {
-        "title": "AI service error",
-        "message": "The AI service encountered an error.",
-        "suggestion": "Please try again later."
+        "title": "Kesalahan layanan AI",
+        "message": "Layanan AI mengalami kesalahan.",
+        "suggestion": "Silakan coba lagi nanti."
       }
+    }
+  },
+  "feedback": {
+    "card": {
+      "title": "Bagaimana hasil konversi Anda?",
+      "subtitle": "Bantu kami meningkatkan alat ini 👍",
+      "positive": "Bagus",
+      "negative": "Ada masalah",
+      "close": "Tutup"
+    },
+    "modal": {
+      "title": "Bantu kami meningkatkan konversi",
+      "questionLabel": "Ceritakan apa yang salah (pilih semua yang berlaku):",
+      "tags": {
+        "missing_elements": "Elemen hilang atau menghilang",
+        "blurry": "Burasam / piksel rusak",
+        "color_issue": "Warna salah atau gradien rusak",
+        "transparency_failed": "Latar belakang transparan tidak berfungsi",
+        "text_error": "Teks ditampilkan secara salah",
+        "other": "Masalah lain"
+      },
+      "descriptionLabel": "Detail lainnya (opsional)",
+      "descriptionPlaceholder": "Jelaskan masalahnya...",
+      "uploadLabel": "Ya, bagikan SVG saya secara anonim untuk membantu perbaikan (disarankan)",
+      "privacyNote": "File Anda hanya digunakan untuk meningkatkan kualitas rendering dan dihapus secara otomatis setelah pemrosesan.",
+      "cancel": "Batal",
+      "submit": "Kirim",
+      "submitting": "Mengirim..."
+    },
+    "toast": {
+      "thanksPositive": "Terima kasih atas masukannya! Kami akan terus meningkatkan 💪",
+      "thanksNegative": "Terima kasih! Masukan Anda membantu kami meningkatkan alat ini.",
+      "submitFailed": "Pengiriman gagal. Silakan coba lagi."
+    },
+    "settings": {
+      "dontShowAgain": "Jangan tampilkan permintaan feedback lagi"
     }
   }
 }

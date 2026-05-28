@@ -10,7 +10,8 @@ import { jsPDF } from 'jspdf';
 import { HexColorPicker } from 'react-colorful';
 import {
   ArrowDown, Download, ImageIcon, Settings, Code,
-  Copy, Trash2, RotateCcw, ChevronDown, ChevronUp, CheckCircle, Palette
+  Copy, Trash2, RotateCcw, ChevronDown, ChevronUp, CheckCircle, Palette,
+  FolderOpen, ArrowUpRight
 } from 'lucide-react';
 import Navigation from './Navigation';
 import Footer from './Footer';
@@ -28,6 +29,7 @@ import {
   trackColorWheelOpen,
   trackColorWheelClose,
 } from '../utils/analytics';
+import { useFeedback } from './feedback/FeedbackProvider';
 import {
   extractColors,
   replaceColor,
@@ -86,6 +88,7 @@ export default function CodeToPngConverter() {
   const _t = useTranslations();
   const t = (key: string, values?: Record<string, any>): string => _t(`codeToPng.${key}` as any, values);
   const { theme } = useTheme();
+  const { maybeShowFeedback, incrementConversionCount } = useFeedback();
   const [activeTab, setActiveTab] = useState<'svg' | 'html'>('svg');
   const [svgCode, setSvgCode] = useState(DEFAULT_SVG);
   const [htmlCode, setHtmlCode] = useState(DEFAULT_HTML);
@@ -352,17 +355,15 @@ export default function CodeToPngConverter() {
 
     trackEvent('download_image', { format, mode: activeTab });
 
+    let downloadSuccess = false;
     try {
       setIsConverting(true);
       const originalFormat = exportSettings.format;
       
-      // 临时切换到目标格式
       setExportSettings(prev => ({ ...prev, format }));
       
-      // 等待状态更新
       await new Promise(r => setTimeout(r, 50));
       
-      // 执行转换
       const blob = activeTab === 'svg'
         ? await convertSvgToImage()
         : await convertHtmlToImage();
@@ -376,14 +377,31 @@ export default function CodeToPngConverter() {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
+        downloadSuccess = true;
       }
       
-      // 恢复原始格式
       setExportSettings(prev => ({ ...prev, format: originalFormat }));
     } catch (error) {
       console.error('Download error:', error);
     } finally {
       setIsConverting(false);
+    }
+
+    if (downloadSuccess) {
+      incrementConversionCount();
+      maybeShowFeedback({
+        context: {
+          mode: activeTab,
+          format,
+          quality: exportSettings.quality,
+          width: exportSettings.width,
+          height: exportSettings.height,
+          background: exportSettings.backgroundColor,
+          scale: exportSettings.scale,
+          locale: typeof window !== 'undefined' ? document.documentElement.lang || 'en' : 'en',
+        },
+        svgCode: activeTab === 'svg' ? svgCode : null,
+      });
     }
   };
 
@@ -954,6 +972,34 @@ export default function CodeToPngConverter() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      <section className="py-10 px-4 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+        <div className="max-w-3xl mx-auto">
+          <a
+            href="https://svgtopng.app/?utm_source=svgcodetopng&utm_medium=cross_promo&utm_campaign=batch_converter"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-4 bg-white dark:bg-slate-800 rounded-xl px-6 py-4 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all"
+            onClick={() => trackEvent('cross_promo_click', { target: 'svgtopng_batch' })}
+          >
+            <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg shrink-0">
+              <FolderOpen className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                {t('crossPromo.title')}
+              </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                {t('crossPromo.subtitle')}
+              </p>
+            </div>
+            <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 text-sm font-medium shrink-0">
+              <span className="group-hover:underline">{t('crossPromo.cta')}</span>
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+          </a>
         </div>
       </section>
 

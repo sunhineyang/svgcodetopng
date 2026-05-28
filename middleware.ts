@@ -1,18 +1,26 @@
 import createMiddleware from 'next-intl/middleware';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export default createMiddleware({
-  // A list of all locales that are supported
+const intlMiddleware = createMiddleware({
   locales: ['en', 'ko', 'ja', 'ru', 'es', 'fr', 'de', 'zh', 'pt', 'it', 'id', 'ar'],
-
-  // Used when no locale matches
   defaultLocale: 'en',
-
-  // Always show locale prefix to avoid confusion
-  // Root path / redirects to /en, /ko shows Korean
   localePrefix: 'as-needed'
 });
 
+export default function middleware(request: NextRequest) {
+  const response = intlMiddleware(request);
+
+  const pathname = request.nextUrl.pathname;
+  const segments = pathname.split('/').filter(Boolean);
+  const localeCandidates = ['ko', 'ja', 'ru', 'es', 'fr', 'de', 'zh', 'pt', 'it', 'id', 'ar'];
+  const locale = localeCandidates.includes(segments[0]) ? segments[0] : 'en';
+
+  response.headers.set('x-locale', locale);
+
+  return response;
+}
+
 export const config = {
-  // Match all paths except static files and API routes
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|favicon.svg|icon.svg|logo.svg|robots.txt|sitemap.xml|llms.txt).*)'],
 };

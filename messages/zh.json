@@ -157,7 +157,7 @@
     },
     "question6": {
       "question": "如何将SVG标签转换为PNG图片？",
-      "answer": "粘贴任意SVG标签或标记——无论是单个<svg>标签、内联SVG代码，还是HTML中嵌入的SVG。我们的工具会立即将SVG代码渲染为图片，支持以自定义尺寸和透明背景下载为PNG、JPG或WebP格式。"
+      "answer": "粘贴任意SVG标签或标记——无论是单个&lt;svg&gt;标签、内联SVG代码，还是HTML中嵌入的SVG。我们的工具会立即将SVG代码渲染为图片，支持以自定义尺寸和透明背景下载为PNG、JPG或WebP格式。"
     },
     "question7": {
       "question": "可以将SVG代码转换为PNG或其他图片格式吗？",
@@ -165,7 +165,7 @@
     },
     "question8": {
       "question": "可以将包含文字的SVG转换为PNG吗？",
-      "answer": "可以！我们的转换器完美处理包含<text>元素的SVG文件。无论您的SVG包含文字、形状、渐变还是复杂路径，转换为PNG时都能精确渲染。文字在任何分辨率下都保持清晰锐利。"
+      "answer": "可以！我们的转换器完美处理包含&lt;text&gt;元素的SVG文件。无论您的SVG包含文字、形状、渐变还是复杂路径，转换为PNG时都能精确渲染。文字在任何分辨率下都保持清晰锐利。"
     },
     "questions": {
       "free": {
@@ -222,7 +222,8 @@
     "contactUs": "联系我们",
     "navigation": {
       "title": "导航",
-      "home": "首页"
+      "home": "首页",
+      "codeToPng": "代码转PNG"
     },
     "legal": {
       "title": "法律",
@@ -387,6 +388,11 @@
       "title": "准备好将代码转换为 PNG 了吗？",
       "desc": "免费、即时、无需注册。现在开始吧。",
       "button": "免费转换"
+    },
+    "crossPromo": {
+      "title": "批量转换 SVG 文件？",
+      "subtitle": "在 svgtopng.app 拖拽多个文件 — 免费，不上传。",
+      "cta": "试试"
     }
   },
   "aiAssistant": {
@@ -409,29 +415,29 @@
     },
     "errors": {
       "svgTooLong": {
-        "title": "SVG 代码过长",
-        "message": "此 SVG 超出了处理限制。",
-        "suggestion": "请简化 SVG 或清除对话历史。"
+        "title": "SVG 文件过长",
+        "message": "SVG 文件超出了处理限制。",
+        "suggestion": "请精简 SVG 或清除对话历史。"
       },
       "svgSyntaxError": {
         "title": "AI 生成了无效的 SVG",
-        "message": "AI 生成了无效的 SVG 代码，已保留原始版本。",
-        "suggestion": "请尝试换一种方式描述你的需求（例如「优化代码」）。"
+        "message": "AI 生成了无效的 SVG 代码，已保留原始内容。",
+        "suggestion": "请尝试换一种方式描述（例如：「优化代码」）。"
       },
       "extractionFailed": {
         "title": "无法提取 SVG",
-        "message": "AI 的回复无法正确解析。",
-        "suggestion": "请尝试更具体的描述（例如「将所有文字改为红色」）。"
+        "message": "无法正确解析 AI 的回复。",
+        "suggestion": "请尝试更具体的指令（例如：「将所有文字改为红色」）。"
       },
       "timeout": {
         "title": "请求超时",
-        "message": "AI 处理时间过长。",
+        "message": "AI 响应时间过长。",
         "suggestion": "请稍后重试或检查网络连接。"
       },
       "rateLimit": {
         "title": "请求过于频繁",
-        "message": "请稍后再试。",
-        "suggestion": "两次请求之间至少等待 5 秒。"
+        "message": "请稍后重试。",
+        "suggestion": "请在请求之间等待至少 5 秒。"
       },
       "networkError": {
         "title": "网络错误",
@@ -440,9 +446,45 @@
       },
       "aiError": {
         "title": "AI 服务错误",
-        "message": "AI 服务遇到了错误。",
+        "message": "AI 服务遇到了一个错误。",
         "suggestion": "请稍后重试。"
       }
+    }
+  },
+  "feedback": {
+    "card": {
+      "title": "转换效果如何？",
+      "subtitle": "帮助我们改进工具 👍",
+      "positive": "很好",
+      "negative": "有问题",
+      "close": "关闭"
+    },
+    "modal": {
+      "title": "帮助我们改进转换质量",
+      "questionLabel": "请选择遇到了什么问题（可多选）：",
+      "tags": {
+        "missing_elements": "元素丢失或消失",
+        "blurry": "模糊 / 像素化",
+        "color_issue": "颜色错误或渐变异常",
+        "transparency_failed": "透明背景无效",
+        "text_error": "文字渲染错误",
+        "other": "其他问题"
+      },
+      "descriptionLabel": "补充说明（可选）",
+      "descriptionPlaceholder": "请描述遇到的问题...",
+      "uploadLabel": "同意匿名分享 SVG 以帮助修复（推荐）",
+      "privacyNote": "文件仅用于改善渲染质量，处理后自动删除。",
+      "cancel": "取消",
+      "submit": "提交",
+      "submitting": "提交中..."
+    },
+    "toast": {
+      "thanksPositive": "感谢反馈！我们会持续改进 💪",
+      "thanksNegative": "感谢！您的意见将帮助我们改进工具。",
+      "submitFailed": "提交失败，请重试。"
+    },
+    "settings": {
+      "dontShowAgain": "不再显示反馈请求"
     }
   }
 }

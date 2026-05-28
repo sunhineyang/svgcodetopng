@@ -157,7 +157,7 @@
     },
     "question6": {
       "question": "¿Cómo convierto una etiqueta SVG a una imagen PNG?",
-      "answer": "Pega cualquier etiqueta SVG o marcado — ya sea una sola etiqueta <svg>, código SVG en línea o SVG incrustado en HTML. Nuestra herramienta renderiza el código SVG como imagen al instante, permitiéndote descargar como PNG, JPG o WebP con dimensiones personalizadas y fondos transparentes."
+      "answer": "Pega cualquier etiqueta SVG o marcado — ya sea una sola etiqueta &lt;svg&gt;, código SVG en línea o SVG incrustado en HTML. Nuestra herramienta renderiza el código SVG como imagen al instante, permitiéndote descargar como PNG, JPG o WebP con dimensiones personalizadas y fondos transparentes."
     },
     "question7": {
       "question": "¿Puedo convertir código SVG a PNG u otros formatos de imagen?",
@@ -165,7 +165,7 @@
     },
     "question8": {
       "question": "¿Puedo convertir SVG con texto a PNG?",
-      "answer": "¡Sí! Nuestro convertidor maneja archivos SVG con elementos <text> perfectamente. Ya sea que tu SVG contenga texto, formas, degradados o rutas complejas, todo se renderiza con precisión al convertir a PNG. El texto se mantiene nítido y claro a cualquier resolución."
+      "answer": "¡Sí! Nuestro convertidor maneja archivos SVG con elementos &lt;text&gt; perfectamente. Ya sea que tu SVG contenga texto, formas, degradados o rutas complejas, todo se renderiza con precisión al convertir a PNG. El texto se mantiene nítido y claro a cualquier resolución."
     },
     "questions": {
       "free": {
@@ -222,7 +222,8 @@
     "contactUs": "Contáctanos",
     "navigation": {
       "title": "Navegación",
-      "home": "Inicio"
+      "home": "Inicio",
+      "codeToPng": "Código a PNG"
     },
     "legal": {
       "title": "Legal",
@@ -387,6 +388,11 @@
       "title": "¿Listo para Convertir tu Código a PNG?",
       "desc": "Gratis, instantáneo, sin registro. Empieza ahora.",
       "button": "Convertir Gratis"
+    },
+    "crossPromo": {
+      "title": "¿Convertir SVGs en lote?",
+      "subtitle": "Arrastra y suelta varios archivos en svgtopng.app — gratis, sin subida.",
+      "cta": "Probar"
     }
   },
   "aiAssistant": {
@@ -409,40 +415,76 @@
     },
     "errors": {
       "svgTooLong": {
-        "title": "SVG is too long",
-        "message": "This SVG exceeds processing limits.",
-        "suggestion": "Please simplify the SVG or clear conversation history."
+        "title": "El archivo SVG es demasiado largo",
+        "message": "Este SVG supera los límites de procesamiento.",
+        "suggestion": "Por favor, simplifica el SVG o borra el historial de conversación."
       },
       "svgSyntaxError": {
-        "title": "Invalid SVG from AI",
-        "message": "The AI generated invalid SVG code. Keeping original.",
-        "suggestion": "Try phrasing your request differently (e.g., \"optimize code\")."
+        "title": "SVG inválido generado por la IA",
+        "message": "La IA generó código SVG inválido. Se mantiene el original.",
+        "suggestion": "Intenta formular tu solicitud de otra manera (por ejemplo: \"optimizar el código\")."
       },
       "extractionFailed": {
-        "title": "Could not extract SVG",
-        "message": "The AI response could not be parsed properly.",
-        "suggestion": "Try being more specific (e.g., \"change all text to red\")."
+        "title": "No se pudo extraer el SVG",
+        "message": "La respuesta de la IA no se pudo analizar correctamente.",
+        "suggestion": "Intenta ser más específico (por ejemplo: \"cambiar todo el texto a rojo\")."
       },
       "timeout": {
-        "title": "Request timed out",
-        "message": "The AI is taking too long.",
-        "suggestion": "Please try again later or check your network."
+        "title": "Tiempo de espera agotado",
+        "message": "La IA está tardando demasiado.",
+        "suggestion": "Por favor, inténtalo más tarde o verifica tu conexión de red."
       },
       "rateLimit": {
-        "title": "Too many requests",
-        "message": "Please try again later.",
-        "suggestion": "Wait at least 5 seconds between requests."
+        "title": "Demasiadas solicitudes",
+        "message": "Por favor, inténtalo más tarde.",
+        "suggestion": "Espera al menos 5 segundos entre solicitudes."
       },
       "networkError": {
-        "title": "Network error",
-        "message": "Could not connect to AI service.",
-        "suggestion": "Please check your network and try again."
+        "title": "Error de red",
+        "message": "No se pudo conectar al servicio de IA.",
+        "suggestion": "Por favor, verifica tu conexión de red e inténtalo de nuevo."
       },
       "aiError": {
-        "title": "AI service error",
-        "message": "The AI service encountered an error.",
-        "suggestion": "Please try again later."
+        "title": "Error del servicio de IA",
+        "message": "El servicio de IA encontró un error.",
+        "suggestion": "Por favor, inténtalo más tarde."
       }
+    }
+  },
+  "feedback": {
+    "card": {
+      "title": "¿Cómo fue tu conversión?",
+      "subtitle": "Ayúdanos a mejorar la herramienta 👍",
+      "positive": "Genial",
+      "negative": "Tuvo problemas",
+      "close": "Cerrar"
+    },
+    "modal": {
+      "title": "Ayúdanos a mejorar la conversión",
+      "questionLabel": "Cuéntanos qué salió mal (selecciona todos los que apliquen):",
+      "tags": {
+        "missing_elements": "Elementos faltantes o desaparecidos",
+        "blurry": "Imagen borrosa / pixelada",
+        "color_issue": "Colores incorrectos o degradados rotos",
+        "transparency_failed": "El fondo transparente no funciona",
+        "text_error": "El texto se renderizó incorrectamente",
+        "other": "Otro problema"
+      },
+      "descriptionLabel": "Otros detalles (opcional)",
+      "descriptionPlaceholder": "Describe el problema...",
+      "uploadLabel": "Sí, compartir mi SVG de forma anónima para ayudar a corregirlo (recomendado)",
+      "privacyNote": "Tu archivo se usa solo para mejorar la calidad de renderizado y se elimina automáticamente después del procesamiento.",
+      "cancel": "Cancelar",
+      "submit": "Enviar",
+      "submitting": "Enviando..."
+    },
+    "toast": {
+      "thanksPositive": "¡Gracias por tu opinión! Seguiremos mejorando 💪",
+      "thanksNegative": "¡Gracias! Tu aporte nos ayuda a mejorar la herramienta.",
+      "submitFailed": "Error al enviar. Por favor, inténtalo de nuevo."
+    },
+    "settings": {
+      "dontShowAgain": "No volver a mostrar solicitudes de feedback"
     }
   }
 }

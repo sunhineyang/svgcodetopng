@@ -175,7 +175,7 @@
     },
     "question6": {
       "question": "SVG 태그를 PNG 이미지로 변환하려면 어떻게 하나요?",
-      "answer": "단일 <svg> 태그, 인라인 SVG 코드, HTML에 포함된 SVG 등 어떤 SVG 태그나 마크업이든 붙여넣으세요. 도구가 SVG 코드를 즉시 이미지로 렌더링하여 사용자 정의 크기와 투명 배경으로 PNG, JPG 또는 WebP로 다운로드할 수 있습니다."
+      "answer": "단일 &lt;svg&gt; 태그, 인라인 SVG 코드, HTML에 포함된 SVG 등 어떤 SVG 태그나 마크업이든 붙여넣으세요. 도구가 SVG 코드를 즉시 이미지로 렌더링하여 사용자 정의 크기와 투명 배경으로 PNG, JPG 또는 WebP로 다운로드할 수 있습니다."
     },
     "question7": {
       "question": "SVG 코드를 PNG나 다른 이미지 형식으로 변환할 수 있나요?",
@@ -183,7 +183,7 @@
     },
     "question8": {
       "question": "텍스트가 포함된 SVG를 PNG로 변환할 수 있나요?",
-      "answer": "네! 변환기는 <text> 요소가 포함된 SVG 파일도 완벽하게 처리합니다. 텍스트, 도형, 그라데이션 또는 복잡한 경로가 포함되어 있어도 PNG로 변환할 때 모두 정확하게 렌더링됩니다. 텍스트는 모든 해상도에서 선명하고 또렷하게 유지됩니다."
+      "answer": "네! 변환기는 &lt;text&gt; 요소가 포함된 SVG 파일도 완벽하게 처리합니다. 텍스트, 도형, 그라데이션 또는 복잡한 경로가 포함되어 있어도 PNG로 변환할 때 모두 정확하게 렌더링됩니다. 텍스트는 모든 해상도에서 선명하고 또렷하게 유지됩니다."
     },
     "questions": {
       "free": {
@@ -220,7 +220,8 @@
     "contactUs": "문의하기",
     "navigation": {
       "title": "내비게이션",
-      "home": "홈"
+      "home": "홈",
+      "codeToPng": "코드를 PNG로"
     },
     "legal": {
       "title": "법적 고지",
@@ -385,6 +386,11 @@
       "title": "코드를 PNG로 변환할 준비가 되셨나요?",
       "desc": "무료, 즉시, 가입 불필요. 지금 시작하세요.",
       "button": "무료로 변환하기"
+    },
+    "crossPromo": {
+      "title": "SVG 파일을 일괄 변환하시겠어요?",
+      "subtitle": "svgtopng.app에서 여러 파일을 드래그 앤 드롭 — 무료, 업로드 없음.",
+      "cta": "사용하기"
     }
   },
   "aiAssistant": {
@@ -407,40 +413,76 @@
     },
     "errors": {
       "svgTooLong": {
-        "title": "SVG is too long",
-        "message": "This SVG exceeds processing limits.",
-        "suggestion": "Please simplify the SVG or clear conversation history."
+        "title": "SVG 파일이 너무 깁니다",
+        "message": "SVG 파일이 처리 한계를 초과했습니다.",
+        "suggestion": "SVG를 단순화하거나 대화 기록을 삭제해 주세요."
       },
       "svgSyntaxError": {
-        "title": "Invalid SVG from AI",
-        "message": "The AI generated invalid SVG code. Keeping original.",
-        "suggestion": "Try phrasing your request differently (e.g., \"optimize code\")."
+        "title": "AI에서 잘못된 SVG 생성",
+        "message": "AI가 잘못된 SVG 코드를 생성했습니다. 원본을 유지합니다.",
+        "suggestion": "요청을 다르게 표현해 보세요 (예: \"코드 최적화\")."
       },
       "extractionFailed": {
-        "title": "Could not extract SVG",
-        "message": "The AI response could not be parsed properly.",
-        "suggestion": "Try being more specific (e.g., \"change all text to red\")."
+        "title": "SVG를 추출할 수 없습니다",
+        "message": "AI 응답을 올바르게 분석할 수 없습니다.",
+        "suggestion": "더 구체적으로 요청해 보세요 (예: \"모든 텍스트를 빨간색으로 변경\")."
       },
       "timeout": {
-        "title": "Request timed out",
-        "message": "The AI is taking too long.",
-        "suggestion": "Please try again later or check your network."
+        "title": "요청 시간 초과",
+        "message": "AI 응답이 너무 오래 걸리고 있습니다.",
+        "suggestion": "나중에 다시 시도하거나 네트워크를 확인해 주세요."
       },
       "rateLimit": {
-        "title": "Too many requests",
-        "message": "Please try again later.",
-        "suggestion": "Wait at least 5 seconds between requests."
+        "title": "요청이 너무 많습니다",
+        "message": "나중에 다시 시도해 주세요.",
+        "suggestion": "요청 사이에 최소 5초를 기다려 주세요."
       },
       "networkError": {
-        "title": "Network error",
-        "message": "Could not connect to AI service.",
-        "suggestion": "Please check your network and try again."
+        "title": "네트워크 오류",
+        "message": "AI 서비스에 연결할 수 없습니다.",
+        "suggestion": "네트워크를 확인하고 다시 시도해 주세요."
       },
       "aiError": {
-        "title": "AI service error",
-        "message": "The AI service encountered an error.",
-        "suggestion": "Please try again later."
+        "title": "AI 서비스 오류",
+        "message": "AI 서비스에 오류가 발생했습니다.",
+        "suggestion": "나중에 다시 시도해 주세요."
       }
+    }
+  },
+  "feedback": {
+    "card": {
+      "title": "변환 결과가 어떠셨나요?",
+      "subtitle": "도구를 개선할 수 있도록 도와주세요 👍",
+      "positive": "좋아요",
+      "negative": "문제가 있어요",
+      "close": "닫기"
+    },
+    "modal": {
+      "title": "변환 품질 개선에 도움을 주세요",
+      "questionLabel": "어떤 문제가 있었는지 선택해 주세요:",
+      "tags": {
+        "missing_elements": "요소가 누락되거나 사라짐",
+        "blurry": "흐릿함 / 픽셀 깨짐",
+        "color_issue": "색상이 잘못되거나 그라데이션 오류",
+        "transparency_failed": "투명 배경이 작동하지 않음",
+        "text_error": "텍스트가 잘못 렌더링됨",
+        "other": "기타 문제"
+      },
+      "descriptionLabel": "추가 설명 (선택사항)",
+      "descriptionPlaceholder": "문제를 설명해 주세요...",
+      "uploadLabel": "개선을 위해 SVG를 익명으로 공유합니다 (권장)",
+      "privacyNote": "파일은 렌더링 품질 개선 목적으로만 사용되며, 처리 후 자동으로 삭제됩니다.",
+      "cancel": "취소",
+      "submit": "제출",
+      "submitting": "제출 중..."
+    },
+    "toast": {
+      "thanksPositive": "피드백 감사합니다! 계속 개선하겠습니다 💪",
+      "thanksNegative": "감사합니다! 소중한 의견으로 도구를 개선하겠습니다.",
+      "submitFailed": "제출에 실패했습니다. 다시 시도해 주세요."
+    },
+    "settings": {
+      "dontShowAgain": "피드백 요청 다시 표시하지 않기"
     }
   }
 }

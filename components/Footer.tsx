@@ -1,52 +1,52 @@
 'use client';
 
 import Link from 'next/link';
-
-import { 
+import { useTranslations, useLocale } from 'next-intl';
+import {
   Heart,
   Globe,
   Mail
 } from 'lucide-react';
 
+function localeHref(path: string, locale: string): string {
+  if (locale === 'en') return path;
+  return `/${locale}${path === '/' ? '' : path}`;
+}
+
 const Footer = () => {
-  // 安全的外部链接处理函数
+  const t = useTranslations('footer');
+  const locale = useLocale();
+
   const handleExternalLink = (url: string) => {
     try {
-      // 检查URL是否有效
       new URL(url);
-      // 安全地打开外部链接
       window.open(url, '_blank', 'noopener,noreferrer');
     } catch {
-      console.warn('Invalid URL:', url);
-      // 可以显示用户友好的错误消息
-      alert('Invalid link. Please try again.');
+      alert(t('linkError'));
     }
   };
 
-  // 安全的邮件链接处理函数
   const handleMailto = (email: string) => {
     try {
       const mailtoUrl = `mailto:${email}`;
       window.location.href = mailtoUrl;
-    } catch (error) {
-      console.warn('Failed to open email client:', error);
-      // 复制邮箱地址到剪贴板作为备选方案
+    } catch {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(email).then(() => {
-          alert('Email address copied to clipboard!');
+          alert(t('emailCopied'));
         }).catch(() => {
-          alert('Please copy this email manually: ' + email);
+          alert(t('emailCopyManual') + ': ' + email);
         });
       } else {
-        alert('Please copy this email manually: ' + email);
+        alert(t('emailCopyManual') + ': ' + email);
       }
     }
   };
 
   const footerLinks = {
     product: [
-      { name: 'Home', href: '/' },
-      { name: 'Code to PNG', href: '/code-to-png' },
+      { name: t('navigation.home'), href: localeHref('/', locale) },
+      { name: t('navigation.codeToPng'), href: localeHref('/code-to-png', locale) },
     ],
     relatedProducts: [
       { name: 'SVG to PNG', href: 'https://svgtopng.app', external: true },
@@ -55,20 +55,16 @@ const Footer = () => {
       { name: 'AI Face Rate', href: 'https://aifacerate.com', external: true },
     ],
     legal: [
-      { name: 'Privacy Policy', href: '#', disabled: true },
-      { name: 'Terms of Service', href: '#', disabled: true },
+      { name: t('legal.privacy'), href: '#', disabled: true },
+      { name: t('legal.terms'), href: '#', disabled: true },
     ]
   };
-
-
 
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Content */}
         <div className="py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Brand Section */}
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-lg flex items-center justify-center">
@@ -79,25 +75,23 @@ const Footer = () => {
                 <span className="text-xl font-bold">SVGCodeToPNG</span>
               </div>
               <p className="text-gray-400 mb-6 max-w-sm">
-                Convert code to high-quality images — SVG, HTML, CSS. Free, secure, and works entirely in your browser.
+                {t('description')}
               </p>
-              
-              {/* Contact Us */}
+
               <div className="mb-6">
                 <button
                   onClick={() => handleMailto('0992sunshine@gmail.com')}
                   className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white font-medium"
                 >
                   <Mail className="w-5 h-5" />
-                  <span>Contact Us</span>
+                  <span>{t('contactUs')}</span>
                 </button>
               </div>
             </div>
-            
-            {/* Navigation Links */}
+
             <div>
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-                Navigation
+                {t('navigation.title')}
               </h3>
               <ul className="space-y-3">
                 {footerLinks.product.map((link) => (
@@ -112,11 +106,10 @@ const Footer = () => {
                 ))}
               </ul>
             </div>
-            
-            {/* Legal Links */}
+
             <div>
               <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-                Legal & Related
+                {t('legal.title')}
               </h3>
               <ul className="space-y-3">
                 {footerLinks.legal.map((link) => (
@@ -143,29 +136,28 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        
-        {/* Bottom Bar */}
+
         <div className="border-t border-gray-800 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-4 text-sm text-gray-400">
-              <span>© 2024 SVGCodeToPNG. All rights reserved.</span>
+              <span>{t('copyright')}</span>
               <span className="hidden md:inline">•</span>
               <div className="flex items-center space-x-1">
-                <span>Made with</span>
+                <span>{t('madeWith')}</span>
                 <Heart className="w-4 h-4 text-red-500 fill-current" />
-                <span>for developers</span>
+                <span>{t('forDevelopers')}</span>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-2 text-gray-400">
                 <Globe className="w-4 h-4" />
-                <span>Available Worldwide</span>
+                <span>{t('availableWorldwide')}</span>
               </div>
-              
+
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-gray-400">All Systems Operational</span>
+                <span className="text-gray-400">{t('systemsOperational')}</span>
               </div>
             </div>
           </div>

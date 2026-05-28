@@ -177,7 +177,7 @@
     },
     "question6": {
       "question": "SVGタグをPNG画像に変換するにはどうすればよいですか？",
-      "answer": "単一の<svg>タグ、インラインSVGコード、HTMLに埋め込まれたSVGなど、任意のSVGタグやマークアップを貼り付けてください。ツールがSVGコードを即座に画像としてレンダリングし、カスタムサイズと透明背景でPNG、JPG、WebPとしてダウンロードできます。"
+      "answer": "単一の&lt;svg&gt;タグ、インラインSVGコード、HTMLに埋め込まれたSVGなど、任意のSVGタグやマークアップを貼り付けてください。ツールがSVGコードを即座に画像としてレンダリングし、カスタムサイズと透明背景でPNG、JPG、WebPとしてダウンロードできます。"
     },
     "question7": {
       "question": "SVGコードをPNGや他の画像形式に変換できますか？",
@@ -185,7 +185,7 @@
     },
     "question8": {
       "question": "テキストを含むSVGをPNGに変換できますか？",
-      "answer": "はい！変換ツールは<text>要素を含むSVGファイルも完璧に処理します。テキスト、図形、グラデーション、複雑なパスが含まれていても、PNGへの変換時にすべて正確にレンダリングされます。テキストはあらゆる解像度で鮮明で鮮やかなままです。"
+      "answer": "はい！変換ツールは&lt;text&gt;要素を含むSVGファイルも完璧に処理します。テキスト、図形、グラデーション、複雑なパスが含まれていても、PNGへの変換時にすべて正確にレンダリングされます。テキストはあらゆる解像度で鮮明で鮮やかなままです。"
     }
   },
   "cta": {
@@ -200,7 +200,8 @@
     "contactUs": "お問い合わせ",
     "navigation": {
       "title": "ナビゲーション",
-      "home": "ホーム"
+      "home": "ホーム",
+      "codeToPng": "コードをPNGに"
     },
     "legal": {
       "title": "法的",
@@ -365,6 +366,11 @@
       "title": "コードをPNGに変換する準備はできましたか？",
       "desc": "無料、即時、登録不要。今すぐ始めましょう。",
       "button": "無料で変換する"
+    },
+    "crossPromo": {
+      "title": "SVGファイルを一括変換？",
+      "subtitle": "svgtopng.appで複数ファイルをドラッグ＆ドロップ — 無料、アップロード不要。",
+      "cta": "試す"
     }
   },
   "aiAssistant": {
@@ -387,40 +393,76 @@
     },
     "errors": {
       "svgTooLong": {
-        "title": "SVG is too long",
-        "message": "This SVG exceeds processing limits.",
-        "suggestion": "Please simplify the SVG or clear conversation history."
+        "title": "SVGファイルが大きすぎます",
+        "message": "SVGが処理制限を超えています。",
+        "suggestion": "SVGを簡略化するか、会話履歴を消去してください。"
       },
       "svgSyntaxError": {
-        "title": "Invalid SVG from AI",
-        "message": "The AI generated invalid SVG code. Keeping original.",
-        "suggestion": "Try phrasing your request differently (e.g., \"optimize code\")."
+        "title": "AIが無効なSVGを生成しました",
+        "message": "AIが無効なSVGコードを生成しました。元のコードを保持します。",
+        "suggestion": "リクエストの表現を変えてみてください（例：「コードを最適化して」）。"
       },
       "extractionFailed": {
-        "title": "Could not extract SVG",
-        "message": "The AI response could not be parsed properly.",
-        "suggestion": "Try being more specific (e.g., \"change all text to red\")."
+        "title": "SVGを抽出できませんでした",
+        "message": "AIのレスポンスを正しく解析できませんでした。",
+        "suggestion": "より具体的に指示してみてください（例：「すべてのテキストを赤に変更して」）。"
       },
       "timeout": {
-        "title": "Request timed out",
-        "message": "The AI is taking too long.",
-        "suggestion": "Please try again later or check your network."
+        "title": "リクエストがタイムアウトしました",
+        "message": "AIの応答に時間がかかっています。",
+        "suggestion": "後でもう一度お試しください。またはネットワークを確認してください。"
       },
       "rateLimit": {
-        "title": "Too many requests",
-        "message": "Please try again later.",
-        "suggestion": "Wait at least 5 seconds between requests."
+        "title": "リクエストが多すぎます",
+        "message": "しばらくしてからもう一度お試しください。",
+        "suggestion": "リクエストの間に最低5秒お待ちください。"
       },
       "networkError": {
-        "title": "Network error",
-        "message": "Could not connect to AI service.",
-        "suggestion": "Please check your network and try again."
+        "title": "ネットワークエラー",
+        "message": "AIサービスに接続できませんでした。",
+        "suggestion": "ネットワークを確認して、もう一度お試しください。"
       },
       "aiError": {
-        "title": "AI service error",
-        "message": "The AI service encountered an error.",
-        "suggestion": "Please try again later."
+        "title": "AIサービスエラー",
+        "message": "AIサービスでエラーが発生しました。",
+        "suggestion": "後でもう一度お試しください。"
       }
+    }
+  },
+  "feedback": {
+    "card": {
+      "title": "変換の結果はいかがでしたか？",
+      "subtitle": "ツールの改善にご協力ください 👍",
+      "positive": "良い",
+      "negative": "問題あり",
+      "close": "閉じる"
+    },
+    "modal": {
+      "title": "変換品質の改善にご協力ください",
+      "questionLabel": "問題を選択してください（複数選択可）:",
+      "tags": {
+        "missing_elements": "要素が欠落・消失している",
+        "blurry": "ぼやけている / ピクセルが粗い",
+        "color_issue": "色が正しくない・グラデーションが壊れている",
+        "transparency_failed": "透明背景が機能しない",
+        "text_error": "テキストが正しく表示されない",
+        "other": "その他の問題"
+      },
+      "descriptionLabel": "詳細（任意）",
+      "descriptionPlaceholder": "問題を説明してください...",
+      "uploadLabel": "改善のためSVGを匿名で共有します（推奨）",
+      "privacyNote": "ファイルはレンダリング品質の改善のみに使用し、処理後に自動的に削除されます。",
+      "cancel": "キャンセル",
+      "submit": "送信",
+      "submitting": "送信中..."
+    },
+    "toast": {
+      "thanksPositive": "フィードバックありがとうございます！改善を続けます 💪",
+      "thanksNegative": "ありがとうございます！いただいたご意見で改善します。",
+      "submitFailed": "送信に失敗しました。もう一度お試しください。"
+    },
+    "settings": {
+      "dontShowAgain": "今後フィードバック要求を表示しない"
     }
   }
 }

@@ -177,7 +177,7 @@
     },
     "question6": {
       "question": "Как преобразовать SVG-тег в изображение PNG?",
-      "answer": "Вставьте любой SVG-тег или разметку — будь то одиночный тег <svg>, встроенный SVG-код или внедрённый SVG в HTML. Наш инструмент мгновенно отображает SVG-код как изображение, позволяя скачать в формате PNG, JPG или WebP с пользовательскими размерами и прозрачными фонами."
+      "answer": "Вставьте любой SVG-тег или разметку — будь то одиночный тег &lt;svg&gt;, встроенный SVG-код или внедрённый SVG в HTML. Наш инструмент мгновенно отображает SVG-код как изображение, позволяя скачать в формате PNG, JPG или WebP с пользовательскими размерами и прозрачными фонами."
     },
     "question7": {
       "question": "Могу ли я конвертировать SVG-код в PNG или другие форматы изображений?",
@@ -185,7 +185,7 @@
     },
     "question8": {
       "question": "Могу ли я конвертировать SVG с текстом в PNG?",
-      "answer": "Да! Наш конвертер отлично обрабатывает SVG-файлы с элементами <text>. Независимо от того, содержит ли ваш SVG текст, фигуры, градиенты или сложные пути — всё точно отображается при конвертации в PNG. Текст остаётся чётким и ясным при любом разрешении."
+      "answer": "Да! Наш конвертер отлично обрабатывает SVG-файлы с элементами &lt;text&gt;. Независимо от того, содержит ли ваш SVG текст, фигуры, градиенты или сложные пути — всё точно отображается при конвертации в PNG. Текст остаётся чётким и ясным при любом разрешении."
     }
   },
   "cta": {
@@ -200,7 +200,8 @@
     "contactUs": "Связаться с нами",
     "navigation": {
       "title": "Навигация",
-      "home": "Главная"
+      "home": "Главная",
+      "codeToPng": "Код в PNG"
     },
     "legal": {
       "title": "Юридическая информация",
@@ -365,6 +366,11 @@
       "title": "Готовы конвертировать код в PNG?",
       "desc": "Бесплатно, мгновенно, без регистрации. Начните сейчас.",
       "button": "Конвертировать бесплатно"
+    },
+    "crossPromo": {
+      "title": "Пакетная конвертация SVG?",
+      "subtitle": "Перетащите несколько файлов на svgtopng.app — бесплатно, без загрузки.",
+      "cta": "Попробовать"
     }
   },
   "aiAssistant": {
@@ -387,40 +393,76 @@
     },
     "errors": {
       "svgTooLong": {
-        "title": "SVG is too long",
-        "message": "This SVG exceeds processing limits.",
-        "suggestion": "Please simplify the SVG or clear conversation history."
+        "title": "SVG-файл слишком большой",
+        "message": "Этот SVG превышает лимиты обработки.",
+        "suggestion": "Пожалуйста, упростите SVG или очистите историю чата."
       },
       "svgSyntaxError": {
-        "title": "Invalid SVG from AI",
-        "message": "The AI generated invalid SVG code. Keeping original.",
-        "suggestion": "Try phrasing your request differently (e.g., \"optimize code\")."
+        "title": "Неверный SVG от ИИ",
+        "message": "ИИ сгенерировал неверный SVG-код. Оригинал сохранён.",
+        "suggestion": "Попробуйте переформулировать запрос (например: «оптимизировать код»)."
       },
       "extractionFailed": {
-        "title": "Could not extract SVG",
-        "message": "The AI response could not be parsed properly.",
-        "suggestion": "Try being more specific (e.g., \"change all text to red\")."
+        "title": "Не удалось извлечь SVG",
+        "message": "Ответ ИИ не удалось корректно обработать.",
+        "suggestion": "Попробуйте быть более точным (например: «изменить весь текст на красный»)."
       },
       "timeout": {
-        "title": "Request timed out",
-        "message": "The AI is taking too long.",
-        "suggestion": "Please try again later or check your network."
+        "title": "Время ожидания истекло",
+        "message": "ИИ слишком долго отвечает.",
+        "suggestion": "Пожалуйста, попробуйте позже или проверьте сеть."
       },
       "rateLimit": {
-        "title": "Too many requests",
-        "message": "Please try again later.",
-        "suggestion": "Wait at least 5 seconds between requests."
+        "title": "Слишком много запросов",
+        "message": "Пожалуйста, попробуйте позже.",
+        "suggestion": "Подождите не менее 5 секунд между запросами."
       },
       "networkError": {
-        "title": "Network error",
-        "message": "Could not connect to AI service.",
-        "suggestion": "Please check your network and try again."
+        "title": "Ошибка сети",
+        "message": "Не удалось подключиться к сервису ИИ.",
+        "suggestion": "Пожалуйста, проверьте сеть и попробуйте снова."
       },
       "aiError": {
-        "title": "AI service error",
-        "message": "The AI service encountered an error.",
-        "suggestion": "Please try again later."
+        "title": "Ошибка сервиса ИИ",
+        "message": "Сервис ИИ обнаружил ошибку.",
+        "suggestion": "Пожалуйста, попробуйте позже."
       }
+    }
+  },
+  "feedback": {
+    "card": {
+      "title": "Как прошёл результат конвертации?",
+      "subtitle": "Помогите нам улучшить инструмент 👍",
+      "positive": "Отлично",
+      "negative": "Есть проблемы",
+      "close": "Закрыть"
+    },
+    "modal": {
+      "title": "Помогите улучшить качество конвертации",
+      "questionLabel": "Что пошло не так (выберите все подходящие):",
+      "tags": {
+        "missing_elements": "Элементы отсутствуют или исчезли",
+        "blurry": "Размытое / пиксельное изображение",
+        "color_issue": "Неправильные цвета или сломанные градиенты",
+        "transparency_failed": "Прозрачный фон не работает",
+        "text_error": "Текст отображается некорректно",
+        "other": "Другая проблема"
+      },
+      "descriptionLabel": "Дополнительные детали (необязательно)",
+      "descriptionPlaceholder": "Опишите проблему...",
+      "uploadLabel": "Анонимно поделиться SVG для исправления (рекомендуется)",
+      "privacyNote": "Файл используется только для улучшения качества рендеринга и автоматически удаляется после обработки.",
+      "cancel": "Отмена",
+      "submit": "Отправить",
+      "submitting": "Отправка..."
+    },
+    "toast": {
+      "thanksPositive": "Спасибо за отзыв! Будем улучшать 💪",
+      "thanksNegative": "Спасибо! Ваш вклад поможет нам улучшить инструмент.",
+      "submitFailed": "Ошибка отправки. Пожалуйста, попробуйте снова."
+    },
+    "settings": {
+      "dontShowAgain": "Больше не показывать запросы обратной связи"
     }
   }
 }

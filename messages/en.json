@@ -157,7 +157,7 @@
     },
     "question6": {
       "question": "How do I convert an SVG tag to a PNG image?",
-      "answer": "Paste any SVG tag or markup — whether it's a single <svg> tag, inline SVG code, or embedded SVG within HTML. Our tool renders the SVG code to an image instantly, letting you download as PNG, JPG, or WebP with custom dimensions and transparent backgrounds."
+      "answer": "Paste any SVG tag or markup — whether it's a single &lt;svg&gt; tag, inline SVG code, or embedded SVG within HTML. Our tool renders the SVG code to an image instantly, letting you download as PNG, JPG, or WebP with custom dimensions and transparent backgrounds."
     },
     "question7": {
       "question": "Can I convert SVG code into PNG or other image formats?",
@@ -165,7 +165,7 @@
     },
     "question8": {
       "question": "Can I convert SVG with text to PNG?",
-      "answer": "Yes! Our converter handles SVG files with <text> elements perfectly. Whether your SVG contains text, shapes, gradients, or complex paths, everything renders accurately when converted to PNG. The text stays crisp and clear at any resolution."
+      "answer": "Yes! Our converter handles SVG files with &lt;text&gt; elements perfectly. Whether your SVG contains text, shapes, gradients, or complex paths, everything renders accurately when converted to PNG. The text stays crisp and clear at any resolution."
     },
     "questions": {
       "free": {
@@ -222,7 +222,8 @@
     "contactUs": "Contact Us",
     "navigation": {
       "title": "Navigation",
-      "home": "Home"
+      "home": "Home",
+      "codeToPng": "Code to PNG"
     },
     "legal": {
       "title": "Legal",
@@ -387,6 +388,11 @@
       "title": "Ready to Convert Your Code to PNG?",
       "desc": "Free, instant, no signup. Start now.",
       "button": "Convert for Free"
+    },
+    "crossPromo": {
+      "title": "Batch convert SVG files?",
+      "subtitle": "Drag & drop multiple files at svgtopng.app — free, no upload.",
+      "cta": "Try it"
     }
   },
   "aiAssistant": {
@@ -443,6 +449,42 @@
         "message": "The AI service encountered an error.",
         "suggestion": "Please try again later."
       }
+    }
+  },
+  "feedback": {
+    "card": {
+      "title": "How was your conversion?",
+      "subtitle": "Help us make the tool better 👍",
+      "positive": "Great",
+      "negative": "Has issues",
+      "close": "Close"
+    },
+    "modal": {
+      "title": "Help us improve the conversion",
+      "questionLabel": "Tell us what went wrong (select all that apply):",
+      "tags": {
+        "missing_elements": "Elements missing or disappeared",
+        "blurry": "Blurry / pixelated",
+        "color_issue": "Wrong colors or broken gradients",
+        "transparency_failed": "Transparent background not working",
+        "text_error": "Text rendered incorrectly",
+        "other": "Other issue"
+      },
+      "descriptionLabel": "Other details (optional)",
+      "descriptionPlaceholder": "Describe the issue...",
+      "uploadLabel": "Yes, anonymously share my SVG to help fix it (recommended)",
+      "privacyNote": "Your file is used only to improve rendering quality and is automatically deleted after processing.",
+      "cancel": "Cancel",
+      "submit": "Submit",
+      "submitting": "Submitting..."
+    },
+    "toast": {
+      "thanksPositive": "Thanks for your feedback! We'll keep improving 💪",
+      "thanksNegative": "Thanks! Your input helps us improve the tool.",
+      "submitFailed": "Submission failed. Please try again."
+    },
+    "settings": {
+      "dontShowAgain": "Don't show feedback requests again"
     }
   }
 }

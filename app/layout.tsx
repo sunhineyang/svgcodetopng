@@ -1,6 +1,8 @@
 import { ThemeProvider } from 'next-themes';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
+import { headers } from 'next/headers';
+import { languages } from '../i18n';
 import { metadataBase, siteConfig } from '../config/site';
 import './globals.css';
 
@@ -16,11 +18,10 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-// 强制英语metadata，确保根目录始终显示英语
 export const metadata = {
   metadataBase,
   title: 'SVG Code to PNG Converter (PNG, JPG, GIF) | Free Online Tool',
-  description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file.Fast,easy,no signup.',
+  description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file. Fast, easy, no signup.',
   keywords: 'svg to png, svg converter, svg to image, code to png, online converter',
   icons: {
     icon: '/favicon.svg',
@@ -36,7 +37,8 @@ export const metadata = {
   alternates: {
     canonical: `${siteConfig.url}/`,
     languages: {
-      'en-US': '/',
+      'x-default': '/',
+      'en': '/',
       'ko': '/ko',
       'ja': '/ja',
       'ru': '/ru',
@@ -76,13 +78,18 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const headersList = headers();
+  const locale = headersList.get('x-locale') || 'en';
+  const langConfig = languages[locale] || languages['en'];
+  const dir = langConfig.dir || 'ltr';
+
   return (
-    <html suppressHydrationWarning>
+    <html lang={locale} dir={dir} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -99,7 +106,6 @@ export default function RootLayout({
             }),
           }}
         />
-        {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-5RPN0F4G3Y"
           strategy="afterInteractive"
@@ -112,7 +118,6 @@ export default function RootLayout({
             gtag('config', 'G-5RPN0F4G3Y');
           `}
         </Script>
-        {/* Adsterra Popunder */}
         <Script
           src="https://pl28593994.effectivegatecpm.com/80/29/dd/8029dd06a3e4c3c6ae68f72715059ae7.js"
           strategy="afterInteractive"
@@ -126,7 +131,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          {/* Adsterra Social Bar */}
           <Script
             src="https://pl28593999.effectivegatecpm.com/30/de/85/30de85869b1f125809c7c4f10d85b458.js"
             strategy="lazyOnload"

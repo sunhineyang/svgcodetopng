@@ -166,7 +166,7 @@
     },
     "question6": {
       "question": "كيف أحول وسم SVG إلى صورة PNG؟",
-      "answer": "الصق أي وسم SVG أو ترميز — سواء كان وسم <svg> واحد، أو كود SVG مضمن، أو SVG مدمج في HTML. تقوم أداتنا بعرض كود SVG كصورة فورًا، مما يتيح لك التنزيل بصيغة PNG أو JPG أو WebP بأبعاد مخصصة وخلفيات شفافة."
+      "answer": "الصق أي وسم SVG أو ترميز — سواء كان وسم &lt;svg&gt; واحد، أو كود SVG مضمن، أو SVG مدمج في HTML. تقوم أداتنا بعرض كود SVG كصورة فورًا، مما يتيح لك التنزيل بصيغة PNG أو JPG أو WebP بأبعاد مخصصة وخلفيات شفافة."
     },
     "question7": {
       "question": "هل يمكنني تحويل كود SVG إلى PNG أو صيغ صور أخرى؟",
@@ -174,7 +174,7 @@
     },
     "question8": {
       "question": "هل يمكنني تحويل SVG يحتوي على نص إلى PNG؟",
-      "answer": "نعم! يتعامل محولنا مع ملفات SVG التي تحتوي على عناصر <text> بشكل مثالي. سواء كان SVG الخاص بك يحتوي على نص أو أشكال أو تدرجات أو مسارات معقدة، فإن كل شيء يُعرض بدقة عند التحويل إلى PNG. يبقى النص واضحًا وحادًا في أي دقة."
+      "answer": "نعم! يتعامل محولنا مع ملفات SVG التي تحتوي على عناصر &lt;text&gt; بشكل مثالي. سواء كان SVG الخاص بك يحتوي على نص أو أشكال أو تدرجات أو مسارات معقدة، فإن كل شيء يُعرض بدقة عند التحويل إلى PNG. يبقى النص واضحًا وحادًا في أي دقة."
     },
     "questions": {
       "free": {
@@ -336,7 +336,8 @@
     "contactUs": "اتصل بنا",
     "navigation": {
       "title": "الملاحة",
-      "home": "الرئيسية"
+      "home": "الرئيسية",
+      "codeToPng": "الكود إلى PNG"
     },
     "legal": {
       "title": "القوانين",
@@ -511,6 +512,11 @@
       "title": "هل أنت مستعد لتحويل الكود الخاص بك إلى PNG؟",
       "desc": "مجاني، فوري، بدون تسجيل. ابدأ الآن.",
       "button": "تحويل مجاني"
+    },
+    "crossPromo": {
+      "title": "تحويل ملفات SVG دفعة واحدة؟",
+      "subtitle": "اسحب وأفلت عدة ملفات على svgtopng.app — مجاني، بدون رفع.",
+      "cta": "جربها"
     }
   },
   "aiAssistant": {
@@ -533,40 +539,76 @@
     },
     "errors": {
       "svgTooLong": {
-        "title": "SVG is too long",
-        "message": "This SVG exceeds processing limits.",
-        "suggestion": "Please simplify the SVG or clear conversation history."
+        "title": "ملف SVG طويل جدًا",
+        "message": "يتجاوز ملف SVG حدود المعالجة.",
+        "suggestion": "يرجى تبسيط SVG أو مسح سجل المحادثة."
       },
       "svgSyntaxError": {
-        "title": "Invalid SVG from AI",
-        "message": "The AI generated invalid SVG code. Keeping original.",
-        "suggestion": "Try phrasing your request differently (e.g., \"optimize code\")."
+        "title": "SVG غير صالح من الذكاء الاصطناعي",
+        "message": "أنشأ الذكاء الاصطناعي كود SVG غير صالح. يتم الاحتفاظ بالأصل.",
+        "suggestion": "جرّب صياغة طلبك بشكل مختلف (مثلاً: \"تحسين الكود\")."
       },
       "extractionFailed": {
-        "title": "Could not extract SVG",
-        "message": "The AI response could not be parsed properly.",
-        "suggestion": "Try being more specific (e.g., \"change all text to red\")."
+        "title": "تعذّر استخراج SVG",
+        "message": "تعذّر تحليل استجابة الذكاء الاصطناعي بشكل صحيح.",
+        "suggestion": "جرّب أن تكون أكثر تحديدًا (مثلاً: \"غيّر كل النص إلى الأحمر\")."
       },
       "timeout": {
-        "title": "Request timed out",
-        "message": "The AI is taking too long.",
-        "suggestion": "Please try again later or check your network."
+        "title": "انتهت مهلة الطلب",
+        "message": "يستغرق الذكاء الاصطناعي وقتًا طويلاً.",
+        "suggestion": "يرجى المحاولة لاحقًا أو التحقق من شبكتك."
       },
       "rateLimit": {
-        "title": "Too many requests",
-        "message": "Please try again later.",
-        "suggestion": "Wait at least 5 seconds between requests."
+        "title": "طلبات كثيرة جدًا",
+        "message": "يرجى المحاولة لاحقًا.",
+        "suggestion": "انتظر 5 ثوانٍ على الأقل بين الطلبات."
       },
       "networkError": {
-        "title": "Network error",
-        "message": "Could not connect to AI service.",
-        "suggestion": "Please check your network and try again."
+        "title": "خطأ في الشبكة",
+        "message": "تعذّر الاتصال بخدمة الذكاء الاصطناعي.",
+        "suggestion": "يرجى التحقق من شبكتك والمحاولة مرة أخرى."
       },
       "aiError": {
-        "title": "AI service error",
-        "message": "The AI service encountered an error.",
-        "suggestion": "Please try again later."
+        "title": "خطأ في خدمة الذكاء الاصطناعي",
+        "message": "واجهت خدمة الذكاء الاصطناعي خطأً.",
+        "suggestion": "يرجى المحاولة لاحقًا."
       }
+    }
+  },
+  "feedback": {
+    "card": {
+      "title": "كيف كانت نتيجة التحويل؟",
+      "subtitle": "ساعدنا في تحسين الأداة 👍",
+      "positive": "ممتاز",
+      "negative": "هناك مشاكل",
+      "close": "إغلاق"
+    },
+    "modal": {
+      "title": "ساعدنا في تحسين جودة التحويل",
+      "questionLabel": "أخبرنا ما الذي حدث (حدد كل ما ينطبق):",
+      "tags": {
+        "missing_elements": "عناصر مفقودة أو اختفت",
+        "blurry": "ضبابي / متكسر البكسلات",
+        "color_issue": "ألوان خاطئة أو تدرجات لونية معطلة",
+        "transparency_failed": "الخلفية الشفافة لا تعمل",
+        "text_error": "النص لم يُعرض بشكل صحيح",
+        "other": "مشكلة أخرى"
+      },
+      "descriptionLabel": "تفاصيل إضافية (اختياري)",
+      "descriptionPlaceholder": "صف المشكلة...",
+      "uploadLabel": "نعم، مشاركة SVG بشكل مجهول للمساعدة في الإصلاح (موصى به)",
+      "privacyNote": "يُستخدم ملفك فقط لتحسين جودة العرض ويُحذف تلقائيًا بعد المعالجة.",
+      "cancel": "إلغاء",
+      "submit": "إرسال",
+      "submitting": "جارٍ الإرسال..."
+    },
+    "toast": {
+      "thanksPositive": "شكرًا لملاحظاتك! سنستمر في التحسين 💪",
+      "thanksNegative": "شكرًا! مساهمتك تساعدنا في تحسين الأداة.",
+      "submitFailed": "فشل الإرسال. يرجى المحاولة مرة أخرى."
+    },
+    "settings": {
+      "dontShowAgain": "عدم إظهار طلبات الملاحظات مرة أخرى"
     }
   }
 }

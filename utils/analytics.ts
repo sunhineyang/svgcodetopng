@@ -68,6 +68,15 @@ export const AnalyticsEvents = {
   SETTINGS_FORMAT_CHANGE: 'settings_format_change',
   SETTINGS_QUALITY_CHANGE: 'settings_quality_change',
   SETTINGS_DIMENSION_CHANGE: 'settings_dimension_change',
+
+  // Feedback Events
+  FEEDBACK_CARD_SHOWN: 'feedback_card_shown',
+  FEEDBACK_CARD_DISMISSED: 'feedback_card_dismissed',
+  FEEDBACK_POSITIVE: 'feedback_positive',
+  FEEDBACK_NEGATIVE_OPEN: 'feedback_negative_open',
+  FEEDBACK_SUBMITTED: 'feedback_submitted',
+  FEEDBACK_SUBMIT_FAILED: 'feedback_submit_failed',
+  FEEDBACK_DONT_SHOW_AGAIN: 'feedback_dont_show_again',
 };
 
 export const trackAiAssistantEnter = () => {

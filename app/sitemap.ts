@@ -12,12 +12,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: locale === 'en' ? 1 : 0.9,
       alternates: {
-        languages: Object.fromEntries(
-          locales.map((l) => [
-            l,
-            `${siteConfig.url}${l === 'en' ? '' : `/${l}`}`,
-          ])
-        ),
+        languages: {
+          'x-default': `${siteConfig.url}/`,
+          ...Object.fromEntries(
+            locales.map((l) => [
+              l,
+              `${siteConfig.url}${l === 'en' ? '' : `/${l}`}`,
+            ])
+          ),
+        },
       },
     };
   });
@@ -30,12 +33,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: 0.9,
       alternates: {
-        languages: Object.fromEntries(
-          locales.map((l) => [
-            l,
-            `${siteConfig.url}${l === 'en' ? '/code-to-png' : `/${l}/code-to-png`}`,
-          ])
-        ),
+        languages: {
+          'x-default': `${siteConfig.url}/code-to-png`,
+          ...Object.fromEntries(
+            locales.map((l) => [
+              l,
+              `${siteConfig.url}${l === 'en' ? '/code-to-png' : `/${l}/code-to-png`}`,
+            ])
+          ),
+        },
       },
     };
   });
