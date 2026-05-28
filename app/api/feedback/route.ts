@@ -15,6 +15,8 @@ const VALID_TAGS = [
   'text_error',
   'other',
 ] as const;
+const VALID_MODES = ['svg', 'html'] as const;
+const VALID_FORMATS = ['png', 'jpg', 'gif', 'webp', 'pdf'] as const;
 
 function sha256(input: string): string {
   return createHash('sha256').update(input + ipSalt).digest('hex');
@@ -49,6 +51,7 @@ export async function POST(req: NextRequest) {
 
     if (countError) {
       console.error('Rate limit check failed:', countError);
+      return json(503, { ok: false, error: 'rate_limit_unavailable' });
     } else if (count !== null && count >= rateLimitPerHour) {
       return json(429, { ok: false, error: 'rate_limited' });
     }
@@ -69,6 +72,21 @@ export async function POST(req: NextRequest) {
     try {
       context = JSON.parse(contextRaw);
     } catch {
+      return json(400, { ok: false, error: 'invalid_payload' });
+    }
+
+    if (!context || typeof context !== 'object' || Array.isArray(context)) {
+      return json(400, { ok: false, error: 'invalid_payload' });
+    }
+
+    const mode = context.mode;
+    const format = context.format;
+    if (
+      typeof mode !== 'string' ||
+      !VALID_MODES.includes(mode as (typeof VALID_MODES)[number]) ||
+      typeof format !== 'string' ||
+      !VALID_FORMATS.includes(format as (typeof VALID_FORMATS)[number])
+    ) {
       return json(400, { ok: false, error: 'invalid_payload' });
     }
 
@@ -141,8 +159,8 @@ export async function POST(req: NextRequest) {
         description,
         svg_storage_path: svgStoragePath,
         svg_size_bytes: svgSizeBytes,
-        mode: context.mode,
-        format: context.format,
+        mode,
+        format,
         quality: context.quality,
         width: context.width,
         height: context.height,
