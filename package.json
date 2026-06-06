@@ -55,6 +55,7 @@
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@monaco-editor/react": "^4.7.0",
+    "@playwright/test": "^1.60.0",
     "@types/html2canvas": "^1.0.0",
     "@types/node": "^22.15.30",
     "@types/react": "^18.3.12",
