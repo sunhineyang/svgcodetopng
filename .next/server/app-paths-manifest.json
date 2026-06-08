@@ -1,3 +1,5 @@
 {
+  "/api/feedback/route": "app/api/feedback/route.js",
+  "/[locale]/page": "app/[locale]/page.js",
   "/[locale]/code-to-png/page": "app/[locale]/code-to-png/page.js"
 }

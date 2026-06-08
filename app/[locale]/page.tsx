@@ -31,6 +31,8 @@ import { useTheme } from 'next-themes';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
 import AiAssistant from '../../components/AiAssistant';
+import FeedbackProviderWrapper from '../../components/feedback/FeedbackProviderWrapper';
+import { useFeedback } from '../../components/feedback/FeedbackProvider';
 import {
   trackEvent,
   trackSettingsOpen,
@@ -62,9 +64,10 @@ interface ExportSettings {
   scale: number;
 }
 
-export default function KoreanHomePage() {
+function HomePageContent() {
   const t = useTranslations();
   const { theme } = useTheme();
+  const { maybeShowFeedback, incrementConversionCount } = useFeedback();
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [svgCode, setSvgCode] = useState(`<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -357,6 +360,22 @@ export default function KoreanHomePage() {
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(downloadUrl);
+
+            // 触发反馈卡片
+            incrementConversionCount();
+            maybeShowFeedback({
+              context: {
+                mode: 'svg',
+                format,
+                quality: exportSettings.quality,
+                width: exportSettings.width,
+                height: exportSettings.height,
+                background: exportSettings.backgroundColor,
+                scale: exportSettings.scale,
+                locale: typeof window !== 'undefined' ? document.documentElement.lang || 'en' : 'en',
+              },
+              svgCode,
+            });
           }
           URL.revokeObjectURL(url);
           setIsConverting(false);
@@ -522,6 +541,22 @@ export default function KoreanHomePage() {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
+
+        // 触发反馈卡片
+        incrementConversionCount();
+        maybeShowFeedback({
+          context: {
+            mode: 'svg',
+            format: 'gif',
+            quality: exportSettings.quality,
+            width: exportSettings.width,
+            height: exportSettings.height,
+            background: exportSettings.backgroundColor,
+            scale: exportSettings.scale,
+            locale: typeof window !== 'undefined' ? document.documentElement.lang || 'en' : 'en',
+          },
+          svgCode,
+        });
       });
       
       gif.render();
@@ -1278,5 +1313,13 @@ export default function KoreanHomePage() {
       
       <Footer />
     </div>
+  );
+}
+
+export default function KoreanHomePage() {
+  return (
+    <FeedbackProviderWrapper>
+      <HomePageContent />
+    </FeedbackProviderWrapper>
   );
 }
