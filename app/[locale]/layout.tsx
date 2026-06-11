@@ -664,7 +664,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   return {
     metadataBase,
     title: 'SVG Code to PNG Converter (PNG, JPG, GIF) | Free Online Tool',
-    description: 'Convert SVG code to high-quality PNG, JPG, or GIF images for free. Paste your code, preview the SVG live, and instantly download your file. Fast, easy, no signup.',
+    description: 'Convert SVG code to high-quality Images (PNG, JPG, or GIF) for free. Paste your code, preview the SVG live, and instantly download your file. Fast, easy, no signup.',
     keywords: 'svg to png, svg converter, svg to image, code to png, online converter',
     icons: { icon: '/favicon.svg' },
     authors: [{ name: 'SVG Converter Team' }],
