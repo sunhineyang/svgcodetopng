@@ -1,4 +1,4 @@
 {
-  "/api/ai/route": "app/api/ai/route.js",
-  "/[locale]/page": "app/[locale]/page.js"
+  "/[locale]/page": "app/[locale]/page.js",
+  "/[locale]/code-to-png/page": "app/[locale]/code-to-png/page.js"
 }
