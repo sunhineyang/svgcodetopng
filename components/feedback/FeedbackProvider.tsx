@@ -117,7 +117,7 @@ function FeedbackCard() {
     if (ctx.showCard) {
       setVisible(true);
       timerRef.current = setTimeout(() => {
-        handleDismiss();
+        handleAutoHide();
       }, 8000);
     }
     return () => {
@@ -125,13 +125,24 @@ function FeedbackCard() {
     };
   }, [ctx.showCard]);
 
+  // 用户主动点击 X 关闭：视为"不想看"，触发 24 小时冷却
   const handleDismiss = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
     setVisible(false);
     setTimeout(() => {
       ctx.setShowCard(false);
     }, 300);
     markDismissed();
     trackEvent(AnalyticsEvents.FEEDBACK_CARD_DISMISSED);
+  };
+
+  // 8 秒无操作自动收起：不算用户拒绝，不触发冷却，下次下载还能再弹
+  const handleAutoHide = () => {
+    setVisible(false);
+    setTimeout(() => {
+      ctx.setShowCard(false);
+    }, 300);
+    trackEvent(AnalyticsEvents.FEEDBACK_CARD_AUTO_HIDDEN);
   };
 
   const handlePositive = async () => {

@@ -78,11 +78,8 @@ export function shouldShowFeedback(): boolean {
   if (state.dont_show_again) return false;
   if (state.cooldown_until && Date.now() < state.cooldown_until) return false;
 
-  let probability = 0.5;
-  if (state.conversion_count >= 3) probability = 1.0;
-  if (state.dismissed_count >= 2) probability *= 0.3;
-
-  return Math.random() < probability;
+  // 短期冲量：只要没被"关闭冷却"或"不再提示"拦住，每次下载成功都弹反馈卡片
+  return true;
 }
 
 export function resetConversionCount(): void {

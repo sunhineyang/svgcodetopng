@@ -72,6 +72,7 @@ export const AnalyticsEvents = {
   // Feedback Events
   FEEDBACK_CARD_SHOWN: 'feedback_card_shown',
   FEEDBACK_CARD_DISMISSED: 'feedback_card_dismissed',
+  FEEDBACK_CARD_AUTO_HIDDEN: 'feedback_card_auto_hidden',
   FEEDBACK_POSITIVE: 'feedback_positive',
   FEEDBACK_NEGATIVE_OPEN: 'feedback_negative_open',
   FEEDBACK_SUBMITTED: 'feedback_submitted',
