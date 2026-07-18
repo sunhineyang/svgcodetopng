@@ -28,6 +28,16 @@ import {
   trackColorResetAll,
   trackColorWheelOpen,
   trackColorWheelClose,
+  trackCodePaste,
+  trackCodeRenderSuccess,
+  trackCodeRenderError,
+  trackCodeDownloadClick,
+  trackCodeDownloadFailed,
+  trackExportSettingChange,
+  trackTemplateUse,
+  trackExampleCopy,
+  trackSuccessfulConversion,
+  trackToolRepeatIntent,
 } from '../utils/analytics';
 import { useFeedback } from './feedback/FeedbackProvider';
 import {
@@ -100,6 +110,7 @@ export default function CodeToPngConverter() {
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const htmlPreviewRef = useRef<HTMLDivElement>(null);
+  const hasPastedRef = useRef(false);
   
   // 颜色编辑相关状态
   const [extractedColors, setExtractedColors] = useState<string[]>([]);
@@ -337,14 +348,24 @@ export default function CodeToPngConverter() {
       if (blob) {
         const url = URL.createObjectURL(blob);
         setPreviewUrl(url);
+        trackCodeRenderSuccess(activeTab);
         trackEvent('convert_image', {
           format: exportSettings.format,
           mode: activeTab,
           quality: exportSettings.quality,
         });
+      } else {
+        trackCodeRenderError('blob_generation_failed', activeTab);
       }
     } catch (error) {
       setConvertError((error as Error).message || 'Conversion failed');
+      // 根据 tab 和错误信息分类错误类型
+      const errMsg = (error as Error)?.message || '';
+      let errorType = 'render_error';
+      if (errMsg.toLowerCase().includes('invalid svg')) errorType = 'invalid_svg_code';
+      else if (errMsg.toLowerCase().includes('parse')) errorType = 'parse_error';
+      else if (errMsg.toLowerCase().includes('load')) errorType = 'image_load_error';
+      trackCodeRenderError(errorType, activeTab);
     } finally {
       setIsConverting(false);
     }
@@ -353,7 +374,13 @@ export default function CodeToPngConverter() {
   const downloadImage = async (format: ExportFormat) => {
     if (!currentCode.trim()) return;
 
-    trackEvent('download_image', { format, mode: activeTab });
+    const backgroundType = exportSettings.backgroundColor === 'transparent' ? 'transparent' : 'solid';
+    trackCodeDownloadClick({
+      export_format: format,
+      export_scale: exportSettings.scale,
+      background_type: backgroundType,
+      code_mode: activeTab,
+    });
 
     let downloadSuccess = false;
     try {
@@ -378,16 +405,25 @@ export default function CodeToPngConverter() {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
         downloadSuccess = true;
+      } else {
+        trackCodeDownloadFailed('blob_generation_failed', activeTab);
       }
       
       setExportSettings(prev => ({ ...prev, format: originalFormat }));
     } catch (error) {
       console.error('Download error:', error);
+      const errMsg = (error as Error)?.message || '';
+      let errorType = 'download_error';
+      if (errMsg.toLowerCase().includes('invalid svg')) errorType = 'invalid_svg_code';
+      else if (errMsg.toLowerCase().includes('parse')) errorType = 'parse_error';
+      else if (errMsg.toLowerCase().includes('load')) errorType = 'image_load_error';
+      trackCodeDownloadFailed(errorType, activeTab);
     } finally {
       setIsConverting(false);
     }
 
     if (downloadSuccess) {
+      trackSuccessfulConversion();
       incrementConversionCount();
       maybeShowFeedback({
         context: {
@@ -408,6 +444,7 @@ export default function CodeToPngConverter() {
   const copyCode = () => {
     navigator.clipboard.writeText(currentCode);
     trackEvent('editor_action', { action: 'copy' });
+    trackExampleCopy(activeTab === 'svg' ? 'code_to_png_svg' : 'code_to_png_html');
   };
 
   const clearCode = () => {
@@ -422,6 +459,10 @@ export default function CodeToPngConverter() {
     else setHtmlCode(DEFAULT_HTML);
     setPreviewUrl(null);
     trackEvent('editor_action', { action: 'reset' });
+    trackTemplateUse(
+      activeTab === 'svg' ? 'code_to_png_default_svg' : 'code_to_png_default_html',
+      'built_in'
+    );
   };
 
   const faqItems = [
@@ -520,8 +561,14 @@ export default function CodeToPngConverter() {
                     language={activeTab === 'svg' ? 'xml' : 'html'}
                     value={currentCode}
                     onChange={(value) => {
-                      if (activeTab === 'svg') setSvgCode(value || '');
-                      else setHtmlCode(value || '');
+                      const nextValue = value || '';
+                      // 只有用户真的改了内容（不同于默认值、不同于当前值）才算一次粘贴
+                      if (!hasPastedRef.current && nextValue.trim() && nextValue !== currentCode) {
+                        hasPastedRef.current = true;
+                        trackCodePaste(activeTab);
+                      }
+                      if (activeTab === 'svg') setSvgCode(nextValue);
+                      else setHtmlCode(nextValue);
                     }}
                     theme={theme === 'dark' ? 'vs-dark' : 'light'}
                     options={{
@@ -604,6 +651,8 @@ export default function CodeToPngConverter() {
                                 const newFormat = e.target.value as ExportFormat;
                                 setExportSettings(prev => ({ ...prev, format: newFormat }));
                                 trackSettingsFormatChange(newFormat);
+                                trackExportSettingChange('format', newFormat);
+                                trackToolRepeatIntent();
                               }}
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             >
@@ -623,6 +672,8 @@ export default function CodeToPngConverter() {
                                 const newQuality = parseInt(e.target.value) || 100;
                                 setExportSettings(prev => ({ ...prev, quality: newQuality }));
                                 trackSettingsQualityChange(newQuality);
+                                trackExportSettingChange('quality', newQuality);
+                                trackToolRepeatIntent();
                               }}
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
@@ -638,6 +689,8 @@ export default function CodeToPngConverter() {
                                 const newWidth = parseInt(e.target.value) || 0;
                                 setExportSettings(prev => ({ ...prev, width: newWidth }));
                                 trackSettingsDimensionChange(newWidth, exportSettings.height);
+                                trackExportSettingChange('width', newWidth);
+                                trackToolRepeatIntent();
                               }}
                               placeholder="Auto"
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
@@ -652,6 +705,8 @@ export default function CodeToPngConverter() {
                                 const newHeight = parseInt(e.target.value) || 0;
                                 setExportSettings(prev => ({ ...prev, height: newHeight }));
                                 trackSettingsDimensionChange(exportSettings.width, newHeight);
+                                trackExportSettingChange('height', newHeight);
+                                trackToolRepeatIntent();
                               }}
                               placeholder="Auto"
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"

@@ -2,7 +2,7 @@
 
 import { QUICK_PROMPTS } from '../utils/ai-svg/constants';
 import { useTranslations } from 'next-intl';
-import { trackAiAssistantQuickPrompt } from '../utils/analytics';
+import { trackAiAssistantQuickPrompt, trackAiQuickActionClick } from '../utils/analytics';
 
 interface AiPromptButtonsProps {
   onApplyPrompt: (index: number) => void;
@@ -29,6 +29,7 @@ export default function AiPromptButtons({
   const handleClick = (index: number) => {
     const prompt = QUICK_PROMPTS[index];
     trackAiAssistantQuickPrompt(prompt.label);
+    trackAiQuickActionClick(prompt.label);
     onApplyPrompt(index);
   };
 

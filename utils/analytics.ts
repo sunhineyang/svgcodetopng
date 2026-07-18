@@ -5,16 +5,60 @@ declare global {
   }
 }
 
+const isDev = () => process.env.NODE_ENV !== 'production';
+
+const getPagePath = () => {
+  if (typeof window === 'undefined') return '';
+  return window.location.pathname;
+};
+
+const getDeviceCategory = () => {
+  if (typeof window === 'undefined') return 'unknown';
+  const ua = navigator.userAgent;
+  if (/tablet|ipad|playbook|silk/i.test(ua)) return 'tablet';
+  if (/mobile|iphone|ipod|android|blackberry|opera mini|iemobile/i.test(ua)) return 'mobile';
+  return 'desktop';
+};
+
+const getTrafficSource = () => {
+  if (typeof window === 'undefined') return 'direct';
+  const referrer = document.referrer;
+  if (!referrer) return 'direct';
+  try {
+    const url = new URL(referrer);
+    if (url.hostname.includes('google')) return 'google';
+    if (url.hostname.includes('bing')) return 'bing';
+    if (url.hostname.includes('yahoo')) return 'yahoo';
+    if (url.hostname.includes('duckduckgo')) return 'duckduckgo';
+    if (url.hostname.includes('twitter') || url.hostname.includes('x.com')) return 'twitter';
+    if (url.hostname.includes('facebook')) return 'facebook';
+    if (url.hostname.includes('linkedin')) return 'linkedin';
+    if (url.hostname.includes('reddit')) return 'reddit';
+    if (url.hostname.includes('github')) return 'github';
+    if (url.hostname.includes('producthunt')) return 'producthunt';
+    return url.hostname;
+  } catch {
+    return 'unknown';
+  }
+};
+
+const baseParams = () => ({
+  page_path: getPagePath(),
+  device_category: getDeviceCategory(),
+  traffic_source: getTrafficSource(),
+});
+
 export const trackEvent = (eventName: string, eventParams?: Record<string, any>) => {
   try {
+    const params = { ...baseParams(), ...eventParams };
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', eventName, eventParams);
+      window.gtag('event', eventName, params);
     }
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('[Analytics]', eventName, eventParams);
+    if (isDev()) {
+      console.log('[Analytics]', eventName, params);
     }
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (isDev()) {
       console.warn('Analytics error:', error);
     }
   }
@@ -22,14 +66,20 @@ export const trackEvent = (eventName: string, eventParams?: Record<string, any>)
 
 export const trackPageView = (pageTitle: string, pagePath?: string) => {
   try {
+    const params = {
+      page_title: pageTitle,
+      page_path: pagePath || getPagePath(),
+      device_category: getDeviceCategory(),
+      traffic_source: getTrafficSource(),
+    };
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', 'page_view', {
-        page_title: pageTitle,
-        page_path: pagePath || window.location.pathname,
-      });
+      window.gtag('event', 'page_view', params);
+    }
+    if (isDev()) {
+      console.log('[Analytics]', 'page_view', params);
     }
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (isDev()) {
       console.warn('Page view tracking error:', error);
     }
   }
@@ -67,7 +117,8 @@ export const AnalyticsEvents = {
   SETTINGS_TAB_SWITCH: 'settings_tab_switch',
   SETTINGS_FORMAT_CHANGE: 'settings_format_change',
   SETTINGS_QUALITY_CHANGE: 'settings_quality_change',
-  SETTINGS_DIMENSION_CHANGE: 'settings_dimension_change',
+  SETTINGS_DIMENSION_CHANGE: "settings_dimension_change",
+  SETTINGS_DIMENSION_PRESET: "settings_dimension_preset",
 
   // Feedback Events
   FEEDBACK_CARD_SHOWN: 'feedback_card_shown',
@@ -78,6 +129,21 @@ export const AnalyticsEvents = {
   FEEDBACK_SUBMITTED: 'feedback_submitted',
   FEEDBACK_SUBMIT_FAILED: 'feedback_submit_failed',
   FEEDBACK_DONT_SHOW_AGAIN: 'feedback_dont_show_again',
+
+  // Product Funnel Events
+  SVG_PASTE: 'svg_paste',
+  SVG_RENDER_SUCCESS: 'svg_render_success',
+  SVG_RENDER_ERROR: 'svg_render_error',
+  PNG_DOWNLOAD_CLICK: 'png_download_click',
+  DOWNLOAD_FAILED: 'download_failed',
+  EXPORT_SETTING_CHANGE: 'export_setting_change',
+  TEMPLATE_USE: 'template_use',
+  EXAMPLE_COPY: 'example_copy',
+  AI_ASSISTANT_OPEN: 'ai_assistant_open',
+  AI_PROMPT_SUBMIT: 'ai_prompt_submit',
+  AI_QUICK_ACTION_CLICK: 'ai_quick_action_click',
+  SECOND_CONVERSION_SAME_SESSION: 'second_conversion_same_session',
+  TOOL_REPEAT_INTENT: 'tool_repeat_intent',
 };
 
 export const trackAiAssistantEnter = () => {
@@ -182,4 +248,219 @@ export const trackSettingsQualityChange = (quality: number) => {
 
 export const trackSettingsDimensionChange = (width: number, height: number) => {
   trackEvent(AnalyticsEvents.SETTINGS_DIMENSION_CHANGE, { width, height });
+};
+
+// ====== Product Funnel Tracking ======
+
+const debounceTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
+const debounce = (key: string, fn: () => void, delay: number = 500) => {
+  const existing = debounceTimers.get(key);
+  if (existing) clearTimeout(existing);
+  const timer = setTimeout(() => {
+    fn();
+    debounceTimers.delete(key);
+  }, delay);
+  debounceTimers.set(key, timer);
+};
+
+let hasPasted = false;
+let hasRendered = false;
+
+// Code-to-PNG 页面独立的去重 flag
+// 必须与主页面的 flag 隔离，否则用户跨页访问时会互相影响漏埋
+let hasCodePasted = false;
+let hasCodeRendered = false;
+
+const getConversionCount = () => {
+  if (typeof window === 'undefined') return 0;
+  const stored = sessionStorage.getItem('svg_conversion_count');
+  return stored ? parseInt(stored, 10) : 0;
+};
+
+const setConversionCount = (count: number) => {
+  if (typeof window === 'undefined') return;
+  sessionStorage.setItem('svg_conversion_count', count.toString());
+};
+
+export const trackSvgPaste = () => {
+  if (hasPasted) return;
+  hasPasted = true;
+  debounce('svg_paste', () => {
+    trackEvent(AnalyticsEvents.SVG_PASTE, {
+      page_path: getPagePath(),
+      device_category: getDeviceCategory(),
+      traffic_source: getTrafficSource(),
+    });
+  }, 300);
+};
+
+export const trackSvgRenderSuccess = () => {
+  if (hasRendered) return;
+  hasRendered = true;
+  trackEvent(AnalyticsEvents.SVG_RENDER_SUCCESS, {
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+export const trackSvgRenderError = (errorType: string) => {
+  trackEvent(AnalyticsEvents.SVG_RENDER_ERROR, {
+    error_type: errorType,
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+export const trackPngDownloadClick = (params: {
+  export_format: string;
+  export_scale?: number;
+  background_type?: string;
+}) => {
+  trackEvent(AnalyticsEvents.PNG_DOWNLOAD_CLICK, {
+    export_format: params.export_format,
+    export_scale: params.export_scale || 1,
+    background_type: params.background_type || 'transparent',
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+export const trackDownloadFailed = (errorType: string) => {
+  trackEvent(AnalyticsEvents.DOWNLOAD_FAILED, {
+    error_type: errorType,
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+export const trackExportSettingChange = (settingName: string, settingValue: string | number) => {
+  debounce('export_setting_change', () => {
+    trackEvent(AnalyticsEvents.EXPORT_SETTING_CHANGE, {
+      setting_name: settingName,
+      setting_value: String(settingValue),
+      page_path: getPagePath(),
+    });
+  }, 400);
+};
+
+export const trackTemplateUse = (templateName: string, templateCategory: string) => {
+  trackEvent(AnalyticsEvents.TEMPLATE_USE, {
+    template_name: templateName,
+    template_category: templateCategory,
+    page_path: getPagePath(),
+  });
+};
+
+export const trackExampleCopy = (exampleName: string) => {
+  trackEvent(AnalyticsEvents.EXAMPLE_COPY, {
+    example_name: exampleName,
+    page_path: getPagePath(),
+  });
+};
+
+export const trackAiAssistantOpen = () => {
+  trackEvent(AnalyticsEvents.AI_ASSISTANT_OPEN, {
+    page_path: getPagePath(),
+  });
+};
+
+export const trackAiPromptSubmit = () => {
+  trackEvent(AnalyticsEvents.AI_PROMPT_SUBMIT, {
+    page_path: getPagePath(),
+  });
+};
+
+export const trackAiQuickActionClick = (actionName: string) => {
+  trackEvent(AnalyticsEvents.AI_QUICK_ACTION_CLICK, {
+    action_name: actionName,
+    page_path: getPagePath(),
+  });
+};
+
+export const trackSecondConversionSameSession = () => {
+  const count = getConversionCount();
+  const newCount = count + 1;
+  setConversionCount(newCount);
+  if (newCount === 2) {
+    trackEvent(AnalyticsEvents.SECOND_CONVERSION_SAME_SESSION, {
+      page_path: getPagePath(),
+      device_category: getDeviceCategory(),
+    });
+  }
+};
+
+export const trackSuccessfulConversion = () => {
+  trackSecondConversionSameSession();
+};
+
+export const trackToolRepeatIntent = () => {
+  const count = getConversionCount();
+  if (count >= 1) {
+    trackEvent(AnalyticsEvents.TOOL_REPEAT_INTENT, {
+      page_path: getPagePath(),
+      device_category: getDeviceCategory(),
+    });
+  }
+};
+
+// ====== Code-to-PNG 页面专属 Tracking ======
+// 复用主页面事件名（保持漏斗统一），但用独立 flag 管理去重
+// page_path 会自动区分来源：主页面是 '/'，code-to-png 是 '/code-to-png'
+
+export const trackCodePaste = (mode: 'svg' | 'html') => {
+  if (hasCodePasted) return;
+  hasCodePasted = true;
+  debounce('code_paste', () => {
+    trackEvent(AnalyticsEvents.SVG_PASTE, {
+      code_mode: mode,
+      page_path: getPagePath(),
+      device_category: getDeviceCategory(),
+      traffic_source: getTrafficSource(),
+    });
+  }, 300);
+};
+
+export const trackCodeRenderSuccess = (mode: 'svg' | 'html') => {
+  if (hasCodeRendered) return;
+  hasCodeRendered = true;
+  trackEvent(AnalyticsEvents.SVG_RENDER_SUCCESS, {
+    code_mode: mode,
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+export const trackCodeRenderError = (errorType: string, mode: 'svg' | 'html') => {
+  trackEvent(AnalyticsEvents.SVG_RENDER_ERROR, {
+    error_type: errorType,
+    code_mode: mode,
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+export const trackCodeDownloadClick = (params: {
+  export_format: string;
+  export_scale?: number;
+  background_type?: string;
+  code_mode: 'svg' | 'html';
+}) => {
+  trackEvent(AnalyticsEvents.PNG_DOWNLOAD_CLICK, {
+    export_format: params.export_format,
+    export_scale: params.export_scale || 1,
+    background_type: params.background_type || 'transparent',
+    code_mode: params.code_mode,
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+export const trackCodeDownloadFailed = (errorType: string, mode: 'svg' | 'html') => {
+  trackEvent(AnalyticsEvents.DOWNLOAD_FAILED, {
+    error_type: errorType,
+    code_mode: mode,
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
 };

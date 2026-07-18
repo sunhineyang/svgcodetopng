@@ -14,6 +14,8 @@ import {
   trackAiAssistantRollback,
   trackAiAssistantError,
   trackAiAssistantDiffView,
+  trackAiAssistantOpen,
+  trackAiPromptSubmit,
 } from '../utils/analytics';
 
 interface AiAssistantProps {
@@ -60,6 +62,7 @@ export default function AiAssistant({
 
   useEffect(() => {
     trackAiAssistantEnter();
+    trackAiAssistantOpen();
   }, []);
 
   useEffect(() => {
@@ -81,6 +84,7 @@ export default function AiAssistant({
 
   const handleAiSend = (message: string) => {
     trackAiAssistantSend('manual', message.length, message);
+    trackAiPromptSubmit();
     sendToAi(message);
   };
 

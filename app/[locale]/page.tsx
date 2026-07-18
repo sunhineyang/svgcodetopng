@@ -46,6 +46,16 @@ import {
   trackColorResetAll,
   trackColorWheelOpen,
   trackColorWheelClose,
+  trackSvgPaste,
+  trackSvgRenderSuccess,
+  trackSvgRenderError,
+  trackPngDownloadClick,
+  trackDownloadFailed,
+  trackExportSettingChange,
+  trackSuccessfulConversion,
+  trackToolRepeatIntent,
+  trackTemplateUse,
+  trackExampleCopy,
 } from '../../utils/analytics';
 import {
   extractColors,
@@ -155,6 +165,7 @@ function HomePageContent() {
   const [colorMappings, setColorMappings] = useState<Record<string, string>>({});
   const [renderedSvg, setRenderedSvg] = useState<string>(svgCode);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const hasPastedRef = useRef(false);
 
   const features = [
     {
@@ -211,47 +222,54 @@ function HomePageContent() {
   // Convert SVG to image
   const convertToImage = useCallback(async () => {
     if (!svgCode.trim()) return;
-    
+
     setIsConverting(true);
-    
+
     try {
       const parser = new DOMParser();
       const svgDoc = parser.parseFromString(svgCode, 'image/svg+xml');
       const svgElement = svgDoc.querySelector('svg');
-      
+
       if (!svgElement) {
+        trackSvgRenderError('invalid_svg_code');
         throw new Error('Invalid SVG code');
       }
 
       const originalWidth = parseInt(svgElement.getAttribute('width') || '200');
       const originalHeight = parseInt(svgElement.getAttribute('height') || '200');
-      
+
       const finalWidth = exportSettings.width || originalWidth * exportSettings.scale;
       const finalHeight = exportSettings.height || originalHeight * exportSettings.scale;
-      
+
       const svgBlob = new Blob([renderedSvg], { type: 'image/svg+xml;charset=utf-8' });
       const url = URL.createObjectURL(svgBlob);
-      
+
       const img = new Image();
-      
+
       img.onload = () => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
-        
+        if (!canvas) {
+          setIsConverting(false);
+          return;
+        }
+
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        
+        if (!ctx) {
+          setIsConverting(false);
+          return;
+        }
+
         canvas.width = finalWidth;
         canvas.height = finalHeight;
-        
+
         // Set background
         if (exportSettings.backgroundColor !== 'transparent') {
           ctx.fillStyle = exportSettings.backgroundColor;
           ctx.fillRect(0, 0, finalWidth, finalHeight);
         }
-        
+
         ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
-        
+
         const trackConversion = () =>
           trackEvent('convert_image', {
             format: exportSettings.format,
@@ -265,6 +283,7 @@ function HomePageContent() {
             if (blob) {
               const url = URL.createObjectURL(blob);
               setPreviewUrl(url);
+              trackSvgRenderSuccess();
             }
             setIsConverting(false);
             trackConversion();
@@ -273,28 +292,31 @@ function HomePageContent() {
           let mimeType = 'image/png';
           if (exportSettings.format === 'jpg') mimeType = 'image/jpeg';
           if (exportSettings.format === 'webp') mimeType = 'image/webp';
-          
+
           canvas.toBlob((blob) => {
             if (blob) {
               const url = URL.createObjectURL(blob);
               setPreviewUrl(url);
+              trackSvgRenderSuccess();
             }
             setIsConverting(false);
             trackConversion();
           }, mimeType, exportSettings.quality / 100);
         }
-        
+
         URL.revokeObjectURL(url);
       };
-      
+
       img.onerror = () => {
         setIsConverting(false);
+        trackSvgRenderError('image_load_error');
         alert('Error loading SVG');
       };
-      
+
       img.src = url;
     } catch (error) {
       setIsConverting(false);
+      trackSvgRenderError('parse_error');
       alert('Error converting SVG: ' + (error as Error).message);
     }
   }, [renderedSvg, exportSettings]);
@@ -302,24 +324,30 @@ function HomePageContent() {
   const downloadFormat = async (format: 'png' | 'jpg' | 'gif' | 'webp' | 'pdf') => {
     if (!svgCode.trim()) return;
 
-    trackEvent('download_image', { format });
+    const backgroundType = exportSettings.backgroundColor === 'transparent' ? 'transparent' : 'solid';
+    trackPngDownloadClick({
+      export_format: format,
+      export_scale: exportSettings.scale,
+      background_type: backgroundType,
+    });
 
     try {
       setIsConverting(true);
       const originalFormat = exportSettings.format;
-      
+
       // 临时切换到目标格式
       setExportSettings(prev => ({ ...prev, format }));
-      
+
       // 等待状态更新
       await new Promise(r => setTimeout(r, 50));
-      
+
       // 重新转换
       const parser = new DOMParser();
       const svgDoc = parser.parseFromString(svgCode, 'image/svg+xml');
       const svgElement = svgDoc.querySelector('svg');
-      
+
       if (!svgElement) {
+        trackDownloadFailed('invalid_svg_code');
         throw new Error('Invalid SVG code');
       }
 
@@ -327,29 +355,37 @@ function HomePageContent() {
       const originalHeight = parseInt(svgElement.getAttribute('height') || '200');
       const finalWidth = exportSettings.width || originalWidth * exportSettings.scale;
       const finalHeight = exportSettings.height || originalHeight * exportSettings.scale;
-      
+
       const svgBlob = new Blob([renderedSvg], { type: 'image/svg+xml;charset=utf-8' });
       const url = URL.createObjectURL(svgBlob);
-      
+
       const img = new Image();
-      
+
       img.onload = () => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
-        
+        if (!canvas) {
+          setIsConverting(false);
+          setExportSettings(prev => ({ ...prev, format: originalFormat }));
+          return;
+        }
+
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        
+        if (!ctx) {
+          setIsConverting(false);
+          setExportSettings(prev => ({ ...prev, format: originalFormat }));
+          return;
+        }
+
         canvas.width = finalWidth;
         canvas.height = finalHeight;
-        
+
         if (exportSettings.backgroundColor !== 'transparent') {
           ctx.fillStyle = exportSettings.backgroundColor;
           ctx.fillRect(0, 0, finalWidth, finalHeight);
         }
-        
+
         ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
-        
+
         const handleBlob = (blob: Blob | null) => {
           if (blob) {
             const downloadUrl = URL.createObjectURL(blob);
@@ -376,63 +412,75 @@ function HomePageContent() {
               },
               svgCode,
             });
+            trackSuccessfulConversion();
+          } else {
+            trackDownloadFailed('blob_generation_failed');
           }
           URL.revokeObjectURL(url);
           setIsConverting(false);
           setExportSettings(prev => ({ ...prev, format: originalFormat }));
         };
-        
+
         if (format === 'pdf') {
           const pdf = new jsPDF({
             orientation: finalWidth > finalHeight ? 'landscape' : 'portrait',
             unit: 'px',
             format: [finalWidth, finalHeight]
           });
-          
+
           const imgData = canvas.toDataURL('image/png');
           pdf.addImage(imgData, 'PNG', 0, 0, finalWidth, finalHeight);
-          
+
           const pdfBlob = pdf.output('blob');
           handleBlob(pdfBlob);
         } else {
           let mimeType = 'image/png';
           if (format === 'jpg') mimeType = 'image/jpeg';
           if (format === 'webp') mimeType = 'image/webp';
-          
+
           canvas.toBlob(handleBlob, mimeType, exportSettings.quality / 100);
         }
       };
-      
+
       img.onerror = () => {
         URL.revokeObjectURL(url);
         setIsConverting(false);
         setExportSettings(prev => ({ ...prev, format: originalFormat }));
+        trackDownloadFailed('image_load_error');
         alert('Error loading SVG');
       };
-      
+
       img.src = url;
     } catch (error) {
       setIsConverting(false);
+      trackDownloadFailed('parse_error');
       console.error('Download error:', error);
     }
   };
 
   const downloadImage = () => {
     if (!previewUrl) return;
-    
-    trackEvent('download_image', { format: exportSettings.format });
-    
+
+    const backgroundType = exportSettings.backgroundColor === 'transparent' ? 'transparent' : 'solid';
+    trackPngDownloadClick({
+      export_format: exportSettings.format,
+      export_scale: exportSettings.scale,
+      background_type: backgroundType,
+    });
+
     const link = document.createElement('a');
     link.href = previewUrl;
     link.download = `converted-image.${exportSettings.format}`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    trackSuccessfulConversion();
   };
 
   const copyCode = () => {
     navigator.clipboard.writeText(svgCode);
     trackEvent('copy_svg_code');
+    trackExampleCopy('default_svg_example');
   };
 
   const clearCode = () => {
@@ -511,13 +559,19 @@ function HomePageContent() {
 </svg>`);
     setPreviewUrl(null);
     trackEvent('editor_action', { action: 'reset' });
+    trackTemplateUse('default_svg_example', 'built_in');
   };
 
   const downloadGIF = async () => {
     if (!previewUrl) return;
-    
-    trackEvent('download_image', { format: 'gif' });
-    
+
+    const backgroundType = exportSettings.backgroundColor === 'transparent' ? 'transparent' : 'solid';
+    trackPngDownloadClick({
+      export_format: 'gif',
+      export_scale: exportSettings.scale,
+      background_type: backgroundType,
+    });
+
     try {
       const gif = new GIF({
         workers: 2,
@@ -525,13 +579,13 @@ function HomePageContent() {
         width: exportSettings.width || 200,
         height: exportSettings.height || 200
       });
-      
+
       const canvas = canvasRef.current;
       if (!canvas) return;
-      
+
       // Add frame to GIF
       gif.addFrame(canvas, { delay: 200 });
-      
+
       gif.on('finished', function(blob) {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -557,11 +611,13 @@ function HomePageContent() {
           },
           svgCode,
         });
+        trackSuccessfulConversion();
       });
-      
+
       gif.render();
     } catch (error) {
       console.error('Error creating GIF:', error);
+      trackDownloadFailed('gif_render_error');
       alert('Error creating GIF');
     }
   };
@@ -647,7 +703,14 @@ function HomePageContent() {
                     height="400px"
                     defaultLanguage="xml"
                     value={svgCode}
-                    onChange={(value) => setSvgCode(value || '')}
+                    onChange={(value) => {
+                      const nextValue = value || '';
+                      if (!hasPastedRef.current && nextValue.trim() && nextValue !== svgCode) {
+                        hasPastedRef.current = true;
+                        trackSvgPaste();
+                      }
+                      setSvgCode(nextValue);
+                    }}
                     theme={theme === 'dark' ? 'vs-dark' : 'light'}
                     options={{
                       minimap: { enabled: false },
@@ -729,6 +792,8 @@ function HomePageContent() {
                                 const newFormat = e.target.value as 'png' | 'jpg' | 'gif' | 'webp' | 'pdf';
                                 setExportSettings(prev => ({ ...prev, format: newFormat }));
                                 trackSettingsFormatChange(newFormat);
+                                trackExportSettingChange('format', newFormat);
+                                trackToolRepeatIntent();
                               }}
                               className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             >
@@ -752,6 +817,8 @@ function HomePageContent() {
                                 const newQuality = parseInt(e.target.value) || 100;
                                 setExportSettings(prev => ({ ...prev, quality: newQuality }));
                                 trackSettingsQualityChange(newQuality);
+                                trackExportSettingChange('quality', newQuality);
+                                trackToolRepeatIntent();
                               }}
                               className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
@@ -770,6 +837,8 @@ function HomePageContent() {
                                 const newWidth = parseInt(e.target.value) || 0;
                                 setExportSettings(prev => ({ ...prev, width: newWidth }));
                                 trackSettingsDimensionChange(newWidth, exportSettings.height);
+                                trackExportSettingChange('width', newWidth);
+                                trackToolRepeatIntent();
                               }}
                               placeholder="Auto"
                               className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
@@ -787,6 +856,8 @@ function HomePageContent() {
                                 const newHeight = parseInt(e.target.value) || 0;
                                 setExportSettings(prev => ({ ...prev, height: newHeight }));
                                 trackSettingsDimensionChange(exportSettings.width, newHeight);
+                                trackExportSettingChange('height', newHeight);
+                                trackToolRepeatIntent();
                               }}
                               placeholder="Auto"
                               className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
