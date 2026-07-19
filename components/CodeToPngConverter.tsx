@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import Navigation from './Navigation';
 import Footer from './Footer';
+import BrowserWarningModal, { BrowserWarningHandle } from './BrowserWarningModal';
 import {
   trackEvent,
   trackSettingsOpen,
@@ -38,7 +39,9 @@ import {
   trackExampleCopy,
   trackSuccessfulConversion,
   trackToolRepeatIntent,
+  trackExportSizeBlocked,
 } from '../utils/analytics';
+import { checkExportSize, getMaxSupportedSize } from '../utils/canvas-limit';
 import { useFeedback } from './feedback/FeedbackProvider';
 import {
   extractColors,
@@ -111,6 +114,8 @@ export default function CodeToPngConverter() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const htmlPreviewRef = useRef<HTMLDivElement>(null);
   const hasPastedRef = useRef(false);
+  // A1 浏览器弹窗的触发句柄：用户首次点转换/下载时调用 trigger()
+  const browserWarningRef = useRef<BrowserWarningHandle>(null);
   
   // 颜色编辑相关状态
   const [extractedColors, setExtractedColors] = useState<string[]>([]);
@@ -126,6 +131,19 @@ export default function CodeToPngConverter() {
     backgroundColor: 'transparent',
     scale: 1,
   });
+
+  // A2 导出尺寸超限拦截的提示状态：不为 null 时显示拦截提示框
+  const [sizeBlock, setSizeBlock] = useState<{
+    targetWidth: number;
+    targetHeight: number;
+    maxWidth: number;
+    maxHeight: number;
+    maxArea: number;
+    format: ExportFormat;
+  } | null>(null);
+
+  // C1 宽高比例锁：默认锁定，改宽自动算高（基准比例取 SVG 实际原始宽高比）
+  const [aspectLocked, setAspectLocked] = useState(true);
 
   const currentCode = activeTab === 'svg' ? svgCode : htmlCode;
   
@@ -184,6 +202,128 @@ export default function CodeToPngConverter() {
       default: return 'image/png';
     }
   };
+
+  // 解析当前 SVG 的原始尺寸：优先 width/height 属性，缺失时回退 viewBox，再缺失回退 200
+  // C1 的比例锁也复用这个结果作为基准比例
+  const getSvgNaturalSize = useCallback((): { width: number; height: number } => {
+    try {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(renderedSvg, 'image/svg+xml');
+      const el = doc.querySelector('svg');
+      if (!el) return { width: 200, height: 200 };
+      const w = parseInt(el.getAttribute('width') || '0');
+      const h = parseInt(el.getAttribute('height') || '0');
+      if (w > 0 && h > 0) return { width: w, height: h };
+      const vb = (el.getAttribute('viewBox') || '').trim().split(/[\s,]+/).map(Number);
+      if (vb.length === 4 && vb[2] > 0 && vb[3] > 0) {
+        return { width: Math.round(vb[2]), height: Math.round(vb[3]) };
+      }
+      return { width: 200, height: 200 };
+    } catch {
+      return { width: 200, height: 200 };
+    }
+  }, [renderedSvg]);
+
+  // 计算本次导出实际的目标像素尺寸（SVG 模式用；HTML 模式由 html2canvas 决定，本期不拦）
+  const getTargetExportSize = useCallback((): { width: number; height: number } => {
+    const natural = getSvgNaturalSize();
+    const width = exportSettings.width || natural.width * exportSettings.scale;
+    const height = exportSettings.height || natural.height * exportSettings.scale;
+    return { width: Math.round(width), height: Math.round(height) };
+  }, [exportSettings, getSvgNaturalSize]);
+
+  // A2 前置拦截：导出前检查目标尺寸是否超浏览器上限（本期只拦 PNG/JPG/WebP）
+  // 返回 true 表示被拦截（调用方应中止后续渲染）
+  const checkAndBlockOversize = async (format: ExportFormat): Promise<boolean> => {
+    if (activeTab !== 'svg') return false; // HTML 模式走 html2canvas，上限机制不同，本期不拦
+    if (format === 'gif' || format === 'pdf') return false; // GIF/PDF 有各自的库限制，本期不拦
+
+    const { width, height } = getTargetExportSize();
+    const result = await checkExportSize(width, height);
+    if (result.ok || !result.limit) return false;
+
+    trackExportSizeBlocked({
+      target_width: width,
+      target_height: height,
+      browser_limit: result.limit.maxArea,
+      export_format: format,
+    });
+    setSizeBlock({
+      targetWidth: width,
+      targetHeight: height,
+      maxWidth: result.limit.maxWidth,
+      maxHeight: result.limit.maxHeight,
+      maxArea: result.limit.maxArea,
+      format,
+    });
+    return true;
+  };
+
+  // 用户选择"按最大支持尺寸导出"：等比缩小到浏览器能承受的最大尺寸后重新走下载
+  const handleExportAtMaxSize = async () => {
+    if (!sizeBlock) return;
+    const { width, height } = await getMaxSupportedSize(sizeBlock.targetWidth, sizeBlock.targetHeight);
+    const format = sizeBlock.format;
+    setSizeBlock(null);
+    setExportSettings(prev => ({ ...prev, width, height, scale: 1 }));
+    // 等 state 生效后再触发下载
+    await new Promise(r => setTimeout(r, 60));
+    downloadImage(format);
+  };
+
+  // ====== C1 导出面板交互逻辑 ======
+
+  // 点倍率按钮：设置 scale，并清空精确宽高（两套定尺寸方式互斥，以最新操作为准）
+  const handleScaleSelect = (scale: number) => {
+    setExportSettings(prev => ({ ...prev, scale, width: 0, height: 0 }));
+    trackExportSettingChange('scale', scale);
+    trackToolRepeatIntent();
+  };
+
+  // 手动改宽度：进入自定义模式（scale 不再生效，由 width/height 决定）；
+  // 比例锁定时按 SVG 原始宽高比自动算高
+  const handleWidthChange = (rawValue: string) => {
+    const newWidth = parseInt(rawValue) || 0;
+    const natural = getSvgNaturalSize();
+    const ratio = natural.height / natural.width;
+    setExportSettings(prev => ({
+      ...prev,
+      width: newWidth,
+      height: aspectLocked && newWidth > 0 ? Math.round(newWidth * ratio) : prev.height,
+    }));
+    trackSettingsDimensionChange(newWidth, exportSettings.height);
+    trackExportSettingChange('width', newWidth);
+    trackToolRepeatIntent();
+  };
+
+  // 手动改高度：同理，比例锁定时自动算宽
+  const handleHeightChange = (rawValue: string) => {
+    const newHeight = parseInt(rawValue) || 0;
+    const natural = getSvgNaturalSize();
+    const ratio = natural.width / natural.height;
+    setExportSettings(prev => ({
+      ...prev,
+      height: newHeight,
+      width: aspectLocked && newHeight > 0 ? Math.round(newHeight * ratio) : prev.width,
+    }));
+    trackSettingsDimensionChange(exportSettings.width, newHeight);
+    trackExportSettingChange('height', newHeight);
+    trackToolRepeatIntent();
+  };
+
+  // 当前生效的尺寸模式：custom（填了精确宽高）或 scale（用倍率）
+  const sizeMode: 'custom' | 'scale' =
+    exportSettings.width > 0 || exportSettings.height > 0 ? 'custom' : 'scale';
+
+  // 参数摘要行：实时反映当前生效的导出参数
+  const exportSummary = (() => {
+    const natural = getSvgNaturalSize();
+    const w = exportSettings.width || Math.round(natural.width * exportSettings.scale);
+    const h = exportSettings.height || Math.round(natural.height * exportSettings.scale);
+    const sizeText = sizeMode === 'custom' ? `${w}×${h} px · custom` : `${w}×${h} px · ${exportSettings.scale}x`;
+    const bgText = exportSettings.backgroundColor === 'transparent' ? 'Transparent' : exportSettings.backgroundColor;
+    return `${sizeText} · ${bgText}`;
+  })();
 
   const convertSvgToImage = useCallback(async () => {
     if (!renderedSvg.trim()) return null;
@@ -336,6 +476,12 @@ export default function CodeToPngConverter() {
   const handleConvert = async () => {
     if (!currentCode.trim()) return;
 
+    // A1：用户首次尝试导出操作时，触发浏览器兼容提醒（仅 Safari/iOS 且不在静默期才会真的弹）
+    browserWarningRef.current?.trigger();
+
+    // A2 前置拦截：目标尺寸超浏览器上限则不渲染，直接提示
+    if (await checkAndBlockOversize(exportSettings.format)) return;
+
     setIsConverting(true);
     setConvertError(null);
     setPreviewUrl(null);
@@ -373,6 +519,12 @@ export default function CodeToPngConverter() {
 
   const downloadImage = async (format: ExportFormat) => {
     if (!currentCode.trim()) return;
+
+    // A1：用户首次尝试导出操作时，触发浏览器兼容提醒
+    browserWarningRef.current?.trigger();
+
+    // A2 前置拦截：目标尺寸超浏览器上限则不下载，直接提示
+    if (await checkAndBlockOversize(format)) return;
 
     const backgroundType = exportSettings.backgroundColor === 'transparent' ? 'transparent' : 'solid';
     trackCodeDownloadClick({
@@ -679,19 +831,33 @@ export default function CodeToPngConverter() {
                             />
                           </div>
                         </div>
+                        {/* C1 倍率按钮组：1x/2x/3x，与精确宽高互斥 */}
+                        <div>
+                          <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.scale')}</label>
+                          <div className="flex gap-2">
+                            {[1, 2, 3].map((s) => (
+                              <button
+                                key={s}
+                                type="button"
+                                onClick={() => handleScaleSelect(s)}
+                                className={`flex-1 py-1.5 text-sm font-medium rounded border transition-colors ${
+                                  sizeMode === 'scale' && exportSettings.scale === s
+                                    ? 'bg-blue-600 border-blue-600 text-white'
+                                    : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                }`}
+                              >
+                                {s}x
+                              </button>
+                            ))}
+                          </div>
+                        </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.width')} (px)</label>
                             <input
                               type="number" min="0"
-                              value={exportSettings.width}
-                              onChange={(e) => {
-                                const newWidth = parseInt(e.target.value) || 0;
-                                setExportSettings(prev => ({ ...prev, width: newWidth }));
-                                trackSettingsDimensionChange(newWidth, exportSettings.height);
-                                trackExportSettingChange('width', newWidth);
-                                trackToolRepeatIntent();
-                              }}
+                              value={exportSettings.width || ''}
+                              onChange={(e) => handleWidthChange(e.target.value)}
                               placeholder="Auto"
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
@@ -700,19 +866,23 @@ export default function CodeToPngConverter() {
                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.height')} (px)</label>
                             <input
                               type="number" min="0"
-                              value={exportSettings.height}
-                              onChange={(e) => {
-                                const newHeight = parseInt(e.target.value) || 0;
-                                setExportSettings(prev => ({ ...prev, height: newHeight }));
-                                trackSettingsDimensionChange(exportSettings.width, newHeight);
-                                trackExportSettingChange('height', newHeight);
-                                trackToolRepeatIntent();
-                              }}
+                              value={exportSettings.height || ''}
+                              onChange={(e) => handleHeightChange(e.target.value)}
                               placeholder="Auto"
                               className="w-full p-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
                           </div>
                         </div>
+                        {/* C1 比例锁开关 */}
+                        <label className="flex items-center gap-2 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={aspectLocked}
+                            onChange={(e) => setAspectLocked(e.target.checked)}
+                            className="w-3.5 h-3.5 accent-blue-600"
+                          />
+                          <span className="text-xs text-slate-600 dark:text-slate-400">{t('settings.lockAspect')}</span>
+                        </label>
                         <div>
                           <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{t('settings.background')}</label>
                           <select
@@ -724,6 +894,12 @@ export default function CodeToPngConverter() {
                             <option value="#ffffff">{t('settings.white')}</option>
                             <option value="#000000">{t('settings.black')}</option>
                           </select>
+                        </div>
+                        {/* C1 参数摘要行：实时反映当前生效的导出参数 */}
+                        <div className="pt-1 border-t border-slate-200 dark:border-slate-700">
+                          <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                            Export: {exportSummary}
+                          </p>
                         </div>
                       </>
                     )}
@@ -891,6 +1067,49 @@ export default function CodeToPngConverter() {
                     <p className="text-sm text-red-700 dark:text-red-300 flex items-center gap-2">
                       <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                       {convertError}
+                    </p>
+                  </div>
+                )}
+
+                {sizeBlock && (
+                  <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg space-y-3">
+                    <p className="text-sm font-medium text-amber-900 dark:text-amber-200">
+                      {t('sizeBlock.title', {
+                        width: sizeBlock.targetWidth,
+                        height: sizeBlock.targetHeight,
+                      })}
+                    </p>
+                    <p className="text-xs text-amber-700 dark:text-amber-300">
+                      {t('sizeBlock.body', {
+                        maxWidth: sizeBlock.maxWidth,
+                        maxHeight: sizeBlock.maxHeight,
+                      })}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <button
+                        onClick={handleExportAtMaxSize}
+                        className="flex-1 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium py-2 px-3 rounded-lg transition-colors"
+                      >
+                        {t('sizeBlock.exportMax')}
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(window.location.href);
+                          window.open('https://www.google.com/chrome/', '_blank', 'noopener');
+                        }}
+                        className="flex-1 border border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-200 text-sm font-medium py-2 px-3 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors"
+                      >
+                        {t('sizeBlock.copyAndChrome')}
+                      </button>
+                      <button
+                        onClick={() => setSizeBlock(null)}
+                        className="sm:w-auto px-3 py-2 text-sm text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 transition-colors"
+                      >
+                        {t('sizeBlock.cancel')}
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-amber-500 dark:text-amber-400">
+                      {t('sizeBlock.gifPdfNote')}
                     </p>
                   </div>
                 )}
@@ -1111,6 +1330,7 @@ export default function CodeToPngConverter() {
       </section>
 
       <canvas ref={canvasRef} style={{ display: 'none' }} />
+      <BrowserWarningModal ref={browserWarningRef} />
       <Footer />
     </div>
   );

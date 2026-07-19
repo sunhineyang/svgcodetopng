@@ -56,7 +56,10 @@ import {
   trackToolRepeatIntent,
   trackTemplateUse,
   trackExampleCopy,
+  trackExportSizeBlocked,
 } from '../../utils/analytics';
+import BrowserWarningModal, { BrowserWarningHandle } from '../../components/BrowserWarningModal';
+import { checkExportSize, getMaxSupportedSize } from '../../utils/canvas-limit';
 import {
   extractColors,
   replaceColor,
@@ -159,6 +162,20 @@ function HomePageContent() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [settingsTab, setSettingsTab] = useState<'format' | 'color'>('format');
+
+  // Phase 1 新增状态
+  // A1：浏览器警告 modal 的 ref（首次导出时触发，仅 Safari/iOS 真弹）
+  const browserWarningRef = useRef<BrowserWarningHandle>(null);
+  // A2：超大尺寸拦截提示（保存用户想导的尺寸 + 浏览器实际上限，触发时弹出面板让用户选下一步）
+  const [sizeBlock, setSizeBlock] = useState<{
+    width: number;
+    height: number;
+    maxWidth: number;
+    maxHeight: number;
+    format: string;
+  } | null>(null);
+  // C1：宽高比例锁（默认开启，保持 SVG 原始比例）
+  const [aspectLocked, setAspectLocked] = useState(true);
   
   // 颜色编辑相关状态
   const [extractedColors, setExtractedColors] = useState<string[]>([]);
@@ -217,11 +234,165 @@ function HomePageContent() {
     setRenderedSvg(result);
   }, [colorMappings, svgCode]);
 
+  // ====== Phase 1 helpers ======
+
+  // 解析当前 SVG 的原始尺寸（width/height 属性）
+  // 都没有时回退到 viewBox；viewBox 也没有就用 200×200 兜底
+  const getSvgNaturalSize = useCallback((): { width: number; height: number } => {
+    try {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svgCode, 'image/svg+xml');
+      const svg = doc.querySelector('svg');
+      if (svg) {
+        const w = parseInt(svg.getAttribute('width') || '0');
+        const h = parseInt(svg.getAttribute('height') || '0');
+        if (w > 0 && h > 0) return { width: w, height: h };
+        const vb = svg.getAttribute('viewBox');
+        if (vb) {
+          const parts = vb.split(/[\s,]+/).map(Number);
+          if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) {
+            return { width: parts[2], height: parts[3] };
+          }
+        }
+      }
+    } catch {
+      // 解析失败时走兜底
+    }
+    return { width: 200, height: 200 };
+  }, [svgCode]);
+
+  // 根据当前 settings 计算实际要渲染的目标尺寸
+  // - 用户填了 width/height → 用用户的（custom 模式）
+  // - 没填 → 用 SVG 原始尺寸 × scale（scale 模式）
+  const getTargetExportSize = useCallback((): { width: number; height: number } => {
+    const natural = getSvgNaturalSize();
+    return {
+      width: exportSettings.width || Math.round(natural.width * exportSettings.scale),
+      height: exportSettings.height || Math.round(natural.height * exportSettings.scale),
+    };
+  }, [exportSettings, getSvgNaturalSize]);
+
+  // A2 核心拦截：检查目标尺寸是否超出浏览器 canvas 上限
+  // 超了就设置 sizeBlock 状态（弹面板）、上报埋点、返回 true 阻止后续渲染
+  // 仅拦截 PNG/JPG/WebP；GIF/PDF 走单独的尺寸规则
+  const checkAndBlockOversize = useCallback(async (format: string): Promise<boolean> => {
+    if (format !== 'png' && format !== 'jpg' && format !== 'webp') return false;
+    const target = getTargetExportSize();
+    if (target.width <= 0 || target.height <= 0) return false;
+
+    const check = await checkExportSize(target.width, target.height);
+    if (check.ok || !check.limit) return false;
+
+    const maxSupported = await getMaxSupportedSize(target.width, target.height);
+    setSizeBlock({
+      width: target.width,
+      height: target.height,
+      maxWidth: maxSupported.width,
+      maxHeight: maxSupported.height,
+      format,
+    });
+    trackExportSizeBlocked({
+      target_width: target.width,
+      target_height: target.height,
+      browser_limit: check.limit.maxArea,
+      export_format: format,
+    });
+    return true;
+  }, [getTargetExportSize]);
+
+  // sizeBlock 面板：用户选"按最大尺寸导出" → 自动降级到浏览器能渲染的最大尺寸
+  const handleExportAtMaxSize = async () => {
+    if (!sizeBlock) return;
+    setExportSettings(prev => ({
+      ...prev,
+      width: sizeBlock.maxWidth,
+      height: sizeBlock.maxHeight,
+    }));
+    setSizeBlock(null);
+    await new Promise(r => setTimeout(r, 50));
+    await convertToImage();
+  };
+
+  // sizeBlock 面板：用户选"复制链接 + Chrome" → 复制当前 URL（让用户去 Chrome 打开）
+  const handleCopyLinkAndChrome = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch {
+      // 剪贴板不可用时静默失败
+    }
+    window.open('https://www.google.com/chrome/', '_blank', 'noopener');
+    setSizeBlock(null);
+  };
+
+  // C1：倍率按钮（1x/2x/3x）点击 → 切到 scale 模式，清掉 width/height
+  const handleScaleSelect = (scale: number) => {
+    setExportSettings(prev => ({ ...prev, scale, width: 0, height: 0 }));
+    trackExportSettingChange('scale', scale);
+    trackToolRepeatIntent();
+  };
+
+  // C1：width 输入 → 切到 custom 模式；比例锁开时按 SVG 原始比例自动算 height
+  const handleWidthChange = (rawValue: string) => {
+    const newWidth = parseInt(rawValue) || 0;
+    const natural = getSvgNaturalSize();
+    const ratio = natural.height / natural.width;
+    setExportSettings(prev => ({
+      ...prev,
+      width: newWidth,
+      height: aspectLocked && newWidth > 0 ? Math.round(newWidth * ratio) : prev.height,
+    }));
+    trackSettingsDimensionChange(newWidth, exportSettings.height);
+    trackExportSettingChange('width', newWidth);
+    trackToolRepeatIntent();
+  };
+
+  // C1：height 输入 → 切到 custom 模式；比例锁开时按 SVG 原始比例自动算 width
+  const handleHeightChange = (rawValue: string) => {
+    const newHeight = parseInt(rawValue) || 0;
+    const natural = getSvgNaturalSize();
+    const ratio = natural.width / natural.height;
+    setExportSettings(prev => ({
+      ...prev,
+      height: newHeight,
+      width: aspectLocked && newHeight > 0 ? Math.round(newHeight * ratio) : prev.width,
+    }));
+    trackSettingsDimensionChange(exportSettings.width, newHeight);
+    trackExportSettingChange('height', newHeight);
+    trackToolRepeatIntent();
+  };
+
+  // 当前生效的尺寸模式：custom（填了精确宽高）或 scale（用倍率）
+  const sizeMode: 'custom' | 'scale' =
+    exportSettings.width > 0 || exportSettings.height > 0 ? 'custom' : 'scale';
+
+  // 参数摘要行：实时反映当前生效的导出参数
+  const exportSummary = (() => {
+    const natural = getSvgNaturalSize();
+    const w = exportSettings.width || Math.round(natural.width * exportSettings.scale);
+    const h = exportSettings.height || Math.round(natural.height * exportSettings.scale);
+    const sizeText = sizeMode === 'custom'
+      ? `${w}×${h} px · custom`
+      : `${w}×${h} px · ${exportSettings.scale}x`;
+    const bgText = exportSettings.backgroundColor === 'transparent'
+      ? 'Transparent'
+      : exportSettings.backgroundColor;
+    return `${sizeText} · ${bgText}`;
+  })();
+
+  // ====== end Phase 1 helpers ======
+
 
 
   // Convert SVG to image
   const convertToImage = useCallback(async () => {
     if (!svgCode.trim()) return;
+
+    // Phase 1 - A1：首次点转换时触发浏览器警告（仅 Safari/iOS 真弹，Chrome 直接 noop）
+    browserWarningRef.current?.trigger();
+
+    // Phase 1 - A2：超大尺寸拦截（PNG/JPG/WebP；超了就弹面板，不进入渲染流程）
+    const currentFormat = exportSettings.format || 'png';
+    if (await checkAndBlockOversize(currentFormat)) return;
 
     setIsConverting(true);
 
@@ -323,6 +494,12 @@ function HomePageContent() {
 
   const downloadFormat = async (format: 'png' | 'jpg' | 'gif' | 'webp' | 'pdf') => {
     if (!svgCode.trim()) return;
+
+    // Phase 1 - A1：首次下载时触发浏览器警告（仅 Safari/iOS 真弹）
+    browserWarningRef.current?.trigger();
+
+    // Phase 1 - A2：超大尺寸拦截（PNG/JPG/WebP；超了就弹面板，中止下载）
+    if (await checkAndBlockOversize(format)) return;
 
     const backgroundType = exportSettings.backgroundColor === 'transparent' ? 'transparent' : 'solid';
     trackPngDownloadClick({
@@ -460,6 +637,9 @@ function HomePageContent() {
 
   const downloadImage = () => {
     if (!previewUrl) return;
+
+    // Phase 1 - A1：直接下载时也触发浏览器警告（仅 Safari/iOS 真弹）
+    browserWarningRef.current?.trigger();
 
     const backgroundType = exportSettings.backgroundColor === 'transparent' ? 'transparent' : 'solid';
     trackPngDownloadClick({
@@ -781,6 +961,28 @@ function HomePageContent() {
 
                     {settingsTab === 'format' && (
                       <>
+                        {/* C1：倍率按钮组 1x / 2x / 3x */}
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            {t('converter.scale')}
+                          </label>
+                          <div className="flex gap-2">
+                            {[1, 2, 3].map((s) => (
+                              <button
+                                key={s}
+                                onClick={() => handleScaleSelect(s)}
+                                className={`flex-1 px-3 py-2 text-sm font-medium rounded transition-colors ${
+                                  sizeMode === 'scale' && exportSettings.scale === s
+                                    ? 'bg-blue-600 text-white shadow-sm'
+                                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700'
+                                }`}
+                              >
+                                {s}x
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -832,14 +1034,8 @@ function HomePageContent() {
                             <input
                               type="number"
                               min="0"
-                              value={exportSettings.width}
-                              onChange={(e) => {
-                                const newWidth = parseInt(e.target.value) || 0;
-                                setExportSettings(prev => ({ ...prev, width: newWidth }));
-                                trackSettingsDimensionChange(newWidth, exportSettings.height);
-                                trackExportSettingChange('width', newWidth);
-                                trackToolRepeatIntent();
-                              }}
+                              value={exportSettings.width || ''}
+                              onChange={(e) => handleWidthChange(e.target.value)}
                               placeholder="Auto"
                               className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
@@ -851,18 +1047,28 @@ function HomePageContent() {
                             <input
                               type="number"
                               min="0"
-                              value={exportSettings.height}
-                              onChange={(e) => {
-                                const newHeight = parseInt(e.target.value) || 0;
-                                setExportSettings(prev => ({ ...prev, height: newHeight }));
-                                trackSettingsDimensionChange(exportSettings.width, newHeight);
-                                trackExportSettingChange('height', newHeight);
-                                trackToolRepeatIntent();
-                              }}
+                              value={exportSettings.height || ''}
+                              onChange={(e) => handleHeightChange(e.target.value)}
                               placeholder="Auto"
                               className="w-full p-2 border border-slate-200 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                             />
                           </div>
+                        </div>
+
+                        {/* C1：宽高比例锁（默认开启） */}
+                        <label className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={aspectLocked}
+                            onChange={(e) => setAspectLocked(e.target.checked)}
+                            className="rounded border-slate-300"
+                          />
+                          {t('converter.lockAspect')}
+                        </label>
+
+                        {/* C1：实时参数摘要 */}
+                        <div className="text-xs text-slate-500 dark:text-slate-400 font-mono bg-white dark:bg-slate-800 px-3 py-2 rounded border border-slate-200 dark:border-slate-700">
+                          {t('converter.exportSummary', { summary: exportSummary, defaultValue: `Export: ${exportSummary}` })}
                         </div>
                       </>
                     )}
@@ -1000,6 +1206,38 @@ function HomePageContent() {
                         )}
                       </div>
                     )}
+                  </div>
+                )}
+
+                {/* A2：超大尺寸拦截面板（仅在 sizeBlock 状态非空时显示） */}
+                {sizeBlock && (
+                  <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-lg p-4 space-y-3">
+                    <h4 className="text-sm font-semibold text-amber-900 dark:text-amber-200">
+                      {t('converter.sizeBlock.title', { width: sizeBlock.width, height: sizeBlock.height })}
+                    </h4>
+                    <p className="text-xs text-amber-800 dark:text-amber-300">
+                      {t('converter.sizeBlock.body', { maxWidth: sizeBlock.maxWidth, maxHeight: sizeBlock.maxHeight })}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={handleExportAtMaxSize}
+                        className="px-3 py-2 text-xs font-medium bg-amber-600 hover:bg-amber-700 text-white rounded transition-colors"
+                      >
+                        {t('converter.sizeBlock.exportMax')}
+                      </button>
+                      <button
+                        onClick={handleCopyLinkAndChrome}
+                        className="px-3 py-2 text-xs font-medium bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 rounded transition-colors"
+                      >
+                        {t('converter.sizeBlock.copyAndChrome')}
+                      </button>
+                      <button
+                        onClick={() => setSizeBlock(null)}
+                        className="px-3 py-2 text-xs font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
+                      >
+                        {t('converter.sizeBlock.cancel')}
+                      </button>
+                    </div>
                   </div>
                 )}
 
@@ -1383,6 +1621,9 @@ function HomePageContent() {
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       
       <Footer />
+
+      {/* A1：浏览器警告 modal（首页用 converter.browserWarning 命名空间） */}
+      <BrowserWarningModal ref={browserWarningRef} i18nPrefix="converter.browserWarning" />
     </div>
   );
 }

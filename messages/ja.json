@@ -249,6 +249,31 @@
       "resetAllColors": "すべての色をリセット",
       "noColorsDetected": "色が検出されません。SVGコードを先に貼り付けてください!",
       "selectColorToEdit": "編集する色を選択してください"
+    },
+    "lockAspect": "Lock aspect ratio",
+    "browserWarning": {
+      "mac": {
+        "title": "For the most accurate rendering, use Chrome",
+        "body": "Safari may render complex SVGs inaccurately or fail silently on large exports — its canvas limit is only about 1/50 of Chrome's. For the best experience, open this page in Google Chrome."
+      },
+      "ios": {
+        "title": "Best experienced on desktop Chrome",
+        "body": "All iPhone and iPad browsers share the same rendering limits. For large or complex SVG exports, we recommend opening this page in Chrome on a computer."
+      },
+      "copyLink": "Copy Link",
+      "copied": "Copied ✓",
+      "getChrome": "Get Chrome",
+      "continueAnyway": "Continue anyway",
+      "firefoxBanner": "For the most reliable exports of large or complex SVGs, we recommend Chrome or Edge."
+    },
+    "sizeBlock": {
+      "title": "This export size ({width}×{height}) exceeds your browser's limit",
+      "body": "Your browser can render up to {maxWidth}×{maxHeight} px. Try a smaller size, or open this page in Chrome to export much larger images.",
+      "exportMax": "Export at maximum supported size",
+      "copyAndChrome": "Copy link & get Chrome",
+      "cancel": "Cancel",
+      "gifPdfNote": "Animated GIF and PDF exports have separate size limits.",
+      "exportSummary": "Export: {summary}"
     }
   },
   "common": {
@@ -304,7 +329,9 @@
         "noColorsDetected": "色が検出されません。SVGコードを先に貼り付けてください!",
         "settingsButton": "設定",
         "selectColorToEdit": "編集する色を選択してください"
-      }
+      },
+      "scale": "Scale",
+      "lockAspect": "Lock aspect ratio"
     },
     "actions": {
       "downloadPng": "PNGをダウンロード",
@@ -371,6 +398,29 @@
       "title": "SVGファイルを一括変換？",
       "subtitle": "svgtopng.appで複数ファイルをドラッグ＆ドロップ — 無料、アップロード不要。",
       "cta": "試す"
+    },
+    "browserWarning": {
+      "mac": {
+        "title": "For the most accurate rendering, use Chrome",
+        "body": "Safari may render complex SVGs inaccurately or fail silently on large exports — its canvas limit is only about 1/50 of Chrome's. For the best experience, open this page in Google Chrome."
+      },
+      "ios": {
+        "title": "Best experienced on desktop Chrome",
+        "body": "All iPhone and iPad browsers share the same rendering limits. For large or complex SVG exports, we recommend opening this page in Chrome on a computer."
+      },
+      "copyLink": "Copy Link",
+      "copied": "Copied ✓",
+      "getChrome": "Get Chrome",
+      "continueAnyway": "Continue anyway",
+      "firefoxBanner": "For the most reliable exports of large or complex SVGs, we recommend Chrome or Edge."
+    },
+    "sizeBlock": {
+      "title": "This export size ({width}×{height}) exceeds your browser's limit",
+      "body": "Your browser can render up to {maxWidth}×{maxHeight} px. Try a smaller size, or open this page in Chrome to export much larger images.",
+      "exportMax": "Export at maximum supported size",
+      "copyAndChrome": "Copy link & get Chrome",
+      "cancel": "Cancel",
+      "gifPdfNote": "Animated GIF and PDF exports have separate size limits."
     }
   },
   "aiAssistant": {

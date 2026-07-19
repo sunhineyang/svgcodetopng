@@ -144,6 +144,13 @@ export const AnalyticsEvents = {
   AI_QUICK_ACTION_CLICK: 'ai_quick_action_click',
   SECOND_CONVERSION_SAME_SESSION: 'second_conversion_same_session',
   TOOL_REPEAT_INTENT: 'tool_repeat_intent',
+
+  // 浏览器兼容与导出拦截事件（第 1 期新增）
+  BROWSER_WARNING_SHOWN: 'browser_warning_shown',
+  BROWSER_WARNING_ACTION: 'browser_warning_action',
+  EXPORT_SIZE_BLOCKED: 'export_size_blocked',
+  // B2 渲染空白自检（第 2 期功能，本期先注册事件名，不触发）
+  RENDER_BLANK_DETECTED: 'render_blank_detected',
 };
 
 export const trackAiAssistantEnter = () => {
@@ -421,11 +428,12 @@ export const trackCodePaste = (mode: 'svg' | 'html') => {
   }, 300);
 };
 
-export const trackCodeRenderSuccess = (mode: 'svg' | 'html') => {
+export const trackCodeRenderSuccess = (mode: 'svg' | 'html', engine: 'native' | 'resvg' = 'native') => {
   if (hasCodeRendered) return;
   hasCodeRendered = true;
   trackEvent(AnalyticsEvents.SVG_RENDER_SUCCESS, {
     code_mode: mode,
+    engine,
     page_path: getPagePath(),
     device_category: getDeviceCategory(),
   });
@@ -460,6 +468,44 @@ export const trackCodeDownloadFailed = (errorType: string, mode: 'svg' | 'html')
   trackEvent(AnalyticsEvents.DOWNLOAD_FAILED, {
     error_type: errorType,
     code_mode: mode,
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+// ====== 浏览器兼容与导出拦截（第 1 期）======
+
+// A1 弹窗展示：variant 区分 mac 版 / ios 版 / firefox 顶部条
+export const trackBrowserWarningShown = (variant: 'mac_safari' | 'ios' | 'firefox_banner') => {
+  trackEvent(AnalyticsEvents.BROWSER_WARNING_SHOWN, {
+    variant,
+    browser: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+    os: getDeviceCategory(),
+    page_path: getPagePath(),
+  });
+};
+
+// A1 弹窗按钮点击
+export const trackBrowserWarningAction = (action: 'copy' | 'get_chrome' | 'continue') => {
+  trackEvent(AnalyticsEvents.BROWSER_WARNING_ACTION, {
+    action,
+    page_path: getPagePath(),
+    device_category: getDeviceCategory(),
+  });
+};
+
+// A2 导出尺寸超限拦截
+export const trackExportSizeBlocked = (params: {
+  target_width: number;
+  target_height: number;
+  browser_limit: number;
+  export_format: string;
+}) => {
+  trackEvent(AnalyticsEvents.EXPORT_SIZE_BLOCKED, {
+    target_width: params.target_width,
+    target_height: params.target_height,
+    browser_limit: params.browser_limit,
+    export_format: params.export_format,
     page_path: getPagePath(),
     device_category: getDeviceCategory(),
   });
