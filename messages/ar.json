@@ -275,7 +275,7 @@
       "copyAndChrome": "Copy link & get Chrome",
       "cancel": "Cancel",
       "gifPdfNote": "Animated GIF and PDF exports have separate size limits.",
-      "exportSummary": "Export: {summary}"
+      "exportSummary": "تصدير: {summary}"
     }
   },
   "templates": {

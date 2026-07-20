@@ -898,7 +898,9 @@ export default function CodeToPngConverter() {
                         {/* C1 参数摘要行：实时反映当前生效的导出参数 */}
                         <div className="pt-1 border-t border-slate-200 dark:border-slate-700">
                           <p className="text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                            Export: {exportSummary}
+                            {exportSummary
+                              ? _t('converter.exportSummary', { summary: exportSummary })
+                              : _t('converter.exportSummary', { summary: '—' })}
                           </p>
                         </div>
                       </>
