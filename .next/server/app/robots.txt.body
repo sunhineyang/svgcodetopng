@@ -1,0 +1,19 @@
+User-Agent: *
+Allow: /
+
+User-Agent: GPTBot
+Allow: /
+
+User-Agent: ChatGPT-User
+Allow: /
+
+User-Agent: CCBot
+Allow: /
+
+User-Agent: anthropic-ai
+Allow: /
+
+User-Agent: Claude-Web
+Allow: /
+
+Sitemap: https://svgcodetopng.com/sitemap.xml

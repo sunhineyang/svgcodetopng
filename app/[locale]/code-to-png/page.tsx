@@ -91,17 +91,17 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       },
     },
     openGraph: {
-      title: m.title,
-      description: m.description,
-      type: 'website',
-      images: [{ url: '/logo.svg', width: 512, height: 512 }],
-    },
-    twitter: {
-      card: 'summary_large_image' as const,
-      title: m.title,
-      description: m.description,
-      images: ['/logo.svg'],
-    },
+        title: m.title,
+        description: m.description,
+        type: 'website',
+        images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+      },
+      twitter: {
+        card: 'summary_large_image' as const,
+        title: m.title,
+        description: m.description,
+        images: ['/og-image.png'],
+      },
     robots: {
       index: true,
       follow: true,

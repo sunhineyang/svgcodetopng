@@ -695,18 +695,18 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       },
     },
     openGraph: {
-      title: 'SVG Code to PNG Converter - Free Online Tool',
-      description: 'Convert SVG code to high-quality PNG images instantly. Free online converter with live preview.',
-      locale: 'en_US',
-      type: 'website',
-      images: [{ url: '/logo.svg', width: 512, height: 512 }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'SVG Code to PNG Converter - Free Online Tool',
-      description: 'Convert SVG code to high-quality PNG images instantly.',
-      images: ['/logo.svg'],
-    },
+        title: 'SVG Code to PNG Converter - Free Online Tool',
+        description: 'Convert SVG code to high-quality PNG images instantly. Free online converter with live preview.',
+        locale: 'en_US',
+        type: 'website',
+        images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'SVG Code to PNG Converter - Free Online Tool',
+        description: 'Convert SVG code to high-quality PNG images instantly.',
+        images: ['/og-image.png'],
+      },
     robots: {
       index: true,
       follow: true,
@@ -730,10 +730,74 @@ export default async function LocaleLayout({
 }) {
   const locale = params.locale || 'en';
   const messages = await getMessages({ locale });
-  
+
+  // 从 messages 里提取当前语言的 FAQ 和 HowTo 文案，用于生成 JSON-LD
+  const faqMessages = (messages as any)?.faq || {};
+  const howToMessages = (messages as any)?.howTo || {};
+
+  // FAQPage JSON-LD：取 question1-question8
+  const faqItems = [];
+  for (let i = 1; i <= 8; i++) {
+    const q = faqMessages[`question${i}`];
+    if (q?.question && q?.answer) {
+      faqItems.push({
+        '@type': 'Question',
+        name: q.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: q.answer,
+        },
+      });
+    }
+  }
+
+  // HowTo JSON-LD：取 step1-step3
+  const howToSteps = [];
+  for (let i = 1; i <= 3; i++) {
+    const step = howToMessages[`step${i}`];
+    if (step?.title && step?.description) {
+      howToSteps.push({
+        '@type': 'HowToStep',
+        name: step.title,
+        text: step.description,
+        position: i,
+      });
+    }
+  }
+
+  // 构建 JSON-LD 对象
+  const jsonLd: any = {
+    '@context': 'https://schema.org',
+    '@graph': [],
+  };
+
+  if (howToSteps.length > 0) {
+    jsonLd['@graph'].push({
+      '@type': 'HowTo',
+      name: howToMessages.title || 'How to Use Our SVG to PNG Converter',
+      description: howToMessages.subtitle || '',
+      step: howToSteps,
+    });
+  }
+
+  if (faqItems.length > 0) {
+    jsonLd['@graph'].push({
+      '@type': 'FAQPage',
+      mainEntity: faqItems,
+    });
+  }
+
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      {children}
-    </NextIntlClientProvider>
+    <>
+      {jsonLd['@graph'].length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        {children}
+      </NextIntlClientProvider>
+    </>
   );
 }
